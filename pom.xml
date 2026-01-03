@@ -83,7 +83,7 @@
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
         <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
-        <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
 
         <!-- Tests version -->
         <junit.version>5.10.2</junit.version>
