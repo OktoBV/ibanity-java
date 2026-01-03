@@ -65,7 +65,7 @@
         <commons-io.version>2.17.0</commons-io.version>
         <commons-math3.version>3.6.1</commons-math3.version>
         <commons-codec.version>1.15</commons-codec.version>
-        <slf4j.version>1.7.35</slf4j.version>
+        <slf4j.version>2.0.17</slf4j.version>
         <httpclient.version>4.5.13</httpclient.version>
         <jackson.version>3.0.3</jackson.version>
         <bcpkix-jdk18.version>1.83</bcpkix-jdk18.version>
