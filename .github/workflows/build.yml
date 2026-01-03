@@ -19,7 +19,8 @@ jobs:
           server-id: github
           server-username: GITHUB_ACTOR
           server-password: GITHUB_TOKEN
-      - name: Publish package to GitHub Packages
-        run: mvn deploy
+      - name: Test
+        run: ./mvnw --no-transfer-progress verify
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
