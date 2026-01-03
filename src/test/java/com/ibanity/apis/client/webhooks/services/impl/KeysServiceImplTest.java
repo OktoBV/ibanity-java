@@ -44,6 +44,6 @@ class KeysServiceImplTest {
 
     private Key expected() throws IOException {
         String jwk = loadFile("certificate/jwk.json");
-        return IbanityUtils.objectMapper().readValue(jwk, Key.class);
+        return IbanityUtils.jsonMapper().readValue(jwk, Key.class);
     }
 }

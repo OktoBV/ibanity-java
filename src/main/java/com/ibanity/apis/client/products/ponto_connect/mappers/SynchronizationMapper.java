@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class SynchronizationMapper {
 
     public static Synchronization map(DataApiModel dataApiModel) {
-        SynchronizationApiModel synchronizationApiModel = IbanityUtils.objectMapper().convertValue(dataApiModel.getAttributes(), SynchronizationApiModel.class);
+        SynchronizationApiModel synchronizationApiModel = IbanityUtils.jsonMapper().convertValue(dataApiModel.getAttributes(), SynchronizationApiModel.class);
         Synchronization result = Synchronization.builder()
                 .resourceId(synchronizationApiModel.getResourceId())
                 .subtype(synchronizationApiModel.getSubtype())

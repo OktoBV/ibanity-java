@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.ibanity.apis.client.utils.IbanityUtils.objectMapper;
+import static com.ibanity.apis.client.utils.IbanityUtils.jsonMapper;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
@@ -70,7 +70,7 @@ public class IbanityHttpClientImpl implements IbanityHttpClient {
     public HttpResponse post(@NonNull URI path, @NonNull Object requestApiModel, @NonNull Map<String, String> additionalHeaders, String customerAccessToken) {
         try {
             HttpPost httpPost = new HttpPost(path);
-            httpPost.setEntity(createEntityRequest(objectMapper().writeValueAsString(requestApiModel)));
+            httpPost.setEntity(createEntityRequest(jsonMapper().writeValueAsString(requestApiModel)));
             return execute(additionalHeaders, customerAccessToken, httpPost);
         } catch (JacksonException exception) {
             throw new RuntimeException("An error occurred while converting object to json", exception);
@@ -107,7 +107,7 @@ public class IbanityHttpClientImpl implements IbanityHttpClient {
     public HttpResponse patch(@NonNull URI path, @NonNull Object requestApiModel, @NonNull Map<String, String> additionalHeaders, String customerAccessToken) {
         try {
             HttpPatch httpPatch = new HttpPatch(path);
-            httpPatch.setEntity(createEntityRequest(objectMapper().writeValueAsString(requestApiModel)));
+            httpPatch.setEntity(createEntityRequest(jsonMapper().writeValueAsString(requestApiModel)));
             return execute(additionalHeaders, customerAccessToken, httpPatch);
         } catch (JacksonException exception) {
             throw new RuntimeException("An error occurred while converting object to json", exception);

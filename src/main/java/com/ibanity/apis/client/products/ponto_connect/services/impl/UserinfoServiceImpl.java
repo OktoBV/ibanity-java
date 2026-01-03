@@ -34,7 +34,7 @@ public class UserinfoServiceImpl implements UserinfoService {
         URI uri = buildUri(getUrl());
         HttpResponse response = ibanityHttpClient.get(uri, readQuery.getAdditionalHeaders(), readQuery.getAccessToken());
         try {
-            return IbanityUtils.objectMapper().readValue(response.getEntity().getContent(), Userinfo.class);
+            return IbanityUtils.jsonMapper().readValue(response.getEntity().getContent(), Userinfo.class);
         } catch (IOException e) {
             LOGGER.error("userinfo response invalid", e);
             throw new RuntimeException("The response could not be parsed.");

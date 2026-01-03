@@ -34,7 +34,7 @@ public class UsageServiceImpl implements UsageService {
         try {
             String url = getUrl(readQuery.getOrganizationId(), readQuery.getMonth());
             HttpResponse response = ibanityHttpClient.get(URI.create(url), readQuery.getAdditionalHeaders(), readQuery.getAccessToken());
-            JsonNode dataApiModel = IbanityUtils.objectMapper().readTree(response.getEntity().getContent());
+            JsonNode dataApiModel = IbanityUtils.jsonMapper().readTree(response.getEntity().getContent());
             return map(dataApiModel);
         } catch (IOException e) {
             LOGGER.error("OrganizationUsage response invalid", e);

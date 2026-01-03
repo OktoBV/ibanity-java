@@ -2,8 +2,6 @@ package com.ibanity.apis.client.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import tools.jackson.databind.DeserializationFeature;
-import tools.jackson.databind.ObjectMapper;
-import tools.jackson.databind.SerializationFeature;
 import com.ibanity.apis.client.builders.IbanityConfiguration;
 import com.ibanity.apis.client.http.interceptor.IbanitySignatureInterceptor;
 import com.ibanity.apis.client.http.interceptor.IdempotencyInterceptor;
@@ -73,7 +71,7 @@ public final class IbanityUtils {
         }
     }
 
-    public static ObjectMapper objectMapper() {
+    public static JsonMapper jsonMapper() {
         return JsonMapper.builder()
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .changeDefaultPropertyInclusion(incl -> incl.withValueInclusion(JsonInclude.Include.NON_NULL))

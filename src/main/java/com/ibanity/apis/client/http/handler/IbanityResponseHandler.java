@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.readResponseContent;
-import static com.ibanity.apis.client.utils.IbanityUtils.objectMapper;
+import static com.ibanity.apis.client.utils.IbanityUtils.jsonMapper;
 import static java.util.Collections.emptyList;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -46,14 +46,14 @@ public class IbanityResponseHandler implements ResponseHandler<HttpResponse> {
     private List<IbanityError> parseErrors(HttpResponse httpResponse) {
         try {
             String payload = readResponseContent(httpResponse.getEntity());
-            List<IbanityErrorApiModel> errors = objectMapper().readValue(payload, ErrorResourceApiModel.class).getErrors();
+            List<IbanityErrorApiModel> errors = jsonMapper().readValue(payload, ErrorResourceApiModel.class).getErrors();
             if (!errors.isEmpty()) {
                 return errors.stream()
                         .map(IbanityErrorMapper::map)
                         .collect(Collectors.toList());
             }
 
-            OAuth2ErrorResourceApiModel oAuth2ErrorResourceApiModel = objectMapper().readValue(payload, OAuth2ErrorResourceApiModel.class);
+            OAuth2ErrorResourceApiModel oAuth2ErrorResourceApiModel = jsonMapper().readValue(payload, OAuth2ErrorResourceApiModel.class);
             if (isNotBlank(oAuth2ErrorResourceApiModel.getError())) {
                 return Collections.singletonList(IbanityErrorMapper.map(oAuth2ErrorResourceApiModel));
             }

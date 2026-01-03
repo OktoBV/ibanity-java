@@ -51,7 +51,7 @@ public class FinancialInstitutionCountriesServiceImpl implements FinancialInstit
     private Collection<FinancialInstitutionCountry> mapCollection(HttpResponse httpResponse) {
         try {
             String jsonPayload = readResponseContent(httpResponse.getEntity());
-            CollectionApiModel collectionApiModel = IbanityUtils.objectMapper().readValue(jsonPayload, CollectionApiModel.class);
+            CollectionApiModel collectionApiModel = IbanityUtils.jsonMapper().readValue(jsonPayload, CollectionApiModel.class);
             String requestId = getRequestId(httpResponse);
             return Collection.<FinancialInstitutionCountry>builder()
                     .requestId(requestId)

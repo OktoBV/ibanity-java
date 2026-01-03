@@ -31,7 +31,7 @@ public class WebhooksServiceImpl implements WebhooksService {
     public IbanityWebhookEvent verifyAndParseEvent(String payload, String jwt) {
         verify(payload, jwt);
         try {
-            JsonNode jsonNode = IbanityUtils.objectMapper().readTree(payload);
+            JsonNode jsonNode = IbanityUtils.jsonMapper().readTree(payload);
             String type = jsonNode.get("data").get("type").textValue();
             return WebhooksUtils.webhookEventParser(payload, type);
         } catch (JacksonException exception) {

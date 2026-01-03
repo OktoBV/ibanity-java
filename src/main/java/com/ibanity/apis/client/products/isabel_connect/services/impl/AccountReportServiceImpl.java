@@ -86,7 +86,7 @@ public class AccountReportServiceImpl implements AccountReportService {
     private IsabelCollection<AccountReport> mapCollection(HttpResponse httpResponse) {
         try {
             String jsonPayload = readResponseContent(httpResponse.getEntity());
-            CollectionApiModel collectionApiModel = IbanityUtils.objectMapper().readValue(jsonPayload, CollectionApiModel.class);
+            CollectionApiModel collectionApiModel = IbanityUtils.jsonMapper().readValue(jsonPayload, CollectionApiModel.class);
             String requestId = getRequestId(httpResponse);
             return IsabelCollection.<AccountReport>builder()
                     .requestId(requestId)

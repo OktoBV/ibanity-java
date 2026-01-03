@@ -10,7 +10,7 @@ import java.util.UUID;
 public class BatchSynchronizationMapper {
 
     public static BatchSynchronization map(DataApiModel dataApiModel) {
-        BatchSynchronizationApiModel batchSynchronizationApiModel = IbanityUtils.objectMapper().convertValue(dataApiModel.getAttributes(), BatchSynchronizationApiModel.class);
+        BatchSynchronizationApiModel batchSynchronizationApiModel = IbanityUtils.jsonMapper().convertValue(dataApiModel.getAttributes(), BatchSynchronizationApiModel.class);
         BatchSynchronization result = BatchSynchronization.builder()
                 .subtypes(batchSynchronizationApiModel.getSubtypes())
                 .cancelAfter(batchSynchronizationApiModel.getCancelAfter())

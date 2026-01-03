@@ -100,6 +100,6 @@ public class ApiUrlProviderImpl implements ApiUrlProvider {
     }
 
     private JsonNode mapJsonToMap(String schema) throws IOException {
-        return IbanityUtils.objectMapper().readTree(schema).get("links");
+        return IbanityUtils.jsonMapper().readTree(schema).get("links");
     }
 }

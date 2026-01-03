@@ -53,7 +53,7 @@ public class BalanceServiceImpl implements BalanceService {
     private IsabelCollection<Balance> mapCollection(HttpResponse httpResponse) {
         try {
             String jsonPayload = readResponseContent(httpResponse.getEntity());
-            CollectionApiModel collectionApiModel = IbanityUtils.objectMapper().readValue(jsonPayload, CollectionApiModel.class);
+            CollectionApiModel collectionApiModel = IbanityUtils.jsonMapper().readValue(jsonPayload, CollectionApiModel.class);
             String requestId = getRequestId(httpResponse);
             return IsabelCollection.<Balance>builder()
                     .requestId(requestId)
@@ -73,6 +73,6 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     private Balance mapItem(DataApiModel data) {
-        return IbanityUtils.objectMapper().convertValue(data.getAttributes(), Balance.class);
+        return IbanityUtils.jsonMapper().convertValue(data.getAttributes(), Balance.class);
     }
 }
