@@ -20,7 +20,7 @@ jobs:
           server-username: GITHUB_ACTOR
           server-password: GITHUB_TOKEN
       - name: Test
-        run: ./mvnw verify
+        run: ./mvnw --no-transfer-progress verify
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

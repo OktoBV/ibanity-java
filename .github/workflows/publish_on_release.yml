@@ -25,8 +25,8 @@ jobs:
         run: echo "##[set-output name=tag;]$(echo ${GITHUB_REF##*/})"
         id: extract_tag
       - name: Set version package
-        run: mvn versions:set -DnewVersion=${{ steps.extract_tag.outputs.tag }}
+        run: mvn --no-transfer-progress versions:set -DnewVersion=${{ steps.extract_tag.outputs.tag }}
       - name: Publish package to GitHub Packages
-        run: mvn -Dchangelist= deploy
+        run: mvn --no-transfer-progress -Dchangelist= deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
