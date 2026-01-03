@@ -62,7 +62,7 @@
         <!-- Artifact Dependencies Version-->
         <commons-configuration2.version>2.13.0</commons-configuration2.version>
         <commons-lang.version>3.20.0</commons-lang.version>
-        <commons-io.version>2.17.0</commons-io.version>
+        <commons-io.version>2.21.0</commons-io.version>
         <commons-math3.version>3.6.1</commons-math3.version>
         <commons-codec.version>1.15</commons-codec.version>
         <slf4j.version>2.0.17</slf4j.version>
@@ -78,7 +78,7 @@
         <!-- Maven Pluging Version -->
         <exec-maven-plugin.version>3.6.3</exec-maven-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
-        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+        <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
