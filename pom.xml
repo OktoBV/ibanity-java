@@ -26,17 +26,10 @@
     </scm>
 
     <distributionManagement>
-        <site>
-            <id>api.wiki</id>
-            <url>https://github.com/ibanity/ibanity-java/wiki</url>
-        </site>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/OktoBV/ibanity-java</url>
         </repository>
     </distributionManagement>
 
@@ -256,6 +249,8 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Nexus staging plugin disabled for GitHub Packages deployment -->
+            <!--
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -276,6 +271,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -307,10 +303,11 @@
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>${maven-deploy-plugin.version}</version>
                 <configuration>
-                    <skip>true</skip>
+                    <skip>false</skip>
                 </configuration>
             </plugin>
-<!-- To sign the artifacts -->
+<!-- GPG signing disabled for GitHub Packages deployment -->
+            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
@@ -323,7 +320,6 @@
                             <goal>sign</goal>
                         </goals>
                         <configuration>
-                            <!-- Prevent `gpg` from using pinentry programs -->
                             <gpgArguments>
                                 <arg>--pinentry-mode</arg>
                                 <arg>loopback</arg>
@@ -332,6 +328,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
