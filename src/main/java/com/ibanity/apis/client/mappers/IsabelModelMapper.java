@@ -28,7 +28,7 @@ public class IsabelModelMapper {
     public static <T extends IsabelModel> T mapResource(HttpResponse httpResponse, Function<DataApiModel, T> customMapping) {
         try {
             String jsonPayload = readResponseContent(httpResponse.getEntity());
-            DataApiModel dataApiModel = IbanityUtils.objectMapper().readValue(jsonPayload, ResourceApiModel.class).getData();
+            DataApiModel dataApiModel = IbanityUtils.jsonMapper().readValue(jsonPayload, ResourceApiModel.class).getData();
             T isabelModel = customMapping.apply(dataApiModel);
             isabelModel.setRequestId(getRequestId(httpResponse));
             return isabelModel;
@@ -44,7 +44,7 @@ public class IsabelModelMapper {
     public static <T extends IsabelModel> IsabelCollection<T> mapCollection(HttpResponse httpResponse, Function<DataApiModel, T> customMapping) {
         try {
             String jsonPayload = readResponseContent(httpResponse.getEntity());
-            CollectionApiModel collectionApiModel = IbanityUtils.objectMapper().readValue(jsonPayload, CollectionApiModel.class);
+            CollectionApiModel collectionApiModel = IbanityUtils.jsonMapper().readValue(jsonPayload, CollectionApiModel.class);
             String requestId = getRequestId(httpResponse);
             return IsabelCollection.<T>builder()
                     .requestId(requestId)
@@ -64,7 +64,7 @@ public class IsabelModelMapper {
 
     public static <T extends IsabelModel> T toIsabelModel(DataApiModel data, Class<T> classType) {
         try {
-            T clientObject = IbanityUtils.objectMapper().convertValue(data.getAttributes(), classType);
+            T clientObject = IbanityUtils.jsonMapper().convertValue(data.getAttributes(), classType);
             if (clientObject == null) {
                 clientObject = classType.newInstance();
             }

@@ -1,4 +1,4 @@
-name: Publish release to the Maven Central Repository
+name: Publish release to GitHub Packages
 
 on:
   release:
@@ -7,29 +7,26 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Maven Central Repository
-        uses: actions/setup-java@v1
+      - uses: actions/checkout@v6
+      - name: Set up Java and GitHub Packages
+        uses: actions/setup-java@v5
         with:
-          java-version: 20
-          server-id: ossrh
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE
-      - name: Import GPG Owner Trust
-        run: echo ${{secrets.GPG_OWNERTRUST}} | base64 --decode | gpg --import-ownertrust
-      - name: Import GPG key
-        run: echo ${{secrets.GPG_SECRET_KEYS}} | base64 --decode | gpg --import --no-tty --batch --yes
+          java-version: 21
+          distribution: temurin
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
       - name: Extract Tag Name
         shell: bash
         run: echo "##[set-output name=tag;]$(echo ${GITHUB_REF##*/})"
         id: extract_tag
       - name: Set version package
         run: mvn versions:set -DnewVersion=${{ steps.extract_tag.outputs.tag }}
-      - name: Publish package
+      - name: Publish package to GitHub Packages
         run: mvn -Dchangelist= deploy
         env:
-          MAVEN_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

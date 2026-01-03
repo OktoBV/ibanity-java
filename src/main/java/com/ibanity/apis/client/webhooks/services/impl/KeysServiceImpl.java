@@ -31,7 +31,7 @@ public class KeysServiceImpl implements KeysService {
         HttpResponse httpResponse = ibanityHttpClient.get(buildUri(apiUrlProvider.find("webhooks", "keys")));
         try {
             String payload = readResponseContent(httpResponse.getEntity());
-            JwksApi jwksApi = IbanityUtils.objectMapper().readValue(payload, JwksApi.class);
+            JwksApi jwksApi = IbanityUtils.jsonMapper().readValue(payload, JwksApi.class);
             return jwksApi.getKeys();
         } catch (IOException e) {
             throw new IllegalArgumentException("Response cannot be parsed", e);

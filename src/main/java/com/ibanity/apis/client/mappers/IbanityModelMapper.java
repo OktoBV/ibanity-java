@@ -30,7 +30,7 @@ public class IbanityModelMapper {
     public static <T extends IbanityModel> T mapResource(HttpResponse httpResponse, Function<DataApiModel, T> customMapping) {
         try {
             String jsonPayload = readResponseContent(httpResponse.getEntity());
-            DataApiModel dataApiModel = IbanityUtils.objectMapper().readValue(jsonPayload, ResourceApiModel.class).getData();
+            DataApiModel dataApiModel = IbanityUtils.jsonMapper().readValue(jsonPayload, ResourceApiModel.class).getData();
             T ibanityModel = customMapping.apply(dataApiModel);
             ibanityModel.setRequestId(getRequestId(httpResponse));
             return ibanityModel;
@@ -46,7 +46,7 @@ public class IbanityModelMapper {
     public static <T extends IbanityModel> IbanityCollection<T> mapCollection(HttpResponse httpResponse, Function<DataApiModel, T> customMapping) {
         try {
             String jsonPayload = readResponseContent(httpResponse.getEntity());
-            CollectionApiModel collectionApiModel = IbanityUtils.objectMapper().readValue(jsonPayload, CollectionApiModel.class);
+            CollectionApiModel collectionApiModel = IbanityUtils.jsonMapper().readValue(jsonPayload, CollectionApiModel.class);
             String requestId = getRequestId(httpResponse);
             return IbanityCollection.<T>builder()
                     .requestId(requestId)
@@ -84,7 +84,7 @@ public class IbanityModelMapper {
 
     public static <T extends IbanityModel> T toIbanityModel(DataApiModel data, Class<T> classType) {
         try {
-            T clientObject = IbanityUtils.objectMapper().convertValue(data.getAttributes(), classType);
+            T clientObject = IbanityUtils.jsonMapper().convertValue(data.getAttributes(), classType);
             if (clientObject == null) {
                 clientObject = classType.newInstance();
             }

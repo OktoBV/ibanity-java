@@ -1,6 +1,6 @@
 package com.ibanity.apis.client.services.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import com.ibanity.apis.client.http.IbanityHttpClient;
 import com.ibanity.apis.client.models.IbanityProduct;
 import com.ibanity.apis.client.services.ApiUrlProvider;
@@ -100,6 +100,6 @@ public class ApiUrlProviderImpl implements ApiUrlProvider {
     }
 
     private JsonNode mapJsonToMap(String schema) throws IOException {
-        return IbanityUtils.objectMapper().readTree(schema).get("links");
+        return IbanityUtils.jsonMapper().readTree(schema).get("links");
     }
 }

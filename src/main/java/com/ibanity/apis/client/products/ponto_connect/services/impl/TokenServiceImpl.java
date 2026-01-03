@@ -61,7 +61,7 @@ public class TokenServiceImpl implements TokenService {
         URI uri = buildUri(getUrl("token"));
         HttpResponse response = oAuthHttpClient.post(uri, additionalHeaders, tokenRequestArguments, clientSecret);
         try {
-            return IbanityUtils.objectMapper().readValue(response.getEntity().getContent(), Token.class);
+            return IbanityUtils.jsonMapper().readValue(response.getEntity().getContent(), Token.class);
         } catch (IOException e) {
             LOGGER.error("oauth token response invalid", e);
             throw new RuntimeException("The response could not be converted.");

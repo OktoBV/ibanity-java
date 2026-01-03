@@ -1,6 +1,6 @@
 package com.ibanity.apis.client.products.ponto_connect.services.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import com.ibanity.apis.client.http.IbanityHttpClient;
 import com.ibanity.apis.client.models.IbanityProduct;
 import com.ibanity.apis.client.products.ponto_connect.models.OrganizationUsage;
@@ -34,7 +34,7 @@ public class UsageServiceImpl implements UsageService {
         try {
             String url = getUrl(readQuery.getOrganizationId(), readQuery.getMonth());
             HttpResponse response = ibanityHttpClient.get(URI.create(url), readQuery.getAdditionalHeaders(), readQuery.getAccessToken());
-            JsonNode dataApiModel = IbanityUtils.objectMapper().readTree(response.getEntity().getContent());
+            JsonNode dataApiModel = IbanityUtils.jsonMapper().readTree(response.getEntity().getContent());
             return map(dataApiModel);
         } catch (IOException e) {
             LOGGER.error("OrganizationUsage response invalid", e);

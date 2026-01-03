@@ -1,14 +1,14 @@
 package com.ibanity.apis.client.mappers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ibanity.apis.client.jsonapi.FinancialInstitutionResponseApiModel;
 import com.ibanity.apis.client.jsonapi.IbanityErrorApiModel;
 import com.ibanity.apis.client.jsonapi.OAuth2ErrorResourceApiModel;
 import com.ibanity.apis.client.models.ErrorMeta;
 import com.ibanity.apis.client.models.FinancialInstitutionResponse;
 import com.ibanity.apis.client.models.IbanityError;
+import tools.jackson.core.JacksonException;
 
-import static com.ibanity.apis.client.utils.IbanityUtils.objectMapper;
+import static com.ibanity.apis.client.utils.IbanityUtils.jsonMapper;
 
 public class IbanityErrorMapper {
 
@@ -46,8 +46,8 @@ public class IbanityErrorMapper {
             return (String) body;
         } else {
             try {
-                return objectMapper().writeValueAsString(body);
-            } catch (JsonProcessingException e) {
+                return jsonMapper().writeValueAsString(body);
+            } catch (JacksonException e) {
                 throw new RuntimeException("Invalid payload", e);
             }
         }
