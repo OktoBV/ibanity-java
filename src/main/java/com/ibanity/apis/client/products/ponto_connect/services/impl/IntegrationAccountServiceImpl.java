@@ -18,7 +18,7 @@ import static com.ibanity.apis.client.mappers.IbanityModelMapper.toIbanityModel;
 import static com.ibanity.apis.client.models.IbanityProduct.PontoConnect;
 import static com.ibanity.apis.client.paging.IbanityPagingSpec.DEFAULT_PAGING_SPEC;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-import static org.apache.commons.lang3.StringUtils.removeEnd;
+import static com.ibanity.apis.client.utils.StringUtils.removeEnd;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 public class IntegrationAccountServiceImpl implements IntegrationAccountService {
 

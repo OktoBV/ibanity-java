@@ -4,7 +4,7 @@ import com.ibanity.apis.client.http.IbanityHttpClient;
 import com.ibanity.apis.client.models.IbanityProduct;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import com.ibanity.apis.client.utils.IbanityUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
-import static org.apache.commons.lang3.StringUtils.removeEnd;
+import static com.ibanity.apis.client.utils.StringUtils.removeEnd;
 
 public class ApiUrlProviderImpl implements ApiUrlProvider {
 
@@ -60,7 +60,7 @@ public class ApiUrlProviderImpl implements ApiUrlProvider {
 
             return Stream.of(subPaths)
                     .reduce(apiUrls, JsonNode::get, (jsonNode1, jsonNode2) -> jsonNode2)
-                    .textValue();
+                    .asString();
         } catch (Exception exception) {
             throw new IllegalArgumentException("Url cannot be found", exception);
         }
@@ -100,7 +100,7 @@ public class ApiUrlProviderImpl implements ApiUrlProvider {
         return StringUtils.isNotBlank(proxyEndpoint);
     }
 
-    private JsonNode mapJsonToMap(String schema) throws IOException {
+    private JsonNode mapJsonToMap(String schema) {
         return IbanityUtils.jsonMapper().readTree(schema).get("links");
     }
 }

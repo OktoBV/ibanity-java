@@ -53,7 +53,7 @@ class IbanityResponseHandlerTest {
 
         IbanityServerException actual = assertThrows(IbanityServerException.class, () -> ibanityResponseHandler.handleResponse(httpResponse));
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(new IbanityServerException(createExpectedErrorsWithJson(), 500, REQUEST_ID));
+        assertThat(actual).usingRecursiveComparison().isEqualTo(new IbanityServerException(createExpectedErrorsWithJson(), 500, REQUEST_ID));
     }
 
     @Test
@@ -86,7 +86,7 @@ class IbanityResponseHandlerTest {
 
         IbanityClientException actual = assertThrows(IbanityClientException.class, () -> ibanityResponseHandler.handleResponse(httpResponse));
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(new IbanityServerException(createExpectedErrorsWithJson(), 404, REQUEST_ID));
+        assertThat(actual).usingRecursiveComparison().isEqualTo(new IbanityServerException(createExpectedErrorsWithJson(), 404, REQUEST_ID));
     }
 
     @Test
@@ -100,7 +100,7 @@ class IbanityResponseHandlerTest {
 
         IbanityClientException actual = assertThrows(IbanityClientException.class, () -> ibanityResponseHandler.handleResponse(httpResponse));
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(new IbanityServerException(createExpectedErrorsWithHtml(), 404, null));
+        assertThat(actual).usingRecursiveComparison().isEqualTo(new IbanityServerException(createExpectedErrorsWithHtml(), 404, null));
     }
 
     private List<IbanityError> createExpectedErrors(String body) {

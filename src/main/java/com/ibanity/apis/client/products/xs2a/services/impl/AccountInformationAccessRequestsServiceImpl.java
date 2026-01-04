@@ -29,7 +29,7 @@ import java.util.function.Function;
 
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-import static org.apache.commons.lang3.StringUtils.removeEnd;
+import static com.ibanity.apis.client.utils.StringUtils.removeEnd;
 
 public class AccountInformationAccessRequestsServiceImpl implements AccountInformationAccessRequestsService {
 

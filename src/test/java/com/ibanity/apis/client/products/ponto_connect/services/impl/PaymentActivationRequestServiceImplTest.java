@@ -59,7 +59,7 @@ class PaymentActivationRequestServiceImplTest {
 
         PaymentActivationRequest actual = paymentActivationRequestService.create(paymentActivationRequestCreateQuery);
 
-        Assertions.assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected());
+        Assertions.assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     private Object createExpected() {

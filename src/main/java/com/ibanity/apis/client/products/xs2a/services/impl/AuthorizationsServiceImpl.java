@@ -12,7 +12,7 @@ import com.ibanity.apis.client.products.xs2a.models.create.AuthorizationCreation
 import com.ibanity.apis.client.products.xs2a.services.AuthorizationsService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import lombok.*;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 
 import java.net.URI;
 import java.util.Map;

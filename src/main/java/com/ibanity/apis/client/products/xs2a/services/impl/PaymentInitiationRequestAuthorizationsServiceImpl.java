@@ -13,7 +13,7 @@ import com.ibanity.apis.client.products.xs2a.models.links.PaymentInitiationReque
 import com.ibanity.apis.client.products.xs2a.services.PaymentInitiationRequestAuthorizationsService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import lombok.*;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.net.URI;

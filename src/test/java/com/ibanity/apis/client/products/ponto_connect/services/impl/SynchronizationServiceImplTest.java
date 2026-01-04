@@ -1,7 +1,6 @@
 package com.ibanity.apis.client.products.ponto_connect.services.impl;
 
 import com.ibanity.apis.client.http.IbanityHttpClient;
-import com.ibanity.apis.client.mappers.IbanityModelMapper;
 import com.ibanity.apis.client.models.IbanityProduct;
 import com.ibanity.apis.client.products.ponto_connect.models.Synchronization;
 import com.ibanity.apis.client.products.ponto_connect.models.create.SynchronizationCreateQuery;

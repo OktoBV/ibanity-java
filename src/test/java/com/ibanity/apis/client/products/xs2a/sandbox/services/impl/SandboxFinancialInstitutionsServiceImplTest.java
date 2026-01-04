@@ -64,7 +64,7 @@ class SandboxFinancialInstitutionsServiceImplTest {
 
         FinancialInstitution actual = sandboxFinancialInstitutionsService.create(query);
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     @Test
@@ -83,7 +83,7 @@ class SandboxFinancialInstitutionsServiceImplTest {
 
         FinancialInstitution actual = sandboxFinancialInstitutionsService.create(query);
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     @Test
@@ -102,7 +102,7 @@ class SandboxFinancialInstitutionsServiceImplTest {
 
         FinancialInstitution actual = sandboxFinancialInstitutionsService.update(query);
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     @Test
@@ -116,7 +116,7 @@ class SandboxFinancialInstitutionsServiceImplTest {
 
         FinancialInstitution actual = sandboxFinancialInstitutionsService.delete(query);
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     private FinancialInstitution createExpected() {

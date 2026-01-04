@@ -19,7 +19,7 @@ import static com.ibanity.apis.client.mappers.ModelMapperHelper.getRequestId;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.readResponseContent;
 import static java.lang.String.format;
 import static java.util.UUID.fromString;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static com.ibanity.apis.client.utils.StringUtils.isNotBlank;
 
 public class IbanityModelMapper {
 
@@ -86,7 +86,7 @@ public class IbanityModelMapper {
         try {
             T clientObject = IbanityUtils.jsonMapper().convertValue(data.getAttributes(), classType);
             if (clientObject == null) {
-                clientObject = classType.newInstance();
+                clientObject = classType.getDeclaredConstructor().newInstance();
             }
             clientObject.setId(fromString(data.getId()));
             if (data.getLinks() != null) {
@@ -94,7 +94,7 @@ public class IbanityModelMapper {
             }
 
             return clientObject;
-        } catch (InstantiationException | IllegalAccessException exception) {
+        } catch (ReflectiveOperationException exception) {
             throw new RuntimeException(format("Instantiation of class %s is impossible for default constructor", classType), exception);
         }
     }

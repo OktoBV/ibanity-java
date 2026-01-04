@@ -9,7 +9,7 @@ import com.ibanity.apis.client.products.isabel_connect.models.read.IntradayTrans
 import com.ibanity.apis.client.products.isabel_connect.models.read.IsabelPagingSpec;
 import com.ibanity.apis.client.products.isabel_connect.services.IntradayTransactionService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;

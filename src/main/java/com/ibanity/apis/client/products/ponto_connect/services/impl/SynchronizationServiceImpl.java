@@ -9,7 +9,7 @@ import com.ibanity.apis.client.products.ponto_connect.models.create.Synchronizat
 import com.ibanity.apis.client.products.ponto_connect.models.read.SynchronizationReadQuery;
 import com.ibanity.apis.client.products.ponto_connect.services.SynchronizationService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapResource;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;

@@ -6,7 +6,7 @@ public enum IbanityProduct {
     PontoConnect("ponto-connect"),
     Xs2a("xs2a");
 
-    private String path;
+    private final String path;
 
     IbanityProduct(String path) {
         this.path = path;

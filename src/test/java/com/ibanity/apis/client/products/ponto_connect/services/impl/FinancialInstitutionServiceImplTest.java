@@ -64,7 +64,7 @@ public class FinancialInstitutionServiceImplTest {
                 .financialInstitutionId(FINANCIAL_INSTITUTION_ID)
                 .build());
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected(FINANCIAL_INSTITUTION_ID, "Fake Bank"));
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected(FINANCIAL_INSTITUTION_ID, "Fake Bank"));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class FinancialInstitutionServiceImplTest {
                 .financialInstitutionId(FINANCIAL_INSTITUTION_ID)
                 .build());
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected(FINANCIAL_INSTITUTION_ID, "Fake Bank"));
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected(FINANCIAL_INSTITUTION_ID, "Fake Bank"));
     }
 
     @Test

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.getRequestId;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.readResponseContent;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-import static org.apache.commons.lang3.StringUtils.removeEnd;
+import static com.ibanity.apis.client.utils.StringUtils.removeEnd;
 import static org.apache.hc.core5.http.io.entity.EntityUtils.consumeQuietly;
 
 public class FinancialInstitutionCountriesServiceImpl implements FinancialInstitutionCountriesService {

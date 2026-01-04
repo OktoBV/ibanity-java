@@ -4,12 +4,12 @@ import com.ibanity.apis.client.http.service.IbanityHttpSignatureService;
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.core5.http.*;
 import org.apache.hc.core5.http.message.BasicClassicHttpRequest;
-import org.apache.hc.core5.http.message.HttpRequestWrapper;
 import org.apache.hc.core5.http.protocol.HttpContext;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Map;
@@ -54,7 +54,7 @@ public class IbanitySignatureInterceptor implements HttpRequestInterceptor {
     }
 
     private URL getUrl(HttpRequest requestWrapper) throws MalformedURLException {
-        return new URL(basePath + requestWrapper.getRequestUri());
+        return URI.create(basePath + requestWrapper.getRequestUri()).toURL();
     }
 
     private Consumer<? super Map.Entry<String, String>> addHeaderToRequest(HttpRequest httpRequest) {

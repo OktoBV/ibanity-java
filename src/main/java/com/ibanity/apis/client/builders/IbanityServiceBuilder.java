@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import static com.ibanity.apis.client.utils.StringUtils.isBlank;
 
 public class IbanityServiceBuilder implements
         OptionalPropertiesBuilder,

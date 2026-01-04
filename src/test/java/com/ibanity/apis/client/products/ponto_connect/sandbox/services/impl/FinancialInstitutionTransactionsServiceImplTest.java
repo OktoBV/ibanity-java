@@ -69,7 +69,7 @@ class FinancialInstitutionTransactionsServiceImplTest {
 
         FinancialInstitutionTransaction actual = financialInstitutionTransactionsService.find(request);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     @Test
@@ -109,7 +109,7 @@ class FinancialInstitutionTransactionsServiceImplTest {
 
         FinancialInstitutionTransaction actual = financialInstitutionTransactionsService.create(request);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     @Test
@@ -133,7 +133,7 @@ class FinancialInstitutionTransactionsServiceImplTest {
 
         FinancialInstitutionTransaction actual = financialInstitutionTransactionsService.update(request);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     private Object createIbanityModel(FinancialInstitutionTransactionUpdateQuery transactionUpdateQuery) {

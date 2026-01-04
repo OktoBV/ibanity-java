@@ -86,7 +86,7 @@ class HoldingsServiceImplTest {
                 .financialInstitutionId(FINANCIAL_INSTITUTION_ID)
                 .build());
 
-        Assertions.assertThat(holdings).isEqualToComparingFieldByFieldRecursively(expected);
+        Assertions.assertThat(holdings).usingRecursiveComparison().isEqualTo(expected);
     }
 
     private Holding createExpected() {
@@ -119,6 +119,6 @@ class HoldingsServiceImplTest {
                 .financialInstitutionId(FINANCIAL_INSTITUTION_ID)
                 .build());
 
-        Assertions.assertThat(holding).isEqualToComparingFieldByFieldRecursively(createExpected());
+        Assertions.assertThat(holding).usingRecursiveComparison().isEqualTo(createExpected());
     }
 }

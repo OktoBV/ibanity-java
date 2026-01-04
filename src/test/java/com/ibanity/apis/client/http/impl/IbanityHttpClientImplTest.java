@@ -16,7 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import static com.ibanity.apis.client.helpers.IbanityTestHelper.createHttpResponse;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -48,8 +47,8 @@ class IbanityHttpClientImplTest {
         assertThat(requestArgumentCaptor.getValue().getMethod()).isEqualTo("GET");
     }
 
-    private URI uri() throws URISyntaxException {
-        return new URI("www.google.be");
+    private URI uri() {
+        return URI.create("www.google.be");
     }
 
     @Test

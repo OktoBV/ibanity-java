@@ -11,7 +11,7 @@ import com.ibanity.apis.client.products.ponto_connect.models.read.OrganizationFi
 import com.ibanity.apis.client.products.ponto_connect.models.read.OrganizationFinancialInstitutionsReadQuery;
 import com.ibanity.apis.client.products.ponto_connect.services.FinancialInstitutionService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.net.URI;

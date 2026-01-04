@@ -11,7 +11,6 @@ import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +27,7 @@ public class IbanityResponseHandler implements HttpClientResponseHandler<Classic
     public static final String IBANITY_REQUEST_ID_HEADER = "ibanity-request-id";
 
     @Override
-    public ClassicHttpResponse handleResponse(ClassicHttpResponse httpResponse) throws IOException {
+    public ClassicHttpResponse handleResponse(ClassicHttpResponse httpResponse) {
         int statusCode = httpResponse.getCode();
         if (statusCode >= SERVER_ERROR) {
             throw new IbanityServerException(parseErrors(httpResponse), statusCode, getIbanityRequestId(httpResponse));

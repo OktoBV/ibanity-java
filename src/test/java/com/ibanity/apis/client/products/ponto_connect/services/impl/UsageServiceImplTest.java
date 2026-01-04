@@ -62,7 +62,7 @@ class UsageServiceImplTest {
                 .build();
         OrganizationUsage actual = organizationUsageService.getOrganizationUsage(readQuery);
 
-        Assertions.assertThat(actual).isEqualToComparingFieldByField(expected());
+        Assertions.assertThat(actual).usingRecursiveComparison().isEqualTo(expected());
     }
 
     private OrganizationUsage expected() {

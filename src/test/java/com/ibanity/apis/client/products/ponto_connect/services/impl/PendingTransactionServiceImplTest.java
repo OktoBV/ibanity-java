@@ -67,7 +67,7 @@ public class PendingTransactionServiceImplTest {
                 .pendingTransactionId(PENDING_TRANSACTION_ID)
                 .build());
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     @Test

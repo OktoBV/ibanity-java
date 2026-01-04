@@ -53,7 +53,7 @@ public class BulkPaymentInitiationRequestServiceImplTest {
                 .bulkPaymentInitiationRequestId("93ecb1fdbfb7848e7b7896c0f2d207aed3d8b4c1")
                 .build());
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     private BulkPaymentInitiationRequest createExpected() {

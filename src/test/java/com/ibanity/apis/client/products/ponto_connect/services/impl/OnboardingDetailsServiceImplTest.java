@@ -73,7 +73,7 @@ class OnboardingDetailsServiceImplTest {
                 .thenReturn(loadHttpResponse("json/ponto-connect/create_onboarding_details.json"));
 
         OnboardingDetails actual = onboardingDetailsService.create(request);
-        assertThat(actual).isEqualToComparingFieldByField(createOnboardingDetails());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createOnboardingDetails());
     }
 
     private OnboardingDetails createOnboardingDetails() {

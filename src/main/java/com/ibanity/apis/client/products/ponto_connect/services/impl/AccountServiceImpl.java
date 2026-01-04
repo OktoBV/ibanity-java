@@ -15,7 +15,7 @@ import com.ibanity.apis.client.products.ponto_connect.models.read.AccountReadQue
 import com.ibanity.apis.client.products.ponto_connect.models.read.AccountsReadQuery;
 import com.ibanity.apis.client.products.ponto_connect.services.AccountService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.util.UUID;

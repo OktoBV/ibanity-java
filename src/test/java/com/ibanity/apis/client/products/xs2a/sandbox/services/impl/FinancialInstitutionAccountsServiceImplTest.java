@@ -28,7 +28,6 @@ import static java.math.BigDecimal.ZERO;
 import static java.time.Instant.parse;
 import static java.util.UUID.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -68,7 +67,7 @@ class FinancialInstitutionAccountsServiceImplTest {
                 .thenReturn(loadHttpResponse("json/sandbox/find_account.json"));
 
         FinancialInstitutionAccount actual = financialInstitutionAccountsService.find(query);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpectedForFind());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedForFind());
     }
 
     @Test
@@ -82,7 +81,7 @@ class FinancialInstitutionAccountsServiceImplTest {
                 .thenReturn(loadHttpResponse("json/sandbox/list_accounts.json"));
 
         IbanityCollection<FinancialInstitutionAccount> actual = financialInstitutionAccountsService.list(query);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(
+        assertThat(actual).usingRecursiveComparison().isEqualTo(
                 IbanityCollection.builder()
                         .pageLimit(10)
                         .firstLink(FIRST_LINK)
@@ -103,7 +102,7 @@ class FinancialInstitutionAccountsServiceImplTest {
                 .build();
 
         FinancialInstitutionAccount actual = financialInstitutionAccountsService.delete(query);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(FinancialInstitutionAccount.builder()
+        assertThat(actual).usingRecursiveComparison().isEqualTo(FinancialInstitutionAccount.builder()
                 .id(ACCOUNT_ID)
                 .build());
     }
@@ -132,7 +131,7 @@ class FinancialInstitutionAccountsServiceImplTest {
                 .thenReturn(loadHttpResponse("json/sandbox/find_account.json"));
 
         FinancialInstitutionAccount actual = financialInstitutionAccountsService.create(query);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpectedForFind());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedForFind());
     }
 
     private RequestApiModel createRequest(FinancialInstitutionAccountCreationQuery query) {

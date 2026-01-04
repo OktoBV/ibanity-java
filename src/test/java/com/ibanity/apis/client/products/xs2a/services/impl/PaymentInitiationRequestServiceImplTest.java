@@ -74,7 +74,7 @@ class PaymentInitiationRequestServiceImplTest {
                 .thenReturn(loadHttpResponse("json/createPaymentInitiationRequest.json"));
 
         PaymentInitiationRequest actual = paymentInitiationRequestService.create(requestCreationQuery);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpectedForCreate());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedForCreate());
     }
 
     @Test
@@ -90,7 +90,7 @@ class PaymentInitiationRequestServiceImplTest {
                 .thenReturn(loadHttpResponse("json/deletePaymentInitiationRequest.json"));
 
         PaymentInitiationRequest actual = paymentInitiationRequestService.delete(requestReadQuery);
-        assertThat(actual).isEqualToComparingFieldByField(createExpectedForDelete());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedForDelete());
     }
 
     @Test
@@ -107,7 +107,7 @@ class PaymentInitiationRequestServiceImplTest {
 
         PaymentInitiationRequest actual = paymentInitiationRequestService.find(readQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpectedForFind());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedForFind());
     }
 
     private PaymentInitiationRequest createExpectedForDelete() {
