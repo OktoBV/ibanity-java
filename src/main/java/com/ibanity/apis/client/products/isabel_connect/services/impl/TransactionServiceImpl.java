@@ -9,7 +9,7 @@ import com.ibanity.apis.client.products.isabel_connect.models.Transaction;
 import com.ibanity.apis.client.products.isabel_connect.models.read.TransactionsReadQuery;
 import com.ibanity.apis.client.products.isabel_connect.services.TransactionService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.util.function.Function;

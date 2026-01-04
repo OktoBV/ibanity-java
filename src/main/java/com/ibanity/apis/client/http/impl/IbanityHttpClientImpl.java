@@ -3,7 +3,7 @@ package com.ibanity.apis.client.http.impl;
 import com.ibanity.apis.client.http.IbanityHttpClient;
 import com.ibanity.apis.client.http.handler.IbanityResponseHandler;
 import lombok.NonNull;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.*;
 import org.apache.hc.core5.http.ClassicHttpRequest;

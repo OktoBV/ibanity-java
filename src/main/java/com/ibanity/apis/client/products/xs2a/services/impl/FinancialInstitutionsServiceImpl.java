@@ -13,8 +13,8 @@ import com.ibanity.apis.client.services.ApiUrlProvider;
 import java.net.URI;
 
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.removeEnd;
+import static com.ibanity.apis.client.utils.StringUtils.isBlank;
+import static com.ibanity.apis.client.utils.StringUtils.removeEnd;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 
 public class FinancialInstitutionsServiceImpl implements FinancialInstitutionsService {

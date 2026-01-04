@@ -16,7 +16,7 @@ import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapCollection;
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapResource;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-import static org.apache.commons.lang3.StringUtils.removeEnd;
+import static com.ibanity.apis.client.utils.StringUtils.removeEnd;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 
 public class FinancialInstitutionUsersServiceImpl implements FinancialInstitutionUsersService {

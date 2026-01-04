@@ -11,7 +11,7 @@ import com.ibanity.apis.client.products.ponto_connect.models.read.PaymentRequest
 import com.ibanity.apis.client.products.ponto_connect.services.PaymentRequestService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import lombok.*;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 
 import java.math.BigDecimal;
 import java.net.URI;

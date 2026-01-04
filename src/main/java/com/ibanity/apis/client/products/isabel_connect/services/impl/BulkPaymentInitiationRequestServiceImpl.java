@@ -11,7 +11,7 @@ import com.ibanity.apis.client.products.isabel_connect.services.BulkPaymentIniti
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import lombok.NonNull;
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
@@ -115,7 +115,7 @@ public class BulkPaymentInitiationRequestServiceImpl implements BulkPaymentIniti
     }
 
     private void addAuthorizationHeader(HttpUriRequest requestBase, String customerAccessToken) {
-        if (org.apache.commons.lang3.StringUtils.isNotBlank(customerAccessToken)) {
+        if (com.ibanity.apis.client.utils.StringUtils.isNotBlank(customerAccessToken)) {
             requestBase.addHeader(new BasicHeader(AUTHORIZATION, "Bearer " + customerAccessToken));
         }
     }

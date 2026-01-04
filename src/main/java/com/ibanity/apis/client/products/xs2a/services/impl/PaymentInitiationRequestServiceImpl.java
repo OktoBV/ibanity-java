@@ -21,7 +21,7 @@ import static com.ibanity.apis.client.products.xs2a.mappers.PaymentInitiationReq
 import static com.ibanity.apis.client.products.xs2a.mappers.PaymentInitiationRequestMapper.getResponseMapping;
 import static com.ibanity.apis.client.products.xs2a.services.impl.PaymentInitiationRequestServiceImpl.PaymentInitiationRequest.RESOURCE_TYPE;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-import static org.apache.commons.lang3.StringUtils.removeEnd;
+import static com.ibanity.apis.client.utils.StringUtils.removeEnd;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 
 public class PaymentInitiationRequestServiceImpl implements PaymentInitiationRequestService {

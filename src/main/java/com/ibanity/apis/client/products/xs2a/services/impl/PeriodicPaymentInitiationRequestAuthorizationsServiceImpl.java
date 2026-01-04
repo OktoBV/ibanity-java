@@ -13,7 +13,7 @@ import com.ibanity.apis.client.products.xs2a.models.links.PeriodicPaymentInitiat
 import com.ibanity.apis.client.products.xs2a.services.PeriodicPaymentInitiationRequestAuthorizationsService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import lombok.*;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 
 import java.net.URI;
 import java.util.Map;

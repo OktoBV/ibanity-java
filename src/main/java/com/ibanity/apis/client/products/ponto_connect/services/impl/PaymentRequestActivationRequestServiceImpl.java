@@ -7,7 +7,7 @@ import com.ibanity.apis.client.products.ponto_connect.models.create.PaymentReque
 import com.ibanity.apis.client.products.ponto_connect.services.PaymentRequestActivationRequestService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import lombok.*;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 
 import java.net.URI;
 import java.util.function.Function;

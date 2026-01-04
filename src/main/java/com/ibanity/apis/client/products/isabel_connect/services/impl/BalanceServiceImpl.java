@@ -12,7 +12,7 @@ import com.ibanity.apis.client.products.isabel_connect.models.read.IsabelPagingS
 import com.ibanity.apis.client.products.isabel_connect.services.BalanceService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import com.ibanity.apis.client.utils.IbanityUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.io.IOException;

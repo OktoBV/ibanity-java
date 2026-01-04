@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static com.ibanity.apis.client.utils.StringUtils.isNotBlank;
 import static org.apache.hc.core5.http.HttpHeaders.AUTHORIZATION;
 
 public class OAuthHttpClientImpl implements OAuthHttpClient {

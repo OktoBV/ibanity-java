@@ -9,7 +9,7 @@ import com.ibanity.apis.client.products.ponto_connect.models.revoke.TokenRevokeQ
 import com.ibanity.apis.client.products.ponto_connect.services.TokenService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import com.ibanity.apis.client.utils.IbanityUtils;
-import org.apache.commons.lang3.StringUtils;
+import com.ibanity.apis.client.utils.StringUtils;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

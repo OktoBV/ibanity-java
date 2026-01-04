@@ -19,7 +19,7 @@ import static com.ibanity.apis.client.mappers.ModelMapperHelper.getRequestId;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.readResponseContent;
 import static java.lang.String.format;
 import static java.util.UUID.fromString;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static com.ibanity.apis.client.utils.StringUtils.isNotBlank;
 
 public class IbanityModelMapper {
 

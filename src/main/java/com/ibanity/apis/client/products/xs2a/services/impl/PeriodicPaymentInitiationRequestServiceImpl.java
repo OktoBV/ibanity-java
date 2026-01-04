@@ -22,7 +22,7 @@ import static com.ibanity.apis.client.products.xs2a.mappers.PeriodicPaymentIniti
 import static com.ibanity.apis.client.products.xs2a.mappers.PeriodicPaymentInitiationRequestMapper.getResponseMapping;
 import static com.ibanity.apis.client.products.xs2a.services.impl.PeriodicPaymentInitiationRequestServiceImpl.PeriodicPaymentInitiationRequest.RESOURCE_TYPE;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-import static org.apache.commons.lang3.StringUtils.removeEnd;
+import static com.ibanity.apis.client.utils.StringUtils.removeEnd;
 
 public class PeriodicPaymentInitiationRequestServiceImpl implements PeriodicPaymentInitiationRequestService {
 
