@@ -2,9 +2,9 @@ package com.ibanity.apis.client.services.impl;
 
 import com.ibanity.apis.client.http.IbanityHttpClient;
 import com.ibanity.apis.client.models.IbanityProduct;
-import org.apache.http.HttpResponse;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.message.BasicHttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.message.BasicClassicHttpResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.UnsupportedEncodingException;
 
-import static com.ibanity.apis.client.helpers.IbanityTestHelper.HTTP;
 import static java.net.URI.create;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -38,8 +37,8 @@ class ApiUrlProviderImplTest {
         lenient().when(ibanityHttpClient.get(eq(create(API_ENDPOINT + "/xs2a")), eq(null))).thenReturn(getHttpResponse());
     }
 
-    private HttpResponse getHttpResponse() throws UnsupportedEncodingException {
-        HttpResponse httpResponse = new BasicHttpResponse(HTTP, 200, null);
+    private ClassicHttpResponse getHttpResponse() {
+        ClassicHttpResponse httpResponse = new BasicClassicHttpResponse(200);
         httpResponse.setEntity(new StringEntity(getSchema()));
         return httpResponse;
     }

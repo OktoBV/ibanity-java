@@ -2,12 +2,10 @@ package com.ibanity.apis.client.http.interceptor;
 
 import com.ibanity.apis.client.http.service.IbanityHttpSignatureService;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpRequestInterceptor;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.client.methods.HttpRequestWrapper;
-import org.apache.http.protocol.HttpContext;
+import org.apache.hc.core5.http.*;
+import org.apache.hc.core5.http.message.BasicClassicHttpRequest;
+import org.apache.hc.core5.http.message.HttpRequestWrapper;
+import org.apache.hc.core5.http.protocol.HttpContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,22 +31,21 @@ public class IbanitySignatureInterceptor implements HttpRequestInterceptor {
     }
 
     @Override
-    public void process(final HttpRequest httpRequest, final HttpContext httpContext) throws IOException {
+    public void process(final HttpRequest httpRequest, final EntityDetails entity, final HttpContext httpContext) throws IOException {
         try {
-            HttpRequestWrapper requestWrapper = (HttpRequestWrapper) httpRequest;
+
             InputStream payload;
-            if (requestWrapper.getOriginal() instanceof HttpEntityEnclosingRequestBase) {
-                HttpEntityEnclosingRequestBase original = (HttpEntityEnclosingRequestBase) requestWrapper.getOriginal();
+            if (httpRequest instanceof BasicClassicHttpRequest original) {
                 payload = original.getEntity().getContent();
             } else {
                 payload = IOUtils.toInputStream("", DEFAULT_CHARSET);
             }
 
             httpSignatureService.getHttpSignatureHeaders(
-                    requestWrapper.getMethod(),
-                    getUrl(requestWrapper),
-                    getAllHeaders(requestWrapper),
-                    payload)
+                            httpRequest.getMethod(),
+                            getUrl(httpRequest),
+                            getAllHeaders(httpRequest),
+                            payload)
                     .entrySet()
                     .forEach(addHeaderToRequest(httpRequest));
         } catch (Exception exception) {
@@ -56,16 +53,16 @@ public class IbanitySignatureInterceptor implements HttpRequestInterceptor {
         }
     }
 
-    private URL getUrl(HttpRequestWrapper requestWrapper) throws MalformedURLException {
-        return new URL(basePath + requestWrapper.getURI().toString());
+    private URL getUrl(HttpRequest requestWrapper) throws MalformedURLException {
+        return new URL(basePath + requestWrapper.getRequestUri());
     }
 
     private Consumer<? super Map.Entry<String, String>> addHeaderToRequest(HttpRequest httpRequest) {
         return (entry) -> httpRequest.addHeader(entry.getKey(), entry.getValue());
     }
 
-    private Map<String, String> getAllHeaders(HttpRequestWrapper requestWrapper) {
-        return Stream.of(requestWrapper.getAllHeaders())
+    private Map<String, String> getAllHeaders(HttpRequest requestWrapper) {
+        return Stream.of(requestWrapper.getHeaders())
                 .collect(Collectors.toMap(Header::getName,
                         Header::getValue));
     }

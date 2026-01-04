@@ -10,7 +10,7 @@ import com.ibanity.apis.client.products.isabel_connect.models.read.IsabelPagingS
 import com.ibanity.apis.client.products.isabel_connect.services.IntradayTransactionService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
 
@@ -27,7 +27,7 @@ public class IntradayTransactionServiceImpl implements IntradayTransactionServic
     public IsabelCollection<IntradayTransaction> list(IntradayTransactionsReadQuery query) {
         IsabelPagingSpec pagingSpec = query.getPagingSpec();
 
-        HttpResponse response = ibanityHttpClient.get(
+        ClassicHttpResponse response = ibanityHttpClient.get(
                 buildUri(getUrl(query.getAccountId()), pagingSpec),
                 query.getAdditionalHeaders(),
                 query.getAccessToken());

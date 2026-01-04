@@ -14,7 +14,7 @@ import com.ibanity.apis.client.products.xs2a.services.PaymentInitiationRequestAu
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.net.URI;
 import java.util.Map;
@@ -46,7 +46,7 @@ public class PaymentInitiationRequestAuthorizationsServiceImpl implements Paymen
         PaymentInitiationRequestAuthorization ibanityModel = mapAttributes(authorizationCreationQuery);
         RequestApiModel request = buildRequest(PaymentInitiationRequestAuthorization.RESOURCE_TYPE, ibanityModel);
 
-        HttpResponse response = ibanityHttpClient.post(uri, request, authorizationCreationQuery.getAdditionalHeaders(), authorizationCreationQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(uri, request, authorizationCreationQuery.getAdditionalHeaders(), authorizationCreationQuery.getCustomerAccessToken());
         return IbanityModelMapper.mapResource(response, responseMapping());
     }
 

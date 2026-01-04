@@ -12,12 +12,10 @@ import com.ibanity.apis.client.products.ponto_connect.services.PaymentRequestSer
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
 
 import java.math.BigDecimal;
 import java.net.URI;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -25,7 +23,7 @@ import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapResource;
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.toIbanityModel;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class PaymentRequestServiceImpl implements PaymentRequestService {
 
     private final ApiUrlProvider apiUrlProvider;
@@ -42,7 +40,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 + "/"
                 + paymentRequestReadQuery.getPaymentRequestId().toString());
 
-        HttpResponse response = ibanityHttpClient.get(uri, paymentRequestReadQuery.getAdditionalHeaders(), paymentRequestReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, paymentRequestReadQuery.getAdditionalHeaders(), paymentRequestReadQuery.getAccessToken());
         return mapResource(response, com.ibanity.apis.client.products.ponto_connect.models.PaymentRequest.class);
     }
 
@@ -52,7 +50,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         PaymentRequest paymentRequest = toRequest(paymentRequestCreateQuery);
         RequestApiModel requestApiModel = buildRequest(com.ibanity.apis.client.products.ponto_connect.models.PaymentRequest.RESOURCE_TYPE, paymentRequest);
-        HttpResponse response = ibanityHttpClient.post(uri, requestApiModel, paymentRequestCreateQuery.getAdditionalHeaders(), paymentRequestCreateQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(uri, requestApiModel, paymentRequestCreateQuery.getAdditionalHeaders(), paymentRequestCreateQuery.getAccessToken());
         return mapResource(response, customMapping());
     }
 
@@ -73,7 +71,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 + "/"
                 + paymentRequestDeleteQuery.getPaymentRequestId().toString());
 
-        HttpResponse response = ibanityHttpClient.delete(uri, paymentRequestDeleteQuery.getAdditionalHeaders(), paymentRequestDeleteQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.delete(uri, paymentRequestDeleteQuery.getAdditionalHeaders(), paymentRequestDeleteQuery.getAccessToken());
         return mapResource(response, com.ibanity.apis.client.products.ponto_connect.models.PaymentRequest.class);
     }
 

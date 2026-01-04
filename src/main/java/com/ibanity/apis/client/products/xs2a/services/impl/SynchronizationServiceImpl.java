@@ -14,7 +14,7 @@ import com.ibanity.apis.client.products.xs2a.models.read.SynchronizationReadQuer
 import com.ibanity.apis.client.products.xs2a.models.read.SynchronizationsReadQuery;
 import com.ibanity.apis.client.products.xs2a.services.SynchronizationService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.util.UUID;
 
@@ -46,7 +46,7 @@ public class SynchronizationServiceImpl implements SynchronizationService {
                 .build();
         String url = getUrl();
         RequestApiModel request = buildRequest(Synchronization.RESOURCE_TYPE, synchronization);
-        HttpResponse response = ibanityHttpClient.post(buildUri(url), request, synchronizationCreationQuery.getAdditionalHeaders(), synchronizationCreationQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(buildUri(url), request, synchronizationCreationQuery.getAdditionalHeaders(), synchronizationCreationQuery.getCustomerAccessToken());
         return mapResource(response, (SynchronizationMapper::map));
     }
 
@@ -55,7 +55,7 @@ public class SynchronizationServiceImpl implements SynchronizationService {
         String url = getUrl()
                 + "/"
                 + synchronizationReadQuery.getSynchronizationId().toString();
-        HttpResponse response = ibanityHttpClient.get(buildUri(url), synchronizationReadQuery.getAdditionalHeaders(), synchronizationReadQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url), synchronizationReadQuery.getAdditionalHeaders(), synchronizationReadQuery.getCustomerAccessToken());
         return mapResource(response, (SynchronizationMapper::map));
     }
 
@@ -67,7 +67,7 @@ public class SynchronizationServiceImpl implements SynchronizationService {
         }
 
         String url = getUrl(synchronizationsReadQuery.getFinancialInstitutionId(), synchronizationsReadQuery.getAccountInformationAccessRequestId());
-        HttpResponse response = ibanityHttpClient.get(buildUri(url, pagingSpec), synchronizationsReadQuery.getAdditionalHeaders(), synchronizationsReadQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url, pagingSpec), synchronizationsReadQuery.getAdditionalHeaders(), synchronizationsReadQuery.getCustomerAccessToken());
 
         return mapCollection(response, Synchronization.class);
     }

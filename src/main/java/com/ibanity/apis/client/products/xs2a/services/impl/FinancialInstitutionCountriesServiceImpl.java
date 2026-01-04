@@ -11,7 +11,7 @@ import com.ibanity.apis.client.products.xs2a.models.read.FinancialInstitutionCou
 import com.ibanity.apis.client.products.xs2a.services.FinancialInstitutionCountriesService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import com.ibanity.apis.client.utils.IbanityUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,7 +21,7 @@ import static com.ibanity.apis.client.mappers.ModelMapperHelper.getRequestId;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.readResponseContent;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
 import static org.apache.commons.lang3.StringUtils.removeEnd;
-import static org.apache.http.util.EntityUtils.consumeQuietly;
+import static org.apache.hc.core5.http.io.entity.EntityUtils.consumeQuietly;
 
 public class FinancialInstitutionCountriesServiceImpl implements FinancialInstitutionCountriesService {
 
@@ -40,7 +40,7 @@ public class FinancialInstitutionCountriesServiceImpl implements FinancialInstit
                         ? IbanityPagingSpec.DEFAULT_PAGING_SPEC : financialInstitutionCountriesReadQuery.getPagingSpec();
 
         URI uri = buildUri(getUrl(), pagingSpec);
-        HttpResponse response = ibanityHttpClient.get(uri, financialInstitutionCountriesReadQuery.getAdditionalHeaders(), null);
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, financialInstitutionCountriesReadQuery.getAdditionalHeaders(), null);
         return mapCollection(response);
     }
 
@@ -48,7 +48,7 @@ public class FinancialInstitutionCountriesServiceImpl implements FinancialInstit
         return removeEnd(apiUrlProvider.find(IbanityProduct.Xs2a, "financialInstitutionCountries"), "/");
     }
 
-    private Collection<FinancialInstitutionCountry> mapCollection(HttpResponse httpResponse) {
+    private Collection<FinancialInstitutionCountry> mapCollection(ClassicHttpResponse httpResponse) {
         try {
             String jsonPayload = readResponseContent(httpResponse.getEntity());
             CollectionApiModel collectionApiModel = IbanityUtils.jsonMapper().readValue(jsonPayload, CollectionApiModel.class);

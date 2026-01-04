@@ -1,6 +1,13 @@
 package com.ibanity.apis.client.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.io.HttpClientConnectionManager;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
+import org.apache.hc.core5.util.Timeout;
 import tools.jackson.databind.DeserializationFeature;
 import com.ibanity.apis.client.builders.IbanityConfiguration;
 import com.ibanity.apis.client.http.interceptor.IbanitySignatureInterceptor;
@@ -8,11 +15,6 @@ import com.ibanity.apis.client.http.interceptor.IdempotencyInterceptor;
 import com.ibanity.apis.client.http.service.impl.IbanityHttpSignatureServiceImpl;
 import com.ibanity.apis.client.models.SignatureCredentials;
 import com.ibanity.apis.client.models.TlsCredentials;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.DefaultClientConnectionReuseStrategy;
-import org.apache.http.impl.client.HttpClientBuilder;
 import tools.jackson.databind.json.JsonMapper;
 
 import javax.net.ssl.*;
@@ -69,8 +71,8 @@ public final class IbanityUtils {
             SSLContext sslContext = getSSLContext(configuration.getCaCertificate(), configuration.getTlsCredentials());
             HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
             configureHttpClient(sslContext, httpClientBuilder, configuration);
-            configuration.getHttpRequestInterceptors().forEach(httpClientBuilder::addInterceptorLast);
-            configuration.getHttpResponseInterceptors().forEach(httpClientBuilder::addInterceptorFirst);
+            configuration.getHttpRequestInterceptors().forEach(httpClientBuilder::addRequestInterceptorLast);
+            configuration.getHttpResponseInterceptors().forEach(httpClientBuilder::addResponseInterceptorFirst);
             return httpClientBuilder.build();
         } catch (Exception exception) {
             throw new IllegalArgumentException("An exception occurred while creating IbanityHttpClient", exception);
@@ -84,23 +86,34 @@ public final class IbanityUtils {
     private static void configureHttpClient(SSLContext sslContext,
                                             HttpClientBuilder httpClientBuilder,
                                             IbanityConfiguration configuration) {
-        httpClientBuilder.setSSLContext(sslContext);
-        httpClientBuilder.setSSLSocketFactory(new SSLConnectionSocketFactory(sslContext));
-        httpClientBuilder.setRetryHandler(new CustomHttpRequestRetryHandler(RETRY_COUNTS, true));
-        httpClientBuilder.addInterceptorLast(new IdempotencyInterceptor());
+        // Configure SSL connection using modern builder pattern
+        HttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
+                .setSSLSocketFactory(SSLConnectionSocketFactoryBuilder.create()
+                        .setSslContext(sslContext)
+                        .build())
+                .build();
+
+        // Configure HTTP client
+        httpClientBuilder.setConnectionManager(connectionManager)
+                .setRetryStrategy(new CustomHttpRequestRetryHandler(RETRY_COUNTS, true))
+                .addRequestInterceptorLast(new IdempotencyInterceptor());
+
+        // Add signature interceptor if credentials provided
         SignatureCredentials signatureCredentials = configuration.getSignatureCredentials();
         String apiEndpoint = configuration.getApiEndpoint();
         if (signatureCredentials != null) {
             IbanityHttpSignatureServiceImpl httpSignatureService = getIbanityHttpSignatureService(signatureCredentials, apiEndpoint, configuration.getProxyEndpoint());
-            httpClientBuilder.addInterceptorLast(new IbanitySignatureInterceptor(httpSignatureService, apiEndpoint));
+            httpClientBuilder.addRequestInterceptorLast(new IbanitySignatureInterceptor(httpSignatureService, apiEndpoint));
         }
-        RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectTimeout(configuration.getConnectTimeout())
-                .setSocketTimeout(configuration.getSocketTimeout())
-                .setConnectionRequestTimeout(configuration.getConnectionRequestTimeout())
-                .build();
-        httpClientBuilder.setDefaultRequestConfig(requestConfig);
-        httpClientBuilder.setConnectionReuseStrategy(new DefaultClientConnectionReuseStrategy());
+
+        // Configure timeouts using modern Timeout API
+        httpClientBuilder.setDefaultRequestConfig(
+                RequestConfig.custom()
+                        .setConnectTimeout(Timeout.ofMilliseconds(configuration.getConnectTimeout()))
+                        .setResponseTimeout(Timeout.ofMilliseconds(configuration.getSocketTimeout()))
+                        .setConnectionRequestTimeout(Timeout.ofMilliseconds(configuration.getConnectionRequestTimeout()))
+                        .build()
+        );
     }
 
 

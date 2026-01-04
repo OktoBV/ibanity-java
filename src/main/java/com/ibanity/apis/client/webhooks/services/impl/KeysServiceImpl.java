@@ -6,7 +6,7 @@ import com.ibanity.apis.client.utils.IbanityUtils;
 import com.ibanity.apis.client.webhooks.models.Key;
 import com.ibanity.apis.client.webhooks.services.KeysService;
 import lombok.*;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,7 +28,7 @@ public class KeysServiceImpl implements KeysService {
 
     @Override
     public List<Key> list() {
-        HttpResponse httpResponse = ibanityHttpClient.get(buildUri(apiUrlProvider.find("webhooks", "keys")));
+        ClassicHttpResponse httpResponse = ibanityHttpClient.get(buildUri(apiUrlProvider.find("webhooks", "keys")));
         try {
             String payload = readResponseContent(httpResponse.getEntity());
             JwksApi jwksApi = IbanityUtils.jsonMapper().readValue(payload, JwksApi.class);

@@ -1,8 +1,8 @@
 package com.ibanity.apis.client.http.interceptor;
 
-import org.apache.http.HttpRequest;
-import org.apache.http.RequestLine;
-import org.apache.http.protocol.HttpContext;
+import org.apache.hc.core5.http.EntityDetails;
+import org.apache.hc.core5.http.HttpRequest;
+import org.apache.hc.core5.http.protocol.HttpContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -22,7 +22,7 @@ class IdempotencyInterceptorTest {
     private HttpContext httpContext;
 
     @Mock
-    private RequestLine requestLine;
+    private EntityDetails entity;
 
     private IdempotencyInterceptor idempotencyInterceptor = new IdempotencyInterceptor();
 
@@ -30,7 +30,7 @@ class IdempotencyInterceptorTest {
     void process_whenAlreadyAKey_thenDontOverride() {
         when(httpRequest.containsHeader("ibanity-idempotency-key")).thenReturn(true);
 
-        idempotencyInterceptor.process(httpRequest, httpContext);
+        idempotencyInterceptor.process(httpRequest, entity, httpContext);
 
         verify(httpRequest, never()).addHeader(anyString(), anyString());
     }
@@ -38,10 +38,9 @@ class IdempotencyInterceptorTest {
     @Test
     void process_whenPost() {
         when(httpRequest.containsHeader("ibanity-idempotency-key")).thenReturn(false);
-        when(httpRequest.getRequestLine()).thenReturn(requestLine);
-        when(requestLine.getMethod()).thenReturn("POST");
+        when(httpRequest.getMethod()).thenReturn("POST");
 
-        idempotencyInterceptor.process(httpRequest, httpContext);
+        idempotencyInterceptor.process(httpRequest, entity, httpContext);
 
         verify(httpRequest).addHeader(eq("ibanity-idempotency-key"), anyString());
     }
@@ -49,10 +48,9 @@ class IdempotencyInterceptorTest {
     @Test
     void process_whenPatch() {
         when(httpRequest.containsHeader("ibanity-idempotency-key")).thenReturn(false);
-        when(httpRequest.getRequestLine()).thenReturn(requestLine);
-        when(requestLine.getMethod()).thenReturn("PATCH");
+        when(httpRequest.getMethod()).thenReturn("PATCH");
 
-        idempotencyInterceptor.process(httpRequest, httpContext);
+        idempotencyInterceptor.process(httpRequest, entity, httpContext);
 
         verify(httpRequest).addHeader(eq("ibanity-idempotency-key"), anyString());
     }
@@ -60,10 +58,9 @@ class IdempotencyInterceptorTest {
     @Test
     void process_whenGet_thenNoIdempotencyKey() {
         when(httpRequest.containsHeader("ibanity-idempotency-key")).thenReturn(false);
-        when(httpRequest.getRequestLine()).thenReturn(requestLine);
-        when(requestLine.getMethod()).thenReturn("GET");
+        when(httpRequest.getMethod()).thenReturn("GET");
 
-        idempotencyInterceptor.process(httpRequest, httpContext);
+        idempotencyInterceptor.process(httpRequest, entity, httpContext);
 
         verify(httpRequest, never()).addHeader(anyString(), anyString());
     }

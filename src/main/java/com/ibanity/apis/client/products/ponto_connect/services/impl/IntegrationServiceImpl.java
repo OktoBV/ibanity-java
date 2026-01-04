@@ -6,14 +6,13 @@ import com.ibanity.apis.client.products.ponto_connect.models.Integration;
 import com.ibanity.apis.client.products.ponto_connect.models.delete.OrganizationIntegrationDeleteQuery;
 import com.ibanity.apis.client.products.ponto_connect.services.IntegrationService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.http.HttpResponse;
 
 import java.net.URI;
 import java.util.UUID;
 
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapResource;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class IntegrationServiceImpl implements IntegrationService {
 
     private ApiUrlProvider apiUrlProvider;
@@ -27,7 +26,7 @@ public class IntegrationServiceImpl implements IntegrationService {
     @Override
     public Integration delete(OrganizationIntegrationDeleteQuery organizationIntegrationDeleteQuery) {
         URI uri = buildUri(getUrl(organizationIntegrationDeleteQuery.getOrganizationId()));
-        HttpResponse response = ibanityHttpClient.delete(uri, organizationIntegrationDeleteQuery.getAdditionalHeaders(), organizationIntegrationDeleteQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.delete(uri, organizationIntegrationDeleteQuery.getAdditionalHeaders(), organizationIntegrationDeleteQuery.getAccessToken());
         return mapResource(response, Integration.class);
     }
 

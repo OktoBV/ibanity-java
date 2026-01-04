@@ -13,7 +13,7 @@ import com.ibanity.apis.client.products.ponto_connect.services.BulkPaymentServic
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -43,7 +43,7 @@ public class BulkPaymentServiceImpl implements BulkPaymentService {
     public com.ibanity.apis.client.products.ponto_connect.models.BulkPayment find(BulkPaymentReadQuery bulkPaymentReadQuery) {
         URI uri = buildUri(getUrl(bulkPaymentReadQuery.getAccountId().toString(), bulkPaymentReadQuery.getBulkPaymentId().toString()));
 
-        HttpResponse response = ibanityHttpClient.get(uri, bulkPaymentReadQuery.getAdditionalHeaders(), bulkPaymentReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, bulkPaymentReadQuery.getAdditionalHeaders(), bulkPaymentReadQuery.getAccessToken());
         return mapResource(response, com.ibanity.apis.client.products.ponto_connect.models.BulkPayment.class);
     }
 
@@ -53,7 +53,7 @@ public class BulkPaymentServiceImpl implements BulkPaymentService {
 
         BulkPayment bulkPayment = toRequest(bulkPaymentCreateQuery);
         RequestApiModel requestApiModel = buildRequest(BulkPayment.RESOURCE_TYPE, bulkPayment);
-        HttpResponse response = ibanityHttpClient.post(uri, requestApiModel, bulkPaymentCreateQuery.getAdditionalHeaders(), bulkPaymentCreateQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(uri, requestApiModel, bulkPaymentCreateQuery.getAdditionalHeaders(), bulkPaymentCreateQuery.getAccessToken());
         return mapResource(response, customMapping());
     }
 
@@ -72,7 +72,7 @@ public class BulkPaymentServiceImpl implements BulkPaymentService {
     public com.ibanity.apis.client.products.ponto_connect.models.BulkPayment delete(BulkPaymentDeleteQuery bulkPaymentDeleteQuery) {
         URI uri = buildUri(getUrl(bulkPaymentDeleteQuery.getAccountId().toString(), bulkPaymentDeleteQuery.getBulkPaymentId().toString()));
 
-        HttpResponse response = ibanityHttpClient.delete(uri, bulkPaymentDeleteQuery.getAdditionalHeaders(), bulkPaymentDeleteQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.delete(uri, bulkPaymentDeleteQuery.getAdditionalHeaders(), bulkPaymentDeleteQuery.getAccessToken());
         return mapResource(response, com.ibanity.apis.client.products.ponto_connect.models.BulkPayment.class);
     }
 

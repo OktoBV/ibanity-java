@@ -5,14 +5,13 @@ import com.ibanity.apis.client.models.IbanityCollection;
 import com.ibanity.apis.client.models.IbanityProduct;
 import com.ibanity.apis.client.paging.IbanityPagingSpec;
 import com.ibanity.apis.client.products.ponto_connect.models.Account;
-import com.ibanity.apis.client.products.ponto_connect.models.Transaction;
 import com.ibanity.apis.client.products.ponto_connect.models.Synchronization;
+import com.ibanity.apis.client.products.ponto_connect.models.Transaction;
 import com.ibanity.apis.client.products.ponto_connect.models.read.TransactionReadQuery;
 import com.ibanity.apis.client.products.ponto_connect.models.read.TransactionsReadQuery;
 import com.ibanity.apis.client.products.ponto_connect.services.TransactionService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
 
 import java.net.URI;
 import java.util.UUID;
@@ -20,7 +19,7 @@ import java.util.UUID;
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapCollection;
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapResource;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class TransactionServiceImpl implements TransactionService {
 
     private final ApiUrlProvider apiUrlProvider;
@@ -36,7 +35,7 @@ public class TransactionServiceImpl implements TransactionService {
         URI uri = buildUri(getUrl(transactionReadQuery.getAccountId())
                 + "/"
                 + transactionReadQuery.getTransactionId());
-        HttpResponse response = ibanityHttpClient.get(uri, transactionReadQuery.getAdditionalHeaders(), transactionReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, transactionReadQuery.getAdditionalHeaders(), transactionReadQuery.getAccessToken());
         return mapResource(response, Transaction.class);
     }
 
@@ -49,7 +48,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         URI uri = buildUri(getUrl(transactionsReadQuery.getAccountId()), pagingSpec);
 
-        HttpResponse response = ibanityHttpClient.get(uri, transactionsReadQuery.getAdditionalHeaders(), transactionsReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, transactionsReadQuery.getAdditionalHeaders(), transactionsReadQuery.getAccessToken());
         return mapCollection(response, Transaction.class);
     }
 
@@ -62,7 +61,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         URI uri = buildUri(getUrlForSynchronizationId(transactionsReadQuery.getSynchronizationId()), pagingSpec);
 
-        HttpResponse response = ibanityHttpClient.get(uri, transactionsReadQuery.getAdditionalHeaders(), transactionsReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, transactionsReadQuery.getAdditionalHeaders(), transactionsReadQuery.getAccessToken());
         return mapCollection(response, Transaction.class);
     }
 

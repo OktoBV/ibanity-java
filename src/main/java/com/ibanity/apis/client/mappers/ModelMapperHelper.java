@@ -2,19 +2,19 @@ package com.ibanity.apis.client.mappers;
 
 import com.ibanity.apis.client.jsonapi.RequestApiModel;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpEntity;
 
 import java.io.IOException;
 
 import static com.ibanity.apis.client.http.handler.IbanityResponseHandler.IBANITY_REQUEST_ID_HEADER;
-import static org.apache.http.util.EntityUtils.consumeQuietly;
+import static org.apache.hc.core5.http.io.entity.EntityUtils.consumeQuietly;
 
 public class ModelMapperHelper {
     private static final String DEFAULT_ENCODING = "UTF-8";
 
-    public static String getRequestId(HttpResponse httpResponse) {
+    public static String getRequestId(ClassicHttpResponse httpResponse) {
         Header header = httpResponse.getFirstHeader(IBANITY_REQUEST_ID_HEADER);
         return header == null ? null : header.getValue();
     }

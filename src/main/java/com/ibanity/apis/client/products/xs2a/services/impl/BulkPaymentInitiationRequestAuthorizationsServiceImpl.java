@@ -12,13 +12,8 @@ import com.ibanity.apis.client.products.xs2a.models.create.BulkPaymentInitiation
 import com.ibanity.apis.client.products.xs2a.models.links.BulkPaymentInitiationRequestAuthorizationLinks;
 import com.ibanity.apis.client.products.xs2a.services.BulkPaymentInitiationRequestAuthorizationsService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
 
 import java.net.URI;
 import java.util.Map;
@@ -29,6 +24,7 @@ import static com.ibanity.apis.client.mappers.IbanityModelMapper.toIbanityModel;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
 import static java.util.Collections.emptyMap;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 public class BulkPaymentInitiationRequestAuthorizationsServiceImpl implements BulkPaymentInitiationRequestAuthorizationsService {
 
@@ -50,7 +46,7 @@ public class BulkPaymentInitiationRequestAuthorizationsServiceImpl implements Bu
         BulkPaymentInitiationRequestAuthorization ibanityModel = mapAttributes(authorizationCreationQuery);
         RequestApiModel request = buildRequest(BulkPaymentInitiationRequestAuthorization.RESOURCE_TYPE, ibanityModel);
 
-        HttpResponse response = ibanityHttpClient.post(uri, request, authorizationCreationQuery.getAdditionalHeaders(), authorizationCreationQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(uri, request, authorizationCreationQuery.getAdditionalHeaders(), authorizationCreationQuery.getCustomerAccessToken());
         return IbanityModelMapper.mapResource(response, responseMapping());
     }
 

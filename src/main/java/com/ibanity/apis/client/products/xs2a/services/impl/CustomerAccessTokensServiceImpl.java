@@ -8,7 +8,7 @@ import com.ibanity.apis.client.products.xs2a.models.CustomerAccessToken;
 import com.ibanity.apis.client.products.xs2a.models.create.CustomerAccessTokenCreationQuery;
 import com.ibanity.apis.client.products.xs2a.services.CustomerAccessTokensService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
@@ -31,7 +31,7 @@ public class CustomerAccessTokensServiceImpl implements CustomerAccessTokensServ
 
         String url = apiUrlProvider.find(IbanityProduct.Xs2a, "customerAccessTokens");
         RequestApiModel request = buildRequest(CustomerAccessToken.RESOURCE_TYPE, customerAccessToken);
-        HttpResponse response = ibanityHttpClient.post(buildUri(url), request, customerAccessTokenCreationQuery.getAdditionalHeaders(), null);
+        ClassicHttpResponse response = ibanityHttpClient.post(buildUri(url), request, customerAccessTokenCreationQuery.getAdditionalHeaders(), null);
         return IbanityModelMapper.mapResource(response, CustomerAccessToken.class);
     }
 }

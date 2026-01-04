@@ -5,7 +5,7 @@ import com.ibanity.apis.client.http.impl.IbanityHttpClientImpl;
 import com.ibanity.apis.client.models.SignatureCredentials;
 import com.ibanity.apis.client.models.TlsCredentials;
 import com.ibanity.apis.client.utils.IbanityUtils;
-import org.apache.http.client.HttpClient;
+import org.apache.hc.client5.http.classic.HttpClient;
 
 import javax.net.ssl.SSLContext;
 import java.security.cert.Certificate;

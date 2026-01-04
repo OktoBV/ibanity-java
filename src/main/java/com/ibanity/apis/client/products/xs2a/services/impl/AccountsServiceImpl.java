@@ -17,7 +17,7 @@ import com.ibanity.apis.client.products.xs2a.models.read.AccountsReadQuery;
 import com.ibanity.apis.client.products.xs2a.services.AccountsService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.util.UUID;
 import java.util.function.Function;
@@ -42,7 +42,7 @@ public class AccountsServiceImpl implements AccountsService {
         String url = getUrl(accountReadQuery.getFinancialInstitutionId(), null)
                 + "/"
                 + accountReadQuery.getAccountId();
-        HttpResponse response = ibanityHttpClient.get(buildUri(url), accountReadQuery.getAdditionalHeaders(), accountReadQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url), accountReadQuery.getAdditionalHeaders(), accountReadQuery.getCustomerAccessToken());
         return IbanityModelMapper.mapResource(response, customMappingFunction());
     }
 
@@ -55,7 +55,7 @@ public class AccountsServiceImpl implements AccountsService {
         }
 
         String url = getUrl(accountsReadQuery.getFinancialInstitutionId(), accountsReadQuery.getAccountInformationAccessRequestId());
-        HttpResponse response = ibanityHttpClient.get(buildUri(url, pagingSpec), accountsReadQuery.getAdditionalHeaders(), accountsReadQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url, pagingSpec), accountsReadQuery.getAdditionalHeaders(), accountsReadQuery.getCustomerAccessToken());
         return IbanityModelMapper.mapCollection(response, customMappingFunction());
     }
 
@@ -64,7 +64,7 @@ public class AccountsServiceImpl implements AccountsService {
         String url = getUrl(accountDeleteQuery.getFinancialInstitutionId(), null)
                 + "/"
                 + accountDeleteQuery.getAccountId();
-        HttpResponse response = ibanityHttpClient.delete(buildUri(url), accountDeleteQuery.getAdditionalHeaders(), accountDeleteQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.delete(buildUri(url), accountDeleteQuery.getAdditionalHeaders(), accountDeleteQuery.getCustomerAccessToken());
         return IbanityModelMapper.mapResource(response, customMappingFunction());
     }
 

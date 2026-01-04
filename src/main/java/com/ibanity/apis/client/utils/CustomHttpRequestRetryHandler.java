@@ -27,15 +27,14 @@ package com.ibanity.apis.client.utils;
  *
  */
 
-
-import org.apache.http.HttpEntityEnclosingRequest;
-import org.apache.http.HttpRequest;
-import org.apache.http.client.HttpRequestRetryHandler;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.client.RequestWrapper;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.Args;
+import org.apache.hc.client5.http.HttpRequestRetryStrategy;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.core5.http.HttpRequest;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.protocol.HttpContext;
+import org.apache.hc.core5.util.Args;
+import org.apache.hc.core5.util.TimeValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,18 +49,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * The custom {@link HttpRequestRetryHandler} used by request executors.
+ * The custom {@link HttpRequestRetryStrategy} used by request executors.
  *
  * @since 4.0
  */
-public class CustomHttpRequestRetryHandler implements HttpRequestRetryHandler {
+public class CustomHttpRequestRetryHandler implements HttpRequestRetryStrategy {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomHttpRequestRetryHandler.class);
     private static final int DEFAULT_RETRY_COUNT = 3;
 
-    /** the number of times a method will be retried */
+    /**
+     * the number of times a method will be retried
+     */
     private final int retryCount;
 
-    /** Whether or not methods that have successfully sent their request will be retried */
+    /**
+     * Whether or not methods that have successfully sent their request will be retried
+     */
     private final boolean requestSentRetryEnabled;
 
     private final Set<Class<? extends IOException>> nonRetriableClasses;
@@ -69,9 +72,9 @@ public class CustomHttpRequestRetryHandler implements HttpRequestRetryHandler {
     /**
      * Create the request retry handler using the specified IOException classes
      *
-     * @param retryCount how many times to retry; 0 means no retries
+     * @param retryCount              how many times to retry; 0 means no retries
      * @param requestSentRetryEnabled true if it's OK to retry requests that have been sent
-     * @param clazzes the IOException types that should not be retried
+     * @param clazzes                 the IOException types that should not be retried
      * @since 4.3
      */
     protected CustomHttpRequestRetryHandler(
@@ -94,7 +97,8 @@ public class CustomHttpRequestRetryHandler implements HttpRequestRetryHandler {
      * <li>ConnectException</li>
      * <li>SSLException</li>
      * </ul>
-     * @param retryCount how many times to retry; 0 means no retries
+     *
+     * @param retryCount              how many times to retry; 0 means no retries
      * @param requestSentRetryEnabled true if it's OK to retry non-idempotent requests that have been sent
      */
     @SuppressWarnings("unchecked")
@@ -126,6 +130,7 @@ public class CustomHttpRequestRetryHandler implements HttpRequestRetryHandler {
      */
     @Override
     public boolean retryRequest(
+            final HttpRequest request,
             final IOException exception,
             final int executionCount,
             final HttpContext context) {
@@ -149,9 +154,6 @@ public class CustomHttpRequestRetryHandler implements HttpRequestRetryHandler {
                 }
             }
         }
-        final HttpClientContext clientContext = HttpClientContext.adapt(context);
-        final HttpRequest request = clientContext.getRequest();
-
         if (requestIsAborted(request)) {
             LOGGER.debug("Do not retry HttpRequest anymore because request is aborted");
             return false;
@@ -163,15 +165,34 @@ public class CustomHttpRequestRetryHandler implements HttpRequestRetryHandler {
             return true;
         }
 
-        if (!clientContext.isRequestSent() || this.requestSentRetryEnabled) {
-            // Retry if the request has not been sent fully or
-            // if it's OK to retry methods that have been sent
-            LOGGER.debug("Retry because request not fully sent");
+        // In HTTP Client 5, we check if request sent retry is enabled
+        if (this.requestSentRetryEnabled) {
+            // Retry if it's OK to retry methods that have been sent
+            LOGGER.debug("Retry because request sent retry enabled");
             return true;
         }
         // otherwise do not retry
         LOGGER.debug("Do not retry HttpRequest anymore because ... no other conditions");
         return false;
+    }
+
+    @Override
+    public boolean retryRequest(
+            final HttpResponse response,
+            final int execCount,
+            final HttpContext context) {
+        // For response-based retries, check status code
+        // Retry on 5xx errors if within retry count
+        return execCount <= this.retryCount && response.getCode() >= 500;
+    }
+
+    @Override
+    public TimeValue getRetryInterval(
+            final HttpResponse response,
+            final int execCount,
+            final HttpContext context) {
+        // Return default retry interval (1 second)
+        return TimeValue.ofSeconds(1);
     }
 
     private boolean verifyNonRetriableException(final IOException exception) {
@@ -189,45 +210,29 @@ public class CustomHttpRequestRetryHandler implements HttpRequestRetryHandler {
     }
 
     /**
-     * @return {@code true} if this handler will retry methods that have
-     * successfully sent their request, {@code false} otherwise
-     */
-    public boolean isRequestSentRetryEnabled() {
-        return requestSentRetryEnabled;
-    }
-
-    /**
-     * @return the maximum number of times a method will be retried
-     */
-    public int getRetryCount() {
-        return retryCount;
-    }
-
-    /**
-     * @since 4.2
-     *
      * @param request the request to verify
      * @return is the request handle as idempotent
+     * @since 4.2
      */
     protected boolean handleAsIdempotent(final HttpRequest request) {
-        return !(request instanceof HttpEntityEnclosingRequest);
+        // In HTTP Client 5, check if the method is idempotent
+        String method = request.getMethod();
+        return !"POST".equalsIgnoreCase(method)
+                && !"PATCH".equalsIgnoreCase(method)
+                && !"PUT".equalsIgnoreCase(method);
     }
 
     /**
-     * @since 4.2
-     *
-     * @deprecated (4.3)
-     *
      * @param request the request to check if aborted
      * @return is the request aborted
+     * @since 4.2
+     * @deprecated (4.3)
      */
     @Deprecated
     protected boolean requestIsAborted(final HttpRequest request) {
-        HttpRequest req = request;
-        if (request instanceof RequestWrapper) { // does not forward request to original
-            req = ((RequestWrapper) request).getOriginal();
-        }
-        return (req instanceof HttpUriRequest && ((HttpUriRequest) req).isAborted());
+        // In HTTP Client 5, RequestWrapper doesn't exist
+        // Check if the request is HttpUriRequest and aborted
+        return (request instanceof HttpUriRequest && ((HttpUriRequest) request).isAborted());
     }
 
 }

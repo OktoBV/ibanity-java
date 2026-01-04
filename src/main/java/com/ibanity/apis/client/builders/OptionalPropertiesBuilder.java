@@ -1,8 +1,8 @@
 package com.ibanity.apis.client.builders;
 
 import com.ibanity.apis.client.services.IbanityService;
-import org.apache.http.HttpRequestInterceptor;
-import org.apache.http.HttpResponseInterceptor;
+import org.apache.hc.core5.http.HttpRequestInterceptor;
+import org.apache.hc.core5.http.HttpResponseInterceptor;
 
 import java.security.PrivateKey;
 import java.security.cert.Certificate;

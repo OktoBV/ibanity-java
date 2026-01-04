@@ -8,7 +8,7 @@ import com.ibanity.apis.client.products.ponto_connect.sandbox.models.factory.rea
 import com.ibanity.apis.client.products.ponto_connect.sandbox.services.FinancialInstitutionAccountsService;
 import com.ibanity.apis.client.products.xs2a.models.FinancialInstitution;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapCollection;
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapResource;
@@ -32,7 +32,7 @@ public class FinancialInstitutionAccountsServiceImpl implements FinancialInstitu
                 getUrl(accountReadQuery.getFinancialInstitutionId().toString(),
                         accountReadQuery.getFinancialInstitutionAccountId().toString());
 
-        HttpResponse response = ibanityHttpClient.get(buildUri(url), accountReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url), accountReadQuery.getAccessToken());
         return mapResource(response, FinancialInstitutionAccount.class);
     }
 
@@ -40,7 +40,7 @@ public class FinancialInstitutionAccountsServiceImpl implements FinancialInstitu
     public IbanityCollection<FinancialInstitutionAccount> list(FinancialInstitutionAccountsReadQuery accountsReadQuery) {
         String url = getUrl(accountsReadQuery.getFinancialInstitutionId().toString(), "");
 
-        HttpResponse response = ibanityHttpClient.get(buildUri(url, accountsReadQuery.getPagingSpec()), accountsReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url, accountsReadQuery.getPagingSpec()), accountsReadQuery.getAccessToken());
         return mapCollection(response, FinancialInstitutionAccount.class);
     }
 

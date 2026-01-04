@@ -13,7 +13,7 @@ import com.ibanity.apis.client.products.xs2a.models.read.PendingTransactionsRead
 import com.ibanity.apis.client.products.xs2a.services.PendingTransactionsService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.util.UUID;
 
@@ -39,7 +39,7 @@ public class PendingTransactionsServiceImpl implements PendingTransactionsServic
         }
 
         String url = getUrl(pendingTransactionsReadQuery.getFinancialInstitutionId(), pendingTransactionsReadQuery.getAccountId());
-        HttpResponse response = ibanityHttpClient.get(buildUri(url, pagingSpec), pendingTransactionsReadQuery.getAdditionalHeaders(), pendingTransactionsReadQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url, pagingSpec), pendingTransactionsReadQuery.getAdditionalHeaders(), pendingTransactionsReadQuery.getCustomerAccessToken());
 
         return mapCollection(response, PendingTransaction.class);
     }
@@ -52,7 +52,7 @@ public class PendingTransactionsServiceImpl implements PendingTransactionsServic
         }
 
         String url = getUrlForSynchronizationId(pendingTransactionsReadQuery.getSynchronizationId());
-        HttpResponse response = ibanityHttpClient.get(buildUri(url, pagingSpec), pendingTransactionsReadQuery.getAdditionalHeaders(), pendingTransactionsReadQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url, pagingSpec), pendingTransactionsReadQuery.getAdditionalHeaders(), pendingTransactionsReadQuery.getCustomerAccessToken());
 
         return mapCollection(response, PendingTransaction.class);
     }
@@ -63,7 +63,7 @@ public class PendingTransactionsServiceImpl implements PendingTransactionsServic
                 getUrl(pendingTransactionReadQuery.getFinancialInstitutionId(), pendingTransactionReadQuery.getAccountId())
                         + "/"
                         + pendingTransactionReadQuery.getPendingTransactionId().toString();
-        HttpResponse response = ibanityHttpClient.get(buildUri(url), pendingTransactionReadQuery.getAdditionalHeaders(), pendingTransactionReadQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url), pendingTransactionReadQuery.getAdditionalHeaders(), pendingTransactionReadQuery.getCustomerAccessToken());
         return mapResource(response, PendingTransaction.class);
     }
 

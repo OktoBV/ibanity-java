@@ -1,7 +1,7 @@
 package com.ibanity.apis.client.products.ponto_connect.helpers;
 
 import com.ibanity.apis.client.products.ponto_connect.models.Filter;
-import org.apache.http.client.utils.URIBuilder;
+import org.apache.hc.core5.net.URIBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.net.URISyntaxException;

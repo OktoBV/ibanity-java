@@ -15,7 +15,7 @@ import com.ibanity.apis.client.products.xs2a.sandbox.models.factory.read.Financi
 import com.ibanity.apis.client.products.xs2a.sandbox.models.factory.read.FinancialInstitutionHoldingsReadQuery;
 import com.ibanity.apis.client.products.xs2a.sandbox.services.FinancialInstitutionHoldingsService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.util.UUID;
 import java.util.function.Function;
@@ -43,7 +43,7 @@ public class FinancialInstitutionHoldingsServiceImpl implements FinancialInstitu
                         readQuery.getFinancialInstitutionAccountId().toString(),
                         readQuery.getFinancialInstitutionHoldingId().toString());
 
-        HttpResponse response = ibanityHttpClient.get(buildUri(url));
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url));
         return mapResource(response, responseMapping());
     }
 
@@ -55,7 +55,7 @@ public class FinancialInstitutionHoldingsServiceImpl implements FinancialInstitu
                         readQuery.getFinancialInstitutionAccountId().toString(),
                         "");
 
-        HttpResponse response = ibanityHttpClient.get(buildUri(url, readQuery.getPagingSpec()));
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url, readQuery.getPagingSpec()));
         return mapCollection(response, responseMapping());
     }
 
@@ -67,7 +67,7 @@ public class FinancialInstitutionHoldingsServiceImpl implements FinancialInstitu
                         deleteQuery.getFinancialInstitutionAccountId().toString(),
                         deleteQuery.getFinancialInstitutionHoldingId().toString());
 
-        HttpResponse response = ibanityHttpClient.delete(buildUri(url));
+        ClassicHttpResponse response = ibanityHttpClient.delete(buildUri(url));
         return mapResource(response, FinancialInstitutionHolding.class);
     }
 
@@ -81,7 +81,7 @@ public class FinancialInstitutionHoldingsServiceImpl implements FinancialInstitu
                         "");
 
         RequestApiModel request = buildRequest(FinancialInstitutionHolding.RESOURCE_TYPE, transaction);
-        HttpResponse response = ibanityHttpClient.post(buildUri(url), request);
+        ClassicHttpResponse response = ibanityHttpClient.post(buildUri(url), request);
         return mapResource(response, responseMapping());
     }
 

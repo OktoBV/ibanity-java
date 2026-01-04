@@ -10,7 +10,7 @@ import com.ibanity.apis.client.products.xs2a.sandbox.models.factory.update.Finan
 import com.ibanity.apis.client.products.xs2a.sandbox.services.SandboxFinancialInstitutionsService;
 import com.ibanity.apis.client.products.xs2a.services.impl.FinancialInstitutionsServiceImpl;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class SandboxFinancialInstitutionsServiceImpl extends FinancialInstitutio
 
         String url = getSandboxUrl("");
 
-        HttpResponse response = ibanityHttpClient.post(buildUri(url), request);
+        ClassicHttpResponse response = ibanityHttpClient.post(buildUri(url), request);
         return mapResource(response, FinancialInstitution.class);
     }
 
@@ -69,14 +69,14 @@ public class SandboxFinancialInstitutionsServiceImpl extends FinancialInstitutio
         RequestApiModel request = buildRequest(FinancialInstitution.RESOURCE_TYPE, financialInstitution);
 
         String url = getSandboxUrl(financialInstitutionUpdateQuery.getFinancialInstitutionId().toString());
-        HttpResponse response = ibanityHttpClient.patch(buildUri(url), request);
+        ClassicHttpResponse response = ibanityHttpClient.patch(buildUri(url), request);
         return mapResource(response, FinancialInstitution.class);
     }
 
     @Override
     public FinancialInstitution delete(final FinancialInstitutionDeleteQuery financialInstitutionDeleteQuery) {
         String url = getSandboxUrl(financialInstitutionDeleteQuery.getFinancialInstitutionId().toString());
-        HttpResponse response = ibanityHttpClient.delete(buildUri(url));
+        ClassicHttpResponse response = ibanityHttpClient.delete(buildUri(url));
         return mapResource(response, FinancialInstitution.class);
     }
 

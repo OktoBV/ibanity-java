@@ -16,7 +16,7 @@ import com.ibanity.apis.client.products.xs2a.sandbox.models.factory.read.Financi
 import com.ibanity.apis.client.products.xs2a.sandbox.models.factory.update.FinancialInstitutionTransactionUpdateQuery;
 import com.ibanity.apis.client.products.xs2a.sandbox.services.FinancialInstitutionTransactionsService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.util.UUID;
 import java.util.function.Function;
@@ -44,7 +44,7 @@ public class FinancialInstitutionTransactionsServiceImpl implements FinancialIns
                         readQuery.getFinancialInstitutionAccountId().toString(),
                         readQuery.getFinancialInstitutionTransactionId().toString());
 
-        HttpResponse response = ibanityHttpClient.get(buildUri(url));
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url));
         return mapResource(response, responseMapping());
     }
 
@@ -56,7 +56,7 @@ public class FinancialInstitutionTransactionsServiceImpl implements FinancialIns
                         readQuery.getFinancialInstitutionAccountId().toString(),
                         "");
 
-        HttpResponse response = ibanityHttpClient.get(buildUri(url, readQuery.getPagingSpec()));
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url, readQuery.getPagingSpec()));
         return mapCollection(response, responseMapping());
     }
 
@@ -68,7 +68,7 @@ public class FinancialInstitutionTransactionsServiceImpl implements FinancialIns
                         deleteQuery.getFinancialInstitutionAccountId().toString(),
                         deleteQuery.getFinancialInstitutionTransactionId().toString());
 
-        HttpResponse response = ibanityHttpClient.delete(buildUri(url));
+        ClassicHttpResponse response = ibanityHttpClient.delete(buildUri(url));
         return mapResource(response, FinancialInstitutionTransaction.class);
     }
 
@@ -82,7 +82,7 @@ public class FinancialInstitutionTransactionsServiceImpl implements FinancialIns
                         "");
 
         RequestApiModel request = buildRequest(FinancialInstitutionTransaction.RESOURCE_TYPE, transaction);
-        HttpResponse response = ibanityHttpClient.post(buildUri(url), request);
+        ClassicHttpResponse response = ibanityHttpClient.post(buildUri(url), request);
         return mapResource(response, responseMapping());
     }
 
@@ -97,7 +97,7 @@ public class FinancialInstitutionTransactionsServiceImpl implements FinancialIns
                         );
 
         RequestApiModel request = buildRequest(FinancialInstitutionTransaction.RESOURCE_TYPE, transaction);
-        HttpResponse response = ibanityHttpClient.patch(buildUri(url), request);
+        ClassicHttpResponse response = ibanityHttpClient.patch(buildUri(url), request);
         return mapResource(response, responseMapping());
     }
 

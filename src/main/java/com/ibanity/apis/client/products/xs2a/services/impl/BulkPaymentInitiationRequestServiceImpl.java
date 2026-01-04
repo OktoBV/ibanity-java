@@ -9,15 +9,7 @@ import com.ibanity.apis.client.products.xs2a.models.create.BulkPaymentInitiation
 import com.ibanity.apis.client.products.xs2a.models.read.BulkPaymentInitiationRequestReadQuery;
 import com.ibanity.apis.client.products.xs2a.services.BulkPaymentInitiationRequestService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.apache.http.HttpResponse;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -32,6 +24,7 @@ import static com.ibanity.apis.client.products.xs2a.mappers.BulkPaymentInitiatio
 import static com.ibanity.apis.client.products.xs2a.services.impl.BulkPaymentInitiationRequestServiceImpl.BulkPaymentInitiationRequest.RESOURCE_TYPE;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
 import static org.apache.commons.lang3.StringUtils.removeEnd;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 public class BulkPaymentInitiationRequestServiceImpl implements BulkPaymentInitiationRequestService {
 
@@ -49,7 +42,7 @@ public class BulkPaymentInitiationRequestServiceImpl implements BulkPaymentIniti
         RequestApiModel request = buildRequest(RESOURCE_TYPE, bulkPaymentInitiationRequest);
 
         String url = getUrl(query.getFinancialInstitutionId().toString(), "");
-        HttpResponse response = ibanityHttpClient.post(buildUri(url), request, query.getAdditionalHeaders(), query.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(buildUri(url), request, query.getAdditionalHeaders(), query.getCustomerAccessToken());
 
         return mapResource(response, getResponseMapping());
     }
@@ -60,7 +53,7 @@ public class BulkPaymentInitiationRequestServiceImpl implements BulkPaymentIniti
         String paymentInitiationRequestId = bulkPaymentInitiationRequestReadQuery.getPaymentInitiationRequestId().toString();
 
         String url = getUrl(financialInstitutionId, paymentInitiationRequestId);
-        HttpResponse response = ibanityHttpClient.delete(buildUri(url), bulkPaymentInitiationRequestReadQuery.getAdditionalHeaders(), bulkPaymentInitiationRequestReadQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.delete(buildUri(url), bulkPaymentInitiationRequestReadQuery.getAdditionalHeaders(), bulkPaymentInitiationRequestReadQuery.getCustomerAccessToken());
 
         return mapResource(response, getResponseMapping());
     }
@@ -71,7 +64,7 @@ public class BulkPaymentInitiationRequestServiceImpl implements BulkPaymentIniti
         String paymentInitiationRequestId = bulkPaymentInitiationRequestReadQuery.getPaymentInitiationRequestId().toString();
 
         String url = getUrl(financialInstitutionId, paymentInitiationRequestId);
-        HttpResponse response = ibanityHttpClient.get(buildUri(url), bulkPaymentInitiationRequestReadQuery.getAdditionalHeaders(), bulkPaymentInitiationRequestReadQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url), bulkPaymentInitiationRequestReadQuery.getAdditionalHeaders(), bulkPaymentInitiationRequestReadQuery.getCustomerAccessToken());
 
         return mapResource(response, getResponseMapping());
     }

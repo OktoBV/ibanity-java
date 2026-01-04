@@ -12,13 +12,15 @@ import com.ibanity.apis.client.services.ApiUrlProvider;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.entity.AbstractHttpEntity;
-import org.apache.http.entity.FileEntity;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.message.BasicHeader;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.io.entity.AbstractHttpEntity;
+import org.apache.hc.core5.http.io.entity.FileEntity;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.message.BasicHeader;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -26,7 +28,8 @@ import java.net.URI;
 import java.util.Map;
 
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-import static org.apache.http.HttpHeaders.AUTHORIZATION;
+import static org.apache.hc.core5.http.HttpHeaders.AUTHORIZATION;
+//import static org.apache.hc.client5.HttpHeaders.AUTHORIZATION;
 
 public class BulkPaymentInitiationRequestServiceImpl implements BulkPaymentInitiationRequestService {
     private final ApiUrlProvider apiUrlProvider;
@@ -43,7 +46,6 @@ public class BulkPaymentInitiationRequestServiceImpl implements BulkPaymentIniti
     }
 
     @Override
-    @SneakyThrows(UnsupportedEncodingException.class)
     public BulkPaymentInitiationRequest create(BulkPaymentInitiationRequestCreateQuery query) {
         URI url = buildUri(getUrl());
         HttpPost httpPost = new HttpPost(url);
@@ -51,13 +53,11 @@ public class BulkPaymentInitiationRequestServiceImpl implements BulkPaymentIniti
 
         AbstractHttpEntity entity =
                 query.getFile() != null ?
-                        new FileEntity(query.getFile()) :
-                        new StringEntity(query.getContent());
-
-        entity.setChunked(true);
+                        new FileEntity(query.getFile(), ContentType.APPLICATION_JSON) :
+                        new StringEntity(query.getContent(), ContentType.APPLICATION_JSON, true);
         httpPost.setEntity(entity);
 
-        HttpResponse res = execute(query.getAdditionalHeaders(), query.getAccessToken(), httpPost);
+        ClassicHttpResponse res = execute(query.getAdditionalHeaders(), query.getAccessToken(), httpPost);
 
         return IsabelModelMapper.mapResource(res, BulkPaymentInitiationRequest.class);
     }
@@ -79,7 +79,7 @@ public class BulkPaymentInitiationRequestServiceImpl implements BulkPaymentIniti
     @Override
     public BulkPaymentInitiationRequest find(BulkPaymentInitiationRequestReadQuery query) {
         URI uri = buildUri(getUrl(query.getBulkPaymentInitiationRequestId()));
-        HttpResponse response = ibanityHttpClient.get(uri, query.getAdditionalHeaders(), query.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, query.getAdditionalHeaders(), query.getAccessToken());
 
         return IsabelModelMapper.mapResource(response, BulkPaymentInitiationRequest.class);
     }
@@ -96,25 +96,25 @@ public class BulkPaymentInitiationRequestServiceImpl implements BulkPaymentIniti
         return StringUtils.removeEnd(url, "/");
     }
 
-    private HttpResponse execute(@NonNull Map<String, String> additionalHeaders,
+    private ClassicHttpResponse execute(@NonNull Map<String, String> additionalHeaders,
                                  String customerAccessToken,
-                                 HttpRequestBase httpRequestBase) {
+                                 HttpUriRequestBase httpRequestBase) {
         try {
             addHeaders(httpRequestBase, customerAccessToken, additionalHeaders);
-            return ibanityResponseHandler.handleResponse(this.ibanityHttpClient.httpClient().execute(httpRequestBase));
+            return this.ibanityHttpClient.httpClient().execute(httpRequestBase, ibanityResponseHandler);
         } catch (IOException exception) {
             throw new RuntimeException("An error occurred while connecting to Ibanity", exception);
         }
     }
 
-    private void addHeaders(HttpRequestBase httpRequestBase,
+    private void addHeaders(HttpUriRequestBase httpRequestBase,
                             String customerAccessToken,
                             Map<String, String> additionalHeaders) {
         addAuthorizationHeader(httpRequestBase, customerAccessToken);
         additionalHeaders.forEach(httpRequestBase::addHeader);
     }
 
-    private void addAuthorizationHeader(HttpRequestBase requestBase, String customerAccessToken) {
+    private void addAuthorizationHeader(HttpUriRequest requestBase, String customerAccessToken) {
         if (org.apache.commons.lang3.StringUtils.isNotBlank(customerAccessToken)) {
             requestBase.addHeader(new BasicHeader(AUTHORIZATION, "Bearer " + customerAccessToken));
         }

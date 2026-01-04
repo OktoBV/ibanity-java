@@ -12,7 +12,7 @@ import com.ibanity.apis.client.products.xs2a.models.read.HoldingsReadQuery;
 import com.ibanity.apis.client.products.xs2a.services.HoldingsService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.util.UUID;
 
@@ -38,7 +38,7 @@ public class HoldingsServiceImpl implements HoldingsService {
         }
 
         String url = getUrl(holdingsReadQuery.getFinancialInstitutionId(), holdingsReadQuery.getAccountId());
-        HttpResponse response = ibanityHttpClient.get(buildUri(url, pagingSpec), holdingsReadQuery.getAdditionalHeaders(), holdingsReadQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url, pagingSpec), holdingsReadQuery.getAdditionalHeaders(), holdingsReadQuery.getCustomerAccessToken());
 
         return mapCollection(response, Holding.class);
     }
@@ -49,7 +49,7 @@ public class HoldingsServiceImpl implements HoldingsService {
                 getUrl(holdingReadQuery.getFinancialInstitutionId(), holdingReadQuery.getAccountId())
                         + "/"
                         + holdingReadQuery.getHoldingId().toString();
-        HttpResponse response = ibanityHttpClient.get(buildUri(url), holdingReadQuery.getAdditionalHeaders(), holdingReadQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url), holdingReadQuery.getAdditionalHeaders(), holdingReadQuery.getCustomerAccessToken());
         return mapResource(response, Holding.class);
     }
 

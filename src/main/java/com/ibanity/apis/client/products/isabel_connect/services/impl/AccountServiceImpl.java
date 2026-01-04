@@ -12,13 +12,12 @@ import com.ibanity.apis.client.products.isabel_connect.models.read.IsabelPagingS
 import com.ibanity.apis.client.products.isabel_connect.services.AccountService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
 
 import java.util.function.Function;
 
 import static com.ibanity.apis.client.mappers.IsabelModelMapper.toIsabelModel;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class AccountServiceImpl implements AccountService {
 
     private final ApiUrlProvider apiUrlProvider;
@@ -32,7 +31,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account find(AccountReadQuery query) {
         String url = getUrl(query.getAccountId());
-        HttpResponse response = ibanityHttpClient.get(buildUri(url), query.getAdditionalHeaders(), query.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url), query.getAdditionalHeaders(), query.getAccessToken());
         return IsabelModelMapper.mapResource(response, Account.class);
     }
 
@@ -44,7 +43,7 @@ public class AccountServiceImpl implements AccountService {
             pagingSpec = IsabelPagingSpec.DEFAULT_PAGING_SPEC;
         }
 
-        HttpResponse response = ibanityHttpClient.get(buildUri(getUrl(), pagingSpec), query.getAdditionalHeaders(), query.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(getUrl(), pagingSpec), query.getAdditionalHeaders(), query.getAccessToken());
         return IsabelModelMapper.mapCollection(response, customMappingFunction());
     }
 

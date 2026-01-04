@@ -16,7 +16,7 @@ import com.ibanity.apis.client.products.ponto_connect.models.read.AccountsReadQu
 import com.ibanity.apis.client.products.ponto_connect.services.AccountService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.util.UUID;
 import java.util.function.Function;
@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
         String uri = getUrl()
                 + "/"
                 + accountReadQuery.getAccountId();
-        HttpResponse response = ibanityHttpClient.get(buildUri(uri), accountReadQuery.getAdditionalHeaders(), accountReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(uri), accountReadQuery.getAdditionalHeaders(), accountReadQuery.getAccessToken());
         return mapResource(response, customMappingFunction());
     }
 
@@ -53,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
             pagingSpec = DEFAULT_PAGING_SPEC;
         }
 
-        HttpResponse response = ibanityHttpClient.get(buildUri(getUrl(), pagingSpec), accountsReadQuery.getAdditionalHeaders(), accountsReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(getUrl(), pagingSpec), accountsReadQuery.getAdditionalHeaders(), accountsReadQuery.getAccessToken());
         return IbanityModelMapper.mapCollection(response, customMappingFunction());
     }
 
@@ -62,7 +62,7 @@ public class AccountServiceImpl implements AccountService {
         String uri = getUrl()
                 + "/"
                 + accountDeleteQuery.getAccountId();
-        HttpResponse response = ibanityHttpClient.delete(buildUri(uri), accountDeleteQuery.getAdditionalHeaders(), accountDeleteQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.delete(buildUri(uri), accountDeleteQuery.getAdditionalHeaders(), accountDeleteQuery.getAccessToken());
         return mapResource(response, customMappingFunction());
     }
 

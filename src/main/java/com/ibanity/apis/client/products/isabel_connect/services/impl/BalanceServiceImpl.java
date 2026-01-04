@@ -13,7 +13,7 @@ import com.ibanity.apis.client.products.isabel_connect.services.BalanceService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import com.ibanity.apis.client.utils.IbanityUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.io.IOException;
 import java.net.URI;
@@ -38,7 +38,7 @@ public class BalanceServiceImpl implements BalanceService {
         IsabelPagingSpec pagingSpec = query.getPagingSpec();
 
         URI uri = buildUri(getUrl(query.getAccountId()), pagingSpec);
-        HttpResponse response = ibanityHttpClient.get(uri, query.getAdditionalHeaders(), query.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, query.getAdditionalHeaders(), query.getAccessToken());
         return mapCollection(response);
     }
 
@@ -50,7 +50,7 @@ public class BalanceServiceImpl implements BalanceService {
         return StringUtils.removeEnd(url, "/");
     }
 
-    private IsabelCollection<Balance> mapCollection(HttpResponse httpResponse) {
+    private IsabelCollection<Balance> mapCollection(ClassicHttpResponse httpResponse) {
         try {
             String jsonPayload = readResponseContent(httpResponse.getEntity());
             CollectionApiModel collectionApiModel = IbanityUtils.jsonMapper().readValue(jsonPayload, CollectionApiModel.class);

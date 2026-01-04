@@ -1,15 +1,16 @@
 package com.ibanity.apis.client.services.impl;
 
-import tools.jackson.databind.JsonNode;
 import com.ibanity.apis.client.http.IbanityHttpClient;
 import com.ibanity.apis.client.models.IbanityProduct;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import com.ibanity.apis.client.utils.IbanityUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.jackson.databind.JsonNode;
 
 import java.io.IOException;
 import java.net.URI;
@@ -75,7 +76,7 @@ public class ApiUrlProviderImpl implements ApiUrlProvider {
         LOGGER.debug("loading schema for {}", rootPath);
         String ibanityApiUrl = removeEnd(targetUrl(), "/");
         try {
-            HttpResponse httpResponse = ibanityHttpClient.get(new URI(ibanityApiUrl + "/" + rootPath), null);
+            ClassicHttpResponse httpResponse = ibanityHttpClient.get(new URI(ibanityApiUrl + "/" + rootPath), null);
             String schema = EntityUtils.toString(httpResponse.getEntity());
             if (useProxy()) {
                 schema = schema.replace(ibanityEndpoint, proxyEndpoint);
@@ -86,7 +87,7 @@ public class ApiUrlProviderImpl implements ApiUrlProvider {
             LOGGER.debug("schema loaded");
         } catch (URISyntaxException exception) {
             throw new IllegalArgumentException(format("Cannot create api schema URI for string %s", ibanityApiUrl), exception);
-        } catch (IOException exception) {
+        } catch (IOException | ParseException exception) {
             throw new IllegalArgumentException("Cannot parse api schema", exception);
         }
     }

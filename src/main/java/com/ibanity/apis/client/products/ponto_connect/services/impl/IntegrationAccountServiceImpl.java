@@ -10,7 +10,6 @@ import com.ibanity.apis.client.products.ponto_connect.models.IntegrationAccount;
 import com.ibanity.apis.client.products.ponto_connect.models.read.IntegrationAccountsReadQuery;
 import com.ibanity.apis.client.products.ponto_connect.services.IntegrationAccountService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.http.HttpResponse;
 
 import java.util.UUID;
 import java.util.function.Function;
@@ -20,7 +19,7 @@ import static com.ibanity.apis.client.models.IbanityProduct.PontoConnect;
 import static com.ibanity.apis.client.paging.IbanityPagingSpec.DEFAULT_PAGING_SPEC;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
 import static org.apache.commons.lang3.StringUtils.removeEnd;
-
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class IntegrationAccountServiceImpl implements IntegrationAccountService {
 
     private final IbanityHttpClient ibanityHttpClient;
@@ -39,7 +38,7 @@ public class IntegrationAccountServiceImpl implements IntegrationAccountService 
             pagingSpec = DEFAULT_PAGING_SPEC;
         }
 
-        HttpResponse response = ibanityHttpClient.get(buildUri(getUrl(), pagingSpec), integrationAccountsReadQuery.getAdditionalHeaders(), integrationAccountsReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(getUrl(), pagingSpec), integrationAccountsReadQuery.getAdditionalHeaders(), integrationAccountsReadQuery.getAccessToken());
         return IbanityModelMapper.mapCollection(response, customMappingFunction());
     }
 

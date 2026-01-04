@@ -1,6 +1,5 @@
 package com.ibanity.apis.client.products.ponto_connect.services.impl;
 
-import tools.jackson.databind.JsonNode;
 import com.ibanity.apis.client.http.IbanityHttpClient;
 import com.ibanity.apis.client.models.IbanityProduct;
 import com.ibanity.apis.client.products.ponto_connect.models.OrganizationUsage;
@@ -8,15 +7,15 @@ import com.ibanity.apis.client.products.ponto_connect.models.read.OrganizationUs
 import com.ibanity.apis.client.products.ponto_connect.services.UsageService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import com.ibanity.apis.client.utils.IbanityUtils;
-import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.jackson.databind.JsonNode;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.UUID;
-
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class UsageServiceImpl implements UsageService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UsageServiceImpl.class);
@@ -33,7 +32,7 @@ public class UsageServiceImpl implements UsageService {
     public OrganizationUsage getOrganizationUsage(OrganizationUsageReadQuery readQuery) {
         try {
             String url = getUrl(readQuery.getOrganizationId(), readQuery.getMonth());
-            HttpResponse response = ibanityHttpClient.get(URI.create(url), readQuery.getAdditionalHeaders(), readQuery.getAccessToken());
+            ClassicHttpResponse response = ibanityHttpClient.get(URI.create(url), readQuery.getAdditionalHeaders(), readQuery.getAccessToken());
             JsonNode dataApiModel = IbanityUtils.jsonMapper().readTree(response.getEntity().getContent());
             return map(dataApiModel);
         } catch (IOException e) {
