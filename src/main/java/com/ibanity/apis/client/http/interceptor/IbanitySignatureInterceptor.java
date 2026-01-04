@@ -2,10 +2,7 @@ package com.ibanity.apis.client.http.interceptor;
 
 import com.ibanity.apis.client.http.service.IbanityHttpSignatureService;
 import org.apache.commons.io.IOUtils;
-import org.apache.hc.core5.http.Header;
-import org.apache.hc.core5.http.HttpRequest;
-import org.apache.hc.core5.http.HttpRequestInterceptor;
-//import org.apache.hc.client5.http.classic.methods.HttpEntityEnclosingRequestBase;
+import org.apache.hc.core5.http.*;
 import org.apache.hc.core5.http.message.HttpRequestWrapper;
 import org.apache.hc.core5.http.protocol.HttpContext;
 
@@ -33,7 +30,7 @@ public class IbanitySignatureInterceptor implements HttpRequestInterceptor {
     }
 
     @Override
-    public void process(final HttpRequest httpRequest, final HttpContext httpContext) throws IOException {
+    public void process(final HttpRequest httpRequest, final EntityDetails entity, final HttpContext httpContext) throws HttpException, IOException {
         try {
             HttpRequestWrapper requestWrapper = (HttpRequestWrapper) httpRequest;
             InputStream payload;
