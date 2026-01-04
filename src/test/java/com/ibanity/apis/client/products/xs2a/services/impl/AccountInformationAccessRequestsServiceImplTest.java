@@ -105,22 +105,6 @@ class AccountInformationAccessRequestsServiceImplTest {
     }
 
     @Test
-    void find_AccountInformationAccessRequestCreationQuery() throws Exception {
-        AccountInformationAccessRequestCreationQuery creationQuery =
-                AccountInformationAccessRequestCreationQuery.builder()
-                        .customerAccessToken(CUSTOMER_ACCESS_TOKEN)
-                        .financialInstitutionId(FINANCIAL_INSTITUTION_ID)
-                        .accountInformationAccessRequestId(ACCOUNT_INFORMATION_ACCESS_REQUEST_ID)
-                        .build();
-
-        when(ibanityHttpClient.get(buildUri(AIAR_ENDPOINT_FOR_FIND), emptyMap(), creationQuery.getCustomerAccessToken()))
-                .thenReturn(loadHttpResponse("json/accountInformationAccessRequest.json"));
-
-        AccountInformationAccessRequest actual = accountInformationAccessRequestsService.find(creationQuery);
-        assertThat(actual).usingRecursiveComparison().isEqualTo(expectedForFind());
-    }
-
-    @Test
     void find() throws Exception {
         AccountInformationAccessRequestReadQuery creationQuery =
                 AccountInformationAccessRequestReadQuery.builder()

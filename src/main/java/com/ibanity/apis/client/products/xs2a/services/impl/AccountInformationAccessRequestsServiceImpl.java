@@ -55,17 +55,6 @@ public class AccountInformationAccessRequestsServiceImpl implements AccountInfor
         return IbanityModelMapper.mapResource(response, responseMapping());
     }
 
-    @Deprecated
-    @Override
-    public com.ibanity.apis.client.products.xs2a.models.AccountInformationAccessRequest find(AccountInformationAccessRequestCreationQuery accountInformationAccessRequestCreationQuery) {
-        return find(AccountInformationAccessRequestReadQuery.builder()
-                .accountInformationAccessRequestId(accountInformationAccessRequestCreationQuery.getAccountInformationAccessRequestId())
-                .financialInstitutionId(accountInformationAccessRequestCreationQuery.getFinancialInstitutionId())
-                .customerAccessToken(accountInformationAccessRequestCreationQuery.getCustomerAccessToken())
-                .additionalHeaders(accountInformationAccessRequestCreationQuery.getAdditionalHeaders())
-                .build());
-    }
-
     @Override
     public com.ibanity.apis.client.products.xs2a.models.AccountInformationAccessRequest find(AccountInformationAccessRequestReadQuery accountInformationAccessRequestReadQuery) {
         String financialInstitutionId = accountInformationAccessRequestReadQuery.getFinancialInstitutionId().toString();
