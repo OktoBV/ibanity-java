@@ -4,7 +4,6 @@ import com.ibanity.apis.client.http.service.IbanityHttpSignatureService;
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.core5.http.*;
 import org.apache.hc.core5.http.message.BasicClassicHttpRequest;
-import org.apache.hc.core5.http.message.HttpRequestWrapper;
 import org.apache.hc.core5.http.protocol.HttpContext;
 
 import java.io.IOException;

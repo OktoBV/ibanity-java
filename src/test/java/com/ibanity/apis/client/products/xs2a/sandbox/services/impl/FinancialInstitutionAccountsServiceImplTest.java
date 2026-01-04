@@ -28,7 +28,6 @@ import static java.math.BigDecimal.ZERO;
 import static java.time.Instant.parse;
 import static java.util.UUID.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

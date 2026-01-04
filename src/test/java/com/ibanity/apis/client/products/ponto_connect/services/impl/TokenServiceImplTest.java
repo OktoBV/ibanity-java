@@ -8,7 +8,6 @@ import com.ibanity.apis.client.products.ponto_connect.models.refresh.TokenRefres
 import com.ibanity.apis.client.products.ponto_connect.models.revoke.TokenRevokeQuery;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import org.apache.hc.core5.http.message.BasicClassicHttpResponse;
-import org.apache.hc.core5.http.message.BasicHttpResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +21,6 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.ibanity.apis.client.helpers.IbanityTestHelper.HTTP;
 import static com.ibanity.apis.client.helpers.IbanityTestHelper.loadHttpResponse;
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;

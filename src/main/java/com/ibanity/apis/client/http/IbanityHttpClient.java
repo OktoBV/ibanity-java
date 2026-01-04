@@ -1,7 +1,6 @@
 package com.ibanity.apis.client.http;
 
 import org.apache.hc.core5.http.ClassicHttpResponse;
-import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.client5.http.classic.HttpClient;
 
 import javax.net.ssl.SSLContext;

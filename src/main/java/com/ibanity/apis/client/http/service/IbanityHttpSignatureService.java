@@ -1,6 +1,5 @@
 package com.ibanity.apis.client.http.service;
 
-import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;

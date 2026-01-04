@@ -69,7 +69,7 @@ public class IsabelModelMapper {
                 clientObject = classType.getDeclaredConstructor().newInstance();
             }
 
-            Class<?> idFieldType = null;
+            Class<?> idFieldType;
             try {
                 Field field = classType.getDeclaredField("id");
                 idFieldType = field.getType();

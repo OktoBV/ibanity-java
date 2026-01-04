@@ -16,7 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import static com.ibanity.apis.client.helpers.IbanityTestHelper.createHttpResponse;
 import static java.nio.charset.StandardCharsets.UTF_8;

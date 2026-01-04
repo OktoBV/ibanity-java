@@ -12,7 +12,6 @@ import com.ibanity.apis.client.products.ponto_connect.models.read.PendingTransac
 import com.ibanity.apis.client.products.ponto_connect.services.PendingTransactionService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import com.ibanity.apis.client.utils.StringUtils;
-import org.apache.hc.core5.http.HttpResponse;
 
 import java.net.URI;
 import java.util.UUID;

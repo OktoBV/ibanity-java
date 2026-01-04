@@ -29,7 +29,6 @@ package com.ibanity.apis.client.utils;
 
 import org.apache.hc.client5.http.HttpRequestRetryStrategy;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
-import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.core5.http.HttpRequest;
 import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.protocol.HttpContext;
@@ -149,7 +148,7 @@ public class CustomHttpRequestRetryHandler implements HttpRequestRetryStrategy {
         } else {
             for (final Class<? extends IOException> rejectException : this.nonRetriableClasses) {
                 if (rejectException.isInstance(exception)) {
-                    LOGGER.debug("Do not retry HttpRequest anymore because instance of non-retriable exception class " + exception.getClass());
+                    LOGGER.debug("Do not retry HttpRequest anymore because instance of non-retriable exception class {}", exception.getClass());
                     return false;
                 }
             }
@@ -202,10 +201,10 @@ public class CustomHttpRequestRetryHandler implements HttpRequestRetryStrategy {
                 LOGGER.debug("Retry on unexpected_message");
                 return true;
             }
-            LOGGER.debug("Don't retry because SSLException with message " + sslException.getMessage());
+            LOGGER.debug("Don't retry because SSLException with message {}", sslException.getMessage());
             return false;
         }
-        LOGGER.debug("Do not retry HttpRequest anymore because non retriable exception class " + exception.getClass());
+        LOGGER.debug("Do not retry HttpRequest anymore because non retriable exception class {}", exception.getClass());
         return false;
     }
 

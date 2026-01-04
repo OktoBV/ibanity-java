@@ -11,7 +11,6 @@ import com.ibanity.apis.client.utils.IbanityUtils;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
