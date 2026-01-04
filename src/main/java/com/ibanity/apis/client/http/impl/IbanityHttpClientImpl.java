@@ -6,8 +6,10 @@ import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.*;
+import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpRequest;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.http.message.BasicHeader;
 import tools.jackson.core.JacksonException;
@@ -121,7 +123,7 @@ public class IbanityHttpClientImpl implements IbanityHttpClient {
         return httpClient;
     }
 
-    private ClassicHttpResponse execute(@NonNull Map<String, String> additionalHeaders, String customerAccessToken, HttpUriRequest httpRequestBase) {
+    private ClassicHttpResponse execute(@NonNull Map<String, String> additionalHeaders, String customerAccessToken, ClassicHttpRequest httpRequestBase) {
         try {
             addHeaders(customerAccessToken, additionalHeaders, httpRequestBase);
             return httpClient.execute(httpRequestBase, ibanityResponseHandler);
@@ -134,12 +136,12 @@ public class IbanityHttpClientImpl implements IbanityHttpClient {
         return new StringEntity(baseRequest, APPLICATION_JSON);
     }
 
-    private void addHeaders(String customerAccessToken, Map<String, String> additionalHeaders, HttpUriRequest httpRequestBase) {
+    private void addHeaders(String customerAccessToken, Map<String, String> additionalHeaders, HttpRequest httpRequestBase) {
         addAuthorizationHeader(customerAccessToken, httpRequestBase);
         additionalHeaders.forEach(httpRequestBase::addHeader);
     }
 
-    private void addAuthorizationHeader(String customerAccessToken, HttpUriRequest requestBase) {
+    private void addAuthorizationHeader(String customerAccessToken, HttpRequest requestBase) {
         if (StringUtils.isNotBlank(customerAccessToken)) {
             requestBase.addHeader(new BasicHeader(AUTHORIZATION, "Bearer " + customerAccessToken));
         }

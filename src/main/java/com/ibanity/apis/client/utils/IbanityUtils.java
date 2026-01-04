@@ -114,8 +114,6 @@ public final class IbanityUtils {
                         .setConnectionRequestTimeout(Timeout.ofMilliseconds(configuration.getConnectionRequestTimeout()))
                         .build()
         );
-
-        // Connection reuse is automatic in HTTP Client 5, no need to set strategy
     }
 
 
