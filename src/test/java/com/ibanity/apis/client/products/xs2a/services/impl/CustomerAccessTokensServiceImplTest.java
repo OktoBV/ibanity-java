@@ -48,7 +48,7 @@ class CustomerAccessTokensServiceImplTest {
 
         CustomerAccessToken actual = customerAccessTokensService.create(creationQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     private RequestApiModel buildRequest() {

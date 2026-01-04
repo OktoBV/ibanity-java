@@ -68,7 +68,7 @@ class SynchronizationServiceImplTest {
 
         Synchronization actual = synchronizationService.create(synchronizationCreationQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpected("pending", "somehtml", false));
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected("pending", "somehtml", false));
     }
 
     @Test
@@ -84,7 +84,7 @@ class SynchronizationServiceImplTest {
 
         Synchronization actual = synchronizationService.find(synchronizationReadQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpected("error", "somehtml", true));
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected("error", "somehtml", true));
     }
 
     @Test
@@ -100,7 +100,7 @@ class SynchronizationServiceImplTest {
 
         Synchronization actual = synchronizationService.find(synchronizationReadQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpected("error", "{\"tppMessages\":[{\"category\":\"ERROR\",\"code\":\"NOT_FOUND\",\"text\":\"3.2 - Not Found\"}]}", false));
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected("error", "{\"tppMessages\":[{\"category\":\"ERROR\",\"code\":\"NOT_FOUND\",\"text\":\"3.2 - Not Found\"}]}", false));
     }
 
     private RequestApiModel createRequest(SynchronizationCreationQuery synchronizationCreationQuery) {

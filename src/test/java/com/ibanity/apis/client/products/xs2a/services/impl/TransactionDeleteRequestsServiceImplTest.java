@@ -57,7 +57,7 @@ class TransactionDeleteRequestsServiceImplTest {
 
         TransactionDeleteRequest actual = transactionDeleteRequestsService.createForApplication(transactionDeleteRequestCreationQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     @Test
@@ -75,7 +75,7 @@ class TransactionDeleteRequestsServiceImplTest {
 
         TransactionDeleteRequest actual = transactionDeleteRequestsService.createForCustomer(transactionDeleteRequestCreationQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     @Test
@@ -95,7 +95,7 @@ class TransactionDeleteRequestsServiceImplTest {
 
         TransactionDeleteRequest actual = transactionDeleteRequestsService.createForAccount(transactionDeleteRequestCreationQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     private RequestApiModel createRequest(TransactionDeleteRequestCreationQuery transactionDeleteRequestCreationQuery) {

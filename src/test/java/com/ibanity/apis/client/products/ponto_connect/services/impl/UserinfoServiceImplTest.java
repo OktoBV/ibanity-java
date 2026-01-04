@@ -55,7 +55,7 @@ class UserinfoServiceImplTest {
                 .accessToken(ACCESS_TOKEN)
                 .build());
 
-        Assertions.assertThat(actual).isEqualToComparingFieldByField(expected());
+        Assertions.assertThat(actual).usingRecursiveComparison().isEqualTo(expected());
     }
 
     private Userinfo expected() {

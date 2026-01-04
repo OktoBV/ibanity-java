@@ -124,7 +124,7 @@ class FinancialInstitutionsServiceImplTest {
 
         FinancialInstitution actual = financialInstitutionsService.find(financialInstitutionsReadQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpectedForFind());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedForFind());
     }
 
     private FinancialInstitution createExpectedForFind() {

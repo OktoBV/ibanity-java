@@ -66,7 +66,7 @@ public class IsabelModelMapper {
         try {
             T clientObject = IbanityUtils.jsonMapper().convertValue(data.getAttributes(), classType);
             if (clientObject == null) {
-                clientObject = classType.newInstance();
+                clientObject = classType.getDeclaredConstructor().newInstance();
             }
 
             Class<?> idFieldType = null;
@@ -89,7 +89,7 @@ public class IsabelModelMapper {
             }
 
             return clientObject;
-        } catch (InstantiationException | IllegalAccessException | NoSuchFieldException exception) {
+        } catch (ReflectiveOperationException exception) {
             throw new RuntimeException(format("Instantiation of class %s is impossible for default constructor", classType), exception);
         }
     }

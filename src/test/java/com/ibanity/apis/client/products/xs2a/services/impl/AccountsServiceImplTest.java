@@ -72,7 +72,7 @@ class AccountsServiceImplTest {
 
         Account actual = accountsService.find(accountReadQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     @Test
@@ -89,7 +89,7 @@ class AccountsServiceImplTest {
 
         Account actual = accountsService.delete(accountReadQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(Account.builder()
+        assertThat(actual).usingRecursiveComparison().isEqualTo(Account.builder()
         .id(ACCOUNT_ID)
         .build());
     }

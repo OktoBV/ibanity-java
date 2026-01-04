@@ -11,6 +11,7 @@ import com.ibanity.apis.client.utils.IbanityUtils;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -86,7 +87,7 @@ public class IbanityModelMapper {
         try {
             T clientObject = IbanityUtils.jsonMapper().convertValue(data.getAttributes(), classType);
             if (clientObject == null) {
-                clientObject = classType.newInstance();
+                clientObject = classType.getDeclaredConstructor().newInstance();
             }
             clientObject.setId(fromString(data.getId()));
             if (data.getLinks() != null) {
@@ -94,7 +95,7 @@ public class IbanityModelMapper {
             }
 
             return clientObject;
-        } catch (InstantiationException | IllegalAccessException exception) {
+        } catch (ReflectiveOperationException exception) {
             throw new RuntimeException(format("Instantiation of class %s is impossible for default constructor", classType), exception);
         }
     }

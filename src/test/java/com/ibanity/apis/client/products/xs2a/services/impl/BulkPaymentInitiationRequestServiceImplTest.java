@@ -108,7 +108,7 @@ class BulkPaymentInitiationRequestServiceImplTest {
                 .thenReturn(loadHttpResponse("json/deleteBulkPaymentInitiationRequest.json"));
 
         BulkPaymentInitiationRequest actual = bulkPaymentInitiationRequestService.delete(requestReadQuery);
-        assertThat(actual).isEqualToComparingFieldByField(createExpectedForDelete());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedForDelete());
     }
 
     @Test
@@ -125,7 +125,7 @@ class BulkPaymentInitiationRequestServiceImplTest {
 
         BulkPaymentInitiationRequest actual = bulkPaymentInitiationRequestService.find(readQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpectedForFind());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedForFind());
     }
 
     private BulkPaymentInitiationRequest createExpectedForDelete() {

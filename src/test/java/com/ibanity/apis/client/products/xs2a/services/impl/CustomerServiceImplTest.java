@@ -53,7 +53,7 @@ class CustomerServiceImplTest {
 
         Customer actual = customerService.delete(customerDeleteQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     private Customer createExpected() {

@@ -26,14 +26,14 @@ public class IbanityWebhookEventMapper {
         try {
             T clientObject = IbanityUtils.jsonMapper().convertValue(data.getAttributes(), classType);
             if (clientObject == null) {
-                clientObject = classType.newInstance();
+                clientObject = classType.getDeclaredConstructor().newInstance();
             }
 
             clientObject.setId(fromString(data.getId()));
             clientObject.setType(data.getType());
 
             return clientObject;
-        } catch (InstantiationException | IllegalAccessException exception) {
+        } catch (ReflectiveOperationException exception) {
             throw new RuntimeException(format("Instantiation of class %s is impossible for default constructor", classType), exception);
         }
     }

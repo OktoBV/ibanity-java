@@ -61,7 +61,7 @@ class FinancialInstitutionAccountsServiceImplTest {
 
         FinancialInstitutionAccount actual = financialInstitutionAccountsService.find(accountReadQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     @Test

@@ -117,8 +117,7 @@ class AccountInformationAccessRequestsServiceImplTest {
                 .thenReturn(loadHttpResponse("json/accountInformationAccessRequest.json"));
 
         AccountInformationAccessRequest actual = accountInformationAccessRequestsService.find(creationQuery);
-
-        assertThat(actual).isEqualToComparingFieldByField(expectedForFind());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expectedForFind());
     }
 
     @Test
@@ -135,7 +134,7 @@ class AccountInformationAccessRequestsServiceImplTest {
 
         AccountInformationAccessRequest actual = accountInformationAccessRequestsService.find(creationQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(expectedForFind());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expectedForFind());
     }
 
     private AccountInformationAccessRequest expectedForFind() {

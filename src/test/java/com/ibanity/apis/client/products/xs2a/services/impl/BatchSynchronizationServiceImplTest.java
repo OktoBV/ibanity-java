@@ -61,7 +61,7 @@ class BatchSynchronizationServiceImplTest {
 
         BatchSynchronization actual = batchSynchronizationService.create(batchSynchronizationCreationQuery);
 
-        assertThat(actual).isEqualToComparingFieldByField(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     private RequestApiModel createRequest(BatchSynchronizationCreationQuery batchSynchronizationCreationQuery) {
