@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>nl.okto</groupId>
+    <groupId>nl.okto.local</groupId>
     <artifactId>ibanity-java</artifactId>
     <version>${revision}.${timestamp}${changelist}</version>
 
@@ -83,6 +83,7 @@
         <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
         <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
+        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 
         <!-- Tests version -->
         <junit.version>6.0.1</junit.version>
@@ -213,6 +214,31 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${flatten-maven-plugin.version}</version>
+                <configuration>
+                    <flattenMode>oss</flattenMode>
+                    <updatePomFile>true</updatePomFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${maven-checkstyle-plugin.version}</version>
@@ -222,10 +248,8 @@
                         <phase>validate</phase>
                         <configuration>
                             <configLocation>google_checks.xml</configLocation>
-                            <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
                             <failsOnError>true</failsOnError>
-                            <linkXRef>false</linkXRef>
                             <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
                             <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
                         </configuration>
