@@ -14,7 +14,7 @@ public class IdempotencyInterceptor implements HttpRequestInterceptor {
     private static final String IDEMPOTENCY_HTTP_HEADER_KEY = "ibanity-idempotency-key";
 
     @Override
-    public void process(HttpRequest httpRequest, EntityDetails entity, HttpContext context) throws HttpException, IOException {
+    public void process(HttpRequest httpRequest, EntityDetails entity, HttpContext context){
         if (!httpRequest.containsHeader(IDEMPOTENCY_HTTP_HEADER_KEY)
                 && (httpRequest.getMethod().equalsIgnoreCase("post")
                 || httpRequest.getMethod().equalsIgnoreCase("patch"))) {
