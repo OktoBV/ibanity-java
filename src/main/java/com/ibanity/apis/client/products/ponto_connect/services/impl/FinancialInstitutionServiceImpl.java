@@ -12,7 +12,7 @@ import com.ibanity.apis.client.products.ponto_connect.models.read.OrganizationFi
 import com.ibanity.apis.client.products.ponto_connect.services.FinancialInstitutionService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.net.URI;
 
@@ -37,7 +37,7 @@ public class FinancialInstitutionServiceImpl implements FinancialInstitutionServ
                 + financialInstitutionReadQuery.getFinancialInstitutionId().toString()
         );
 
-        HttpResponse response = ibanityHttpClient.get(uri, financialInstitutionReadQuery.getAdditionalHeaders(), null);
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, financialInstitutionReadQuery.getAdditionalHeaders(), null);
         return mapResource(response, FinancialInstitution.class);
     }
 
@@ -48,7 +48,7 @@ public class FinancialInstitutionServiceImpl implements FinancialInstitutionServ
                 + organizationFinancialInstitutionReadQuery.getFinancialInstitutionId().toString()
         );
 
-        HttpResponse response = ibanityHttpClient.get(uri, organizationFinancialInstitutionReadQuery.getAdditionalHeaders(), organizationFinancialInstitutionReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, organizationFinancialInstitutionReadQuery.getAdditionalHeaders(), organizationFinancialInstitutionReadQuery.getAccessToken());
         return mapResource(response, FinancialInstitution.class);
     }
 
@@ -61,7 +61,7 @@ public class FinancialInstitutionServiceImpl implements FinancialInstitutionServ
 
         URI url = buildUri(getUrl(), pagingSpec);
 
-        HttpResponse response = ibanityHttpClient.get(url, organizationFinancialInstitutionsReadQuery.getAdditionalHeaders(), organizationFinancialInstitutionsReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(url, organizationFinancialInstitutionsReadQuery.getAdditionalHeaders(), organizationFinancialInstitutionsReadQuery.getAccessToken());
         return mapCollection(response, FinancialInstitution.class);
     }
 
@@ -74,7 +74,7 @@ public class FinancialInstitutionServiceImpl implements FinancialInstitutionServ
 
         URI url = buildUri(getUrl(), pagingSpec, financialInstitutionsReadQuery.getFilters());
 
-        HttpResponse response = ibanityHttpClient.get(url, financialInstitutionsReadQuery.getAdditionalHeaders(), null);
+        ClassicHttpResponse response = ibanityHttpClient.get(url, financialInstitutionsReadQuery.getAdditionalHeaders(), null);
         return mapCollection(response, FinancialInstitution.class);
     }
 

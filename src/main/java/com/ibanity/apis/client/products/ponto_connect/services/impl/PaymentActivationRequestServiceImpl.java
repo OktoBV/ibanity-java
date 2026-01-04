@@ -8,7 +8,6 @@ import com.ibanity.apis.client.products.ponto_connect.services.PaymentActivation
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
 
 import java.net.URI;
 import java.util.function.Function;
@@ -18,7 +17,7 @@ import static com.ibanity.apis.client.mappers.IbanityModelMapper.toIbanityModel;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;
 import static com.ibanity.apis.client.models.IbanityProduct.PontoConnect;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class PaymentActivationRequestServiceImpl implements PaymentActivationRequestService {
 
     private final ApiUrlProvider apiUrlProvider;
@@ -34,7 +33,7 @@ public class PaymentActivationRequestServiceImpl implements PaymentActivationReq
         URI uri = buildUri(getUrl());
 
         RequestApiModel requestApiModel = buildRequest(PaymentActivationRequest.RESOURCE_TYPE, toRequest(paymentActivationRequestCreateQuery));
-        HttpResponse response = ibanityHttpClient.post(uri, requestApiModel, paymentActivationRequestCreateQuery.getAdditionalHeaders(), paymentActivationRequestCreateQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(uri, requestApiModel, paymentActivationRequestCreateQuery.getAdditionalHeaders(), paymentActivationRequestCreateQuery.getAccessToken());
 
         return mapResource(response, customMapping());
     }

@@ -7,10 +7,11 @@ import com.ibanity.apis.client.jsonapi.IbanityErrorApiModel;
 import com.ibanity.apis.client.jsonapi.OAuth2ErrorResourceApiModel;
 import com.ibanity.apis.client.mappers.IbanityErrorMapper;
 import com.ibanity.apis.client.models.IbanityError;
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ResponseHandler;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,15 +21,15 @@ import static com.ibanity.apis.client.utils.IbanityUtils.jsonMapper;
 import static java.util.Collections.emptyList;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
-public class IbanityResponseHandler implements ResponseHandler<HttpResponse> {
+public class IbanityResponseHandler implements HttpClientResponseHandler<ClassicHttpResponse> {
 
     private static final int CLIENT_ERROR = 400;
     private static final int SERVER_ERROR = 500;
     public static final String IBANITY_REQUEST_ID_HEADER = "ibanity-request-id";
 
     @Override
-    public HttpResponse handleResponse(HttpResponse httpResponse) {
-        int statusCode = httpResponse.getStatusLine().getStatusCode();
+    public ClassicHttpResponse handleResponse(ClassicHttpResponse httpResponse) throws IOException {
+        int statusCode = httpResponse.getCode();
         if (statusCode >= SERVER_ERROR) {
             throw new IbanityServerException(parseErrors(httpResponse), statusCode, getIbanityRequestId(httpResponse));
         } else if (statusCode >= CLIENT_ERROR) {
@@ -38,12 +39,12 @@ public class IbanityResponseHandler implements ResponseHandler<HttpResponse> {
         return httpResponse;
     }
 
-    private String getIbanityRequestId(HttpResponse httpResponse) {
+    private String getIbanityRequestId(ClassicHttpResponse httpResponse) {
         Header firstHeader = httpResponse.getFirstHeader(IBANITY_REQUEST_ID_HEADER);
         return firstHeader != null ? firstHeader.getValue() : null;
     }
 
-    private List<IbanityError> parseErrors(HttpResponse httpResponse) {
+    private List<IbanityError> parseErrors(ClassicHttpResponse httpResponse) {
         try {
             String payload = readResponseContent(httpResponse.getEntity());
             List<IbanityErrorApiModel> errors = jsonMapper().readValue(payload, ErrorResourceApiModel.class).getErrors();

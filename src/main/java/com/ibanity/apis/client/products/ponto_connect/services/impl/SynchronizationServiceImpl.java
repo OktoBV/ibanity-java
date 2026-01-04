@@ -2,7 +2,6 @@ package com.ibanity.apis.client.products.ponto_connect.services.impl;
 
 import com.ibanity.apis.client.http.IbanityHttpClient;
 import com.ibanity.apis.client.jsonapi.RequestApiModel;
-import com.ibanity.apis.client.mappers.IbanityModelMapper;
 import com.ibanity.apis.client.models.IbanityProduct;
 import com.ibanity.apis.client.products.ponto_connect.mappers.SynchronizationMapper;
 import com.ibanity.apis.client.products.ponto_connect.models.Synchronization;
@@ -11,12 +10,11 @@ import com.ibanity.apis.client.products.ponto_connect.models.read.Synchronizatio
 import com.ibanity.apis.client.products.ponto_connect.services.SynchronizationService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
 
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapResource;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class SynchronizationServiceImpl implements SynchronizationService {
 
     private final ApiUrlProvider apiUrlProvider;
@@ -36,7 +34,7 @@ public class SynchronizationServiceImpl implements SynchronizationService {
                 .customerIpAddress(synchronizationCreateQuery.getCustomerIpAddress())
                 .build();
         RequestApiModel request = buildRequest(Synchronization.RESOURCE_TYPE, synchronization);
-        HttpResponse response = ibanityHttpClient.post(buildUri(getUrl()), request, synchronizationCreateQuery.getAdditionalHeaders(), synchronizationCreateQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(buildUri(getUrl()), request, synchronizationCreateQuery.getAdditionalHeaders(), synchronizationCreateQuery.getAccessToken());
         return mapResource(response, SynchronizationMapper::map);
     }
 
@@ -45,7 +43,7 @@ public class SynchronizationServiceImpl implements SynchronizationService {
         String url = getUrl()
                 + "/"
                 + synchronizationReadQuery.getSynchronizationId();
-        HttpResponse response = ibanityHttpClient.get(buildUri(url), synchronizationReadQuery.getAdditionalHeaders(), synchronizationReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url), synchronizationReadQuery.getAdditionalHeaders(), synchronizationReadQuery.getAccessToken());
         return mapResource(response, SynchronizationMapper::map);
     }
 

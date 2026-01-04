@@ -13,7 +13,6 @@ import com.ibanity.apis.client.products.xs2a.services.AuthorizationsService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
 
 import java.net.URI;
 import java.util.Map;
@@ -22,6 +21,7 @@ import java.util.UUID;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
 import static java.util.Collections.emptyMap;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 /**
  * @deprecated Replaced by {@link com.ibanity.apis.client.products.xs2a.services.impl.AccountInformationAccessRequestAuthorizationsServiceImpl}
@@ -52,7 +52,7 @@ public class AuthorizationsServiceImpl implements AuthorizationsService {
         AuthorizationMeta meta = mapMeta(authorizationCreationQuery);
         RequestApiModel request = buildRequest(Authorization.RESOURCE_TYPE, ibanityModel, meta);
 
-        HttpResponse response = ibanityHttpClient.post(uri, request, authorizationCreationQuery.getAdditionalHeaders(), authorizationCreationQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(uri, request, authorizationCreationQuery.getAdditionalHeaders(), authorizationCreationQuery.getCustomerAccessToken());
         return IbanityModelMapper.mapResource(response, com.ibanity.apis.client.products.xs2a.models.Authorization.class);
     }
 

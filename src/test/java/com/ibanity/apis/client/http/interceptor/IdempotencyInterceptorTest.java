@@ -1,8 +1,8 @@
 package com.ibanity.apis.client.http.interceptor;
 
-import org.apache.http.HttpRequest;
-import org.apache.http.RequestLine;
-import org.apache.http.protocol.HttpContext;
+import org.apache.hc.core5.http.HttpRequest;
+import org.apache.hc.client5.RequestLine;
+import org.apache.hc.core5.http.protocol.HttpContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

@@ -9,7 +9,7 @@ import com.ibanity.apis.client.products.xs2a.models.Synchronization;
 import com.ibanity.apis.client.products.xs2a.models.create.BatchSynchronizationCreationQuery;
 import com.ibanity.apis.client.products.xs2a.services.BatchSynchronizationService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapResource;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;
@@ -38,7 +38,7 @@ public class BatchSynchronizationServiceImpl implements BatchSynchronizationServ
                 .build();
         String url = getUrl();
         RequestApiModel request = buildRequest(Synchronization.RESOURCE_TYPE, synchronization);
-        HttpResponse response = ibanityHttpClient.post(buildUri(url), request, batchSynchronizationCreationQuery.getAdditionalHeaders(), null);
+        ClassicHttpResponse response = ibanityHttpClient.post(buildUri(url), request, batchSynchronizationCreationQuery.getAdditionalHeaders(), null);
         return mapResource(response, (BatchSynchronizationMapper::map));
     }
 

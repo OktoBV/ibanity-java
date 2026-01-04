@@ -1,6 +1,10 @@
 package com.ibanity.apis.client.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.DefaultClientConnectionReuseStrategy;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import tools.jackson.databind.DeserializationFeature;
 import com.ibanity.apis.client.builders.IbanityConfiguration;
 import com.ibanity.apis.client.http.interceptor.IbanitySignatureInterceptor;
@@ -8,11 +12,6 @@ import com.ibanity.apis.client.http.interceptor.IdempotencyInterceptor;
 import com.ibanity.apis.client.http.service.impl.IbanityHttpSignatureServiceImpl;
 import com.ibanity.apis.client.models.SignatureCredentials;
 import com.ibanity.apis.client.models.TlsCredentials;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.DefaultClientConnectionReuseStrategy;
-import org.apache.http.impl.client.HttpClientBuilder;
 import tools.jackson.databind.json.JsonMapper;
 
 import javax.net.ssl.*;
@@ -69,8 +68,8 @@ public final class IbanityUtils {
             SSLContext sslContext = getSSLContext(configuration.getCaCertificate(), configuration.getTlsCredentials());
             HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
             configureHttpClient(sslContext, httpClientBuilder, configuration);
-            configuration.getHttpRequestInterceptors().forEach(httpClientBuilder::addInterceptorLast);
-            configuration.getHttpResponseInterceptors().forEach(httpClientBuilder::addInterceptorFirst);
+            configuration.getHttpRequestInterceptors().forEach(httpClientBuilder::addRequestInterceptorLast);
+            configuration.getHttpResponseInterceptors().forEach(httpClientBuilder::addResponseInterceptorFirst);
             return httpClientBuilder.build();
         } catch (Exception exception) {
             throw new IllegalArgumentException("An exception occurred while creating IbanityHttpClient", exception);

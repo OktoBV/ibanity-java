@@ -8,7 +8,7 @@ import com.ibanity.apis.client.models.IbanityModel;
 import com.ibanity.apis.client.products.xs2a.mappers.SynchronizationMapper;
 import com.ibanity.apis.client.products.xs2a.models.Synchronization;
 import com.ibanity.apis.client.utils.IbanityUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -23,11 +23,11 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class IbanityModelMapper {
 
-    public static <T extends IbanityModel> T mapResource(HttpResponse httpResponse, Class<T> classType) {
+    public static <T extends IbanityModel> T mapResource(ClassicHttpResponse httpResponse, Class<T> classType) {
         return mapResource(httpResponse, dataApiModel -> toIbanityModel(dataApiModel, classType));
     }
 
-    public static <T extends IbanityModel> T mapResource(HttpResponse httpResponse, Function<DataApiModel, T> customMapping) {
+    public static <T extends IbanityModel> T mapResource(ClassicHttpResponse httpResponse, Function<DataApiModel, T> customMapping) {
         try {
             String jsonPayload = readResponseContent(httpResponse.getEntity());
             DataApiModel dataApiModel = IbanityUtils.jsonMapper().readValue(jsonPayload, ResourceApiModel.class).getData();
@@ -39,11 +39,11 @@ public class IbanityModelMapper {
         }
     }
 
-    public static <T extends IbanityModel> IbanityCollection<T> mapCollection(HttpResponse httpResponse, Class<T> classType) {
+    public static <T extends IbanityModel> IbanityCollection<T> mapCollection(ClassicHttpResponse httpResponse, Class<T> classType) {
         return mapCollection(httpResponse, dataApiModel -> toIbanityModel(dataApiModel, classType));
     }
 
-    public static <T extends IbanityModel> IbanityCollection<T> mapCollection(HttpResponse httpResponse, Function<DataApiModel, T> customMapping) {
+    public static <T extends IbanityModel> IbanityCollection<T> mapCollection(ClassicHttpResponse httpResponse, Function<DataApiModel, T> customMapping) {
         try {
             String jsonPayload = readResponseContent(httpResponse.getEntity());
             CollectionApiModel collectionApiModel = IbanityUtils.jsonMapper().readValue(jsonPayload, CollectionApiModel.class);

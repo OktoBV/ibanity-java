@@ -10,7 +10,7 @@ import com.ibanity.apis.client.products.isabel_connect.models.read.TransactionsR
 import com.ibanity.apis.client.products.isabel_connect.services.TransactionService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.util.function.Function;
 
@@ -28,7 +28,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public IsabelCollection<Transaction> list(TransactionsReadQuery query) {
-        HttpResponse response = ibanityHttpClient.get(
+        ClassicHttpResponse response = ibanityHttpClient.get(
                 buildUri(getUrl(query.getAccountId()), query.getPagingSpec()),
                 query.getAdditionalHeaders(),
                 query.getAccessToken());

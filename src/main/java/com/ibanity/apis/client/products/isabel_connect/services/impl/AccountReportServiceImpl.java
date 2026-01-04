@@ -12,7 +12,7 @@ import com.ibanity.apis.client.products.isabel_connect.services.AccountReportSer
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import com.ibanity.apis.client.utils.IbanityUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.io.IOException;
 import java.net.URI;
@@ -50,7 +50,7 @@ public class AccountReportServiceImpl implements AccountReportService {
 
     @Override
     public String find(AccountReportReadQuery query) {
-        HttpResponse response = ibanityHttpClient.get(
+        ClassicHttpResponse response = ibanityHttpClient.get(
                 buildUri(getUrl(query.getAccountReportId())),
                 query.getAdditionalHeaders(),
                 query.getAccessToken());
@@ -62,8 +62,8 @@ public class AccountReportServiceImpl implements AccountReportService {
     }
 
     @Override
-    public <T> T find(AccountReportReadQuery query, Function<HttpResponse, T> func) {
-        HttpResponse response = ibanityHttpClient.get(
+    public <T> T find(AccountReportReadQuery query, Function<ClassicHttpResponse, T> func) {
+        ClassicHttpResponse response = ibanityHttpClient.get(
                 buildUri(getUrl(query.getAccountReportId())),
                 query.getAdditionalHeaders(),
                 query.getAccessToken());
@@ -83,7 +83,7 @@ public class AccountReportServiceImpl implements AccountReportService {
         return StringUtils.removeEnd(url, "/");
     }
 
-    private IsabelCollection<AccountReport> mapCollection(HttpResponse httpResponse) {
+    private IsabelCollection<AccountReport> mapCollection(ClassicHttpResponse httpResponse) {
         try {
             String jsonPayload = readResponseContent(httpResponse.getEntity());
             CollectionApiModel collectionApiModel = IbanityUtils.jsonMapper().readValue(jsonPayload, CollectionApiModel.class);

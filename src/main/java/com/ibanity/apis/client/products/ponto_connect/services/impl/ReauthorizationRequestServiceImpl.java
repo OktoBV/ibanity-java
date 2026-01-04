@@ -5,17 +5,13 @@ import com.ibanity.apis.client.jsonapi.DataApiModel;
 import com.ibanity.apis.client.jsonapi.RequestApiModel;
 import com.ibanity.apis.client.models.IbanityProduct;
 import com.ibanity.apis.client.products.ponto_connect.models.Account;
-import com.ibanity.apis.client.products.ponto_connect.models.ReauthorizationRequest;
 import com.ibanity.apis.client.products.ponto_connect.models.create.ReauthorizationRequestCreateQuery;
 import com.ibanity.apis.client.products.ponto_connect.services.ReauthorizationRequestService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
 
-import java.math.BigDecimal;
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -23,7 +19,7 @@ import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapResource;
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.toIbanityModel;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class ReauthorizationRequestServiceImpl implements ReauthorizationRequestService {
 
     private final ApiUrlProvider apiUrlProvider;
@@ -40,7 +36,7 @@ public class ReauthorizationRequestServiceImpl implements ReauthorizationRequest
 
         ReauthorizationRequest reauthorizationRequest = toRequest(reauthorizationRequestCreateQuery);
         RequestApiModel requestApiModel = buildRequest(com.ibanity.apis.client.products.ponto_connect.models.ReauthorizationRequest.RESOURCE_TYPE, reauthorizationRequest);
-        HttpResponse response = ibanityHttpClient.post(uri, requestApiModel, reauthorizationRequestCreateQuery.getAdditionalHeaders(), reauthorizationRequestCreateQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(uri, requestApiModel, reauthorizationRequestCreateQuery.getAdditionalHeaders(), reauthorizationRequestCreateQuery.getAccessToken());
         return mapResource(response, customMapping());
     }
 

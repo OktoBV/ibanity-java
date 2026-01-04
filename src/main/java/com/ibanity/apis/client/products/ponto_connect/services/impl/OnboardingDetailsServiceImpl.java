@@ -7,13 +7,12 @@ import com.ibanity.apis.client.products.ponto_connect.models.OnboardingDetails;
 import com.ibanity.apis.client.products.ponto_connect.models.create.OnboardingDetailsCreateQuery;
 import com.ibanity.apis.client.products.ponto_connect.services.OnboardingDetailsService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.http.HttpResponse;
 
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapResource;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;
 import static com.ibanity.apis.client.products.ponto_connect.models.OnboardingDetails.RESOURCE_TYPE;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class OnboardingDetailsServiceImpl implements OnboardingDetailsService {
 
     private ApiUrlProvider apiUrlProvider;
@@ -28,7 +27,7 @@ public class OnboardingDetailsServiceImpl implements OnboardingDetailsService {
     public OnboardingDetails create(OnboardingDetailsCreateQuery onboardingDetailsCreateQuery) {
 
         RequestApiModel request = buildRequest(OnboardingDetails.RESOURCE_TYPE, toRequest(onboardingDetailsCreateQuery));
-        HttpResponse response = ibanityHttpClient.post(buildUri(getUrl()), request, onboardingDetailsCreateQuery.getAdditionalHeaders(), onboardingDetailsCreateQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(buildUri(getUrl()), request, onboardingDetailsCreateQuery.getAdditionalHeaders(), onboardingDetailsCreateQuery.getAccessToken());
 
         return mapResource(response, OnboardingDetails.class);
     }

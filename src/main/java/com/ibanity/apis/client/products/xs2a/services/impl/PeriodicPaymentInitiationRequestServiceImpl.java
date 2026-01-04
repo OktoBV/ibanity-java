@@ -9,12 +9,8 @@ import com.ibanity.apis.client.products.xs2a.models.create.PeriodicPaymentInitia
 import com.ibanity.apis.client.products.xs2a.models.read.PeriodicPaymentInitiationRequestReadQuery;
 import com.ibanity.apis.client.products.xs2a.services.PeriodicPaymentInitiationRequestService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.apache.http.HttpResponse;
+import lombok.*;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -44,7 +40,7 @@ public class PeriodicPaymentInitiationRequestServiceImpl implements PeriodicPaym
         RequestApiModel request = buildRequest(RESOURCE_TYPE, periodicPaymentInitiationRequest);
 
         String url = getUrl(query.getFinancialInstitutionId().toString(), "");
-        HttpResponse response = ibanityHttpClient.post(buildUri(url), request, query.getAdditionalHeaders(), query.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(buildUri(url), request, query.getAdditionalHeaders(), query.getCustomerAccessToken());
 
         return mapResource(response, getResponseMapping());
     }
@@ -55,7 +51,7 @@ public class PeriodicPaymentInitiationRequestServiceImpl implements PeriodicPaym
         String paymentInitiationRequestId = periodicPaymentInitiationRequestReadQuery.getPaymentInitiationRequestId().toString();
 
         String url = getUrl(financialInstitutionId, paymentInitiationRequestId);
-        HttpResponse response = ibanityHttpClient.delete(buildUri(url), periodicPaymentInitiationRequestReadQuery.getAdditionalHeaders(), periodicPaymentInitiationRequestReadQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.delete(buildUri(url), periodicPaymentInitiationRequestReadQuery.getAdditionalHeaders(), periodicPaymentInitiationRequestReadQuery.getCustomerAccessToken());
 
         return mapResource(response, getResponseMapping());
     }
@@ -66,7 +62,7 @@ public class PeriodicPaymentInitiationRequestServiceImpl implements PeriodicPaym
         String paymentInitiationRequestId = periodicPaymentInitiationRequestReadQuery.getPaymentInitiationRequestId().toString();
 
         String url = getUrl(financialInstitutionId, paymentInitiationRequestId);
-        HttpResponse response = ibanityHttpClient.get(buildUri(url), periodicPaymentInitiationRequestReadQuery.getAdditionalHeaders(), periodicPaymentInitiationRequestReadQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(buildUri(url), periodicPaymentInitiationRequestReadQuery.getAdditionalHeaders(), periodicPaymentInitiationRequestReadQuery.getCustomerAccessToken());
 
         return mapResource(response, getResponseMapping());
     }

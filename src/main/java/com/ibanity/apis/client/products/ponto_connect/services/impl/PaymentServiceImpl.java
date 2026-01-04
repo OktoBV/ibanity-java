@@ -12,7 +12,6 @@ import com.ibanity.apis.client.products.ponto_connect.services.PaymentService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -24,7 +23,7 @@ import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapResource;
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.toIbanityModel;
 import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class PaymentServiceImpl implements PaymentService {
 
     private final ApiUrlProvider apiUrlProvider;
@@ -41,7 +40,7 @@ public class PaymentServiceImpl implements PaymentService {
                 + "/"
                 + paymentReadQuery.getPaymentId().toString());
 
-        HttpResponse response = ibanityHttpClient.get(uri, paymentReadQuery.getAdditionalHeaders(), paymentReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, paymentReadQuery.getAdditionalHeaders(), paymentReadQuery.getAccessToken());
         return mapResource(response, com.ibanity.apis.client.products.ponto_connect.models.Payment.class);
     }
 
@@ -51,7 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         Payment payment = toRequest(paymentCreateQuery);
         RequestApiModel requestApiModel = buildRequest(com.ibanity.apis.client.products.ponto_connect.models.Payment.RESOURCE_TYPE, payment);
-        HttpResponse response = ibanityHttpClient.post(uri, requestApiModel, paymentCreateQuery.getAdditionalHeaders(), paymentCreateQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(uri, requestApiModel, paymentCreateQuery.getAdditionalHeaders(), paymentCreateQuery.getAccessToken());
         return mapResource(response, customMapping());
     }
 
@@ -72,7 +71,7 @@ public class PaymentServiceImpl implements PaymentService {
                 + "/"
                 + paymentDeleteQuery.getPaymentId().toString());
 
-        HttpResponse response = ibanityHttpClient.delete(uri, paymentDeleteQuery.getAdditionalHeaders(), paymentDeleteQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.delete(uri, paymentDeleteQuery.getAdditionalHeaders(), paymentDeleteQuery.getAccessToken());
         return mapResource(response, com.ibanity.apis.client.products.ponto_connect.models.Payment.class);
     }
 

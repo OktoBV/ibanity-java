@@ -4,12 +4,12 @@ import com.ibanity.apis.client.http.IbanityHttpClient;
 import com.ibanity.apis.client.http.handler.IbanityResponseHandler;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.*;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.message.BasicHeader;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.*;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.message.BasicHeader;
 import tools.jackson.core.JacksonException;
 
 import javax.net.ssl.SSLContext;
@@ -20,8 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.ibanity.apis.client.utils.IbanityUtils.jsonMapper;
-import static org.apache.http.HttpHeaders.AUTHORIZATION;
-import static org.apache.http.entity.ContentType.APPLICATION_JSON;
+import static org.apache.hc.core5.http.ContentType.APPLICATION_JSON;
+import static org.apache.hc.core5.http.HttpHeaders.AUTHORIZATION;
+
+;
 
 public class IbanityHttpClientImpl implements IbanityHttpClient {
 
@@ -41,33 +43,33 @@ public class IbanityHttpClientImpl implements IbanityHttpClient {
     }
 
     @Override
-    public HttpResponse get(@NonNull URI path) {
+    public ClassicHttpResponse get(@NonNull URI path) {
         return get(path, null);
     }
 
     @Override
-    public HttpResponse get(@NonNull URI path, String customerAccessToken) {
+    public ClassicHttpResponse get(@NonNull URI path, String customerAccessToken) {
         return get(path, new HashMap<>(), customerAccessToken);
     }
 
     @Override
-    public HttpResponse get(@NonNull URI path, @NonNull Map<String, String> additionalHeaders, String customerAccessToken) {
+    public ClassicHttpResponse get(@NonNull URI path, @NonNull Map<String, String> additionalHeaders, String customerAccessToken) {
         HttpGet httpGet = new HttpGet(path);
         return execute(additionalHeaders, customerAccessToken, httpGet);
     }
 
     @Override
-    public HttpResponse post(@NonNull URI path, @NonNull Object requestApiModel) {
+    public ClassicHttpResponse post(@NonNull URI path, @NonNull Object requestApiModel) {
         return post(path, requestApiModel, null);
     }
 
     @Override
-    public HttpResponse post(@NonNull URI path, @NonNull Object requestApiModel, String customerAccessToken) {
+    public ClassicHttpResponse post(@NonNull URI path, @NonNull Object requestApiModel, String customerAccessToken) {
         return post(path, requestApiModel, new HashMap<>(), customerAccessToken);
     }
 
     @Override
-    public HttpResponse post(@NonNull URI path, @NonNull Object requestApiModel, @NonNull Map<String, String> additionalHeaders, String customerAccessToken) {
+    public ClassicHttpResponse post(@NonNull URI path, @NonNull Object requestApiModel, @NonNull Map<String, String> additionalHeaders, String customerAccessToken) {
         try {
             HttpPost httpPost = new HttpPost(path);
             httpPost.setEntity(createEntityRequest(jsonMapper().writeValueAsString(requestApiModel)));
@@ -78,33 +80,33 @@ public class IbanityHttpClientImpl implements IbanityHttpClient {
     }
 
     @Override
-    public HttpResponse delete(@NonNull URI path) {
+    public ClassicHttpResponse delete(@NonNull URI path) {
         return delete(path, null);
     }
 
     @Override
-    public HttpResponse delete(@NonNull URI path, String customerAccessToken) {
+    public ClassicHttpResponse delete(@NonNull URI path, String customerAccessToken) {
         return delete(path, Collections.emptyMap(), customerAccessToken);
     }
 
     @Override
-    public HttpResponse delete(@NonNull URI path, @NonNull Map<String, String> additionalHeaders, String customerAccessToken) {
+    public ClassicHttpResponse delete(@NonNull URI path, @NonNull Map<String, String> additionalHeaders, String customerAccessToken) {
         HttpDelete httpDelete = new HttpDelete(path);
         return execute(additionalHeaders, customerAccessToken, httpDelete);
     }
 
     @Override
-    public HttpResponse patch(@NonNull URI path, @NonNull Object requestApiModel) {
+    public ClassicHttpResponse patch(@NonNull URI path, @NonNull Object requestApiModel) {
         return patch(path, requestApiModel, null);
     }
 
     @Override
-    public HttpResponse patch(@NonNull URI path, @NonNull Object requestApiModel, String customerAccessToken) {
+    public ClassicHttpResponse patch(@NonNull URI path, @NonNull Object requestApiModel, String customerAccessToken) {
         return patch(path, requestApiModel, new HashMap<>(), customerAccessToken);
     }
 
     @Override
-    public HttpResponse patch(@NonNull URI path, @NonNull Object requestApiModel, @NonNull Map<String, String> additionalHeaders, String customerAccessToken) {
+    public ClassicHttpResponse patch(@NonNull URI path, @NonNull Object requestApiModel, @NonNull Map<String, String> additionalHeaders, String customerAccessToken) {
         try {
             HttpPatch httpPatch = new HttpPatch(path);
             httpPatch.setEntity(createEntityRequest(jsonMapper().writeValueAsString(requestApiModel)));
@@ -119,10 +121,10 @@ public class IbanityHttpClientImpl implements IbanityHttpClient {
         return httpClient;
     }
 
-    private HttpResponse execute(@NonNull Map<String, String> additionalHeaders, String customerAccessToken, HttpRequestBase httpRequestBase) {
+    private ClassicHttpResponse execute(@NonNull Map<String, String> additionalHeaders, String customerAccessToken, HttpUriRequest httpRequestBase) {
         try {
             addHeaders(customerAccessToken, additionalHeaders, httpRequestBase);
-            return ibanityResponseHandler.handleResponse(httpClient.execute(httpRequestBase));
+            return httpClient.execute(httpRequestBase, ibanityResponseHandler);
         } catch (IOException exception) {
             throw new RuntimeException("An error occurred while connecting to Ibanity", exception);
         }
@@ -132,12 +134,12 @@ public class IbanityHttpClientImpl implements IbanityHttpClient {
         return new StringEntity(baseRequest, APPLICATION_JSON);
     }
 
-    private void addHeaders(String customerAccessToken, Map<String, String> additionalHeaders, HttpRequestBase httpRequestBase) {
+    private void addHeaders(String customerAccessToken, Map<String, String> additionalHeaders, HttpUriRequest httpRequestBase) {
         addAuthorizationHeader(customerAccessToken, httpRequestBase);
         additionalHeaders.forEach(httpRequestBase::addHeader);
     }
 
-    private void addAuthorizationHeader(String customerAccessToken, HttpRequestBase requestBase) {
+    private void addAuthorizationHeader(String customerAccessToken, HttpUriRequest requestBase) {
         if (StringUtils.isNotBlank(customerAccessToken)) {
             requestBase.addHeader(new BasicHeader(AUTHORIZATION, "Bearer " + customerAccessToken));
         }

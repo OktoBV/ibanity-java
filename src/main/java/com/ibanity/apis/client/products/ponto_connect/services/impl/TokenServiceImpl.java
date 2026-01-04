@@ -10,7 +10,7 @@ import com.ibanity.apis.client.products.ponto_connect.services.TokenService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import com.ibanity.apis.client.utils.IbanityUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-import static org.apache.http.util.EntityUtils.consumeQuietly;
+import static org.apache.hc.core5.http.io.entity.EntityUtils.consumeQuietly;
 
 public class TokenServiceImpl implements TokenService {
 
@@ -38,7 +38,7 @@ public class TokenServiceImpl implements TokenService {
     public void revoke(TokenRevokeQuery tokenRevokeQuery) {
         URI uri = buildUri(getUrl("revoke"));
         Map<String, String> deleteTokenRequestArguments = getDeleteTokenRequestArguments(tokenRevokeQuery.getToken());
-        HttpResponse httpResponse = oAuthHttpClient.post(uri, tokenRevokeQuery.getAdditionalHeaders(), deleteTokenRequestArguments, tokenRevokeQuery.getClientSecret());
+        ClassicHttpResponse httpResponse = oAuthHttpClient.post(uri, tokenRevokeQuery.getAdditionalHeaders(), deleteTokenRequestArguments, tokenRevokeQuery.getClientSecret());
         consumeQuietly(httpResponse.getEntity());
     }
 
@@ -59,7 +59,7 @@ public class TokenServiceImpl implements TokenService {
 
     private Token performTokenRequest(Map<String, String> tokenRequestArguments, String clientSecret, Map<String, String> additionalHeaders) {
         URI uri = buildUri(getUrl("token"));
-        HttpResponse response = oAuthHttpClient.post(uri, additionalHeaders, tokenRequestArguments, clientSecret);
+        ClassicHttpResponse response = oAuthHttpClient.post(uri, additionalHeaders, tokenRequestArguments, clientSecret);
         try {
             return IbanityUtils.jsonMapper().readValue(response.getEntity().getContent(), Token.class);
         } catch (IOException e) {

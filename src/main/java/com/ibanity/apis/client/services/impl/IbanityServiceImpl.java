@@ -18,7 +18,7 @@ import com.ibanity.apis.client.services.IbanityService;
 import com.ibanity.apis.client.utils.IbanityUtils;
 import com.ibanity.apis.client.webhooks.services.WebhooksService;
 import com.ibanity.apis.client.webhooks.services.impl.WebhooksServiceImpl;
-import org.apache.http.client.HttpClient;
+import org.apache.hc.client5.http.classic.HttpClient;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.keys.resolvers.VerificationKeyResolver;
 

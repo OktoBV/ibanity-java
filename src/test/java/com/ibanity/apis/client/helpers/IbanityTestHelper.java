@@ -1,11 +1,11 @@
 package com.ibanity.apis.client.helpers;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.ProtocolVersion;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.message.BasicHttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.ProtocolVersion;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.message.BasicClassicHttpResponse;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -17,19 +17,19 @@ public class IbanityTestHelper {
 
     public static final ProtocolVersion HTTP = new ProtocolVersion("HTTP", 0, 0);
 
-    public static HttpResponse loadHttpResponse(String filePath) throws IOException {
+    public static ClassicHttpResponse loadHttpResponse(String filePath) throws IOException {
         String jsonResponse = loadFile(filePath);
-        HttpResponse httpResponse = new BasicHttpResponse(HTTP, 200, null);
+        ClassicHttpResponse httpResponse = new BasicClassicHttpResponse(200);
         httpResponse.setEntity(new StringEntity(jsonResponse));
         return httpResponse;
     }
 
-    public static HttpResponse createHttpResponse(String expected) throws UnsupportedEncodingException {
+    public static ClassicHttpResponse createHttpResponse(String expected) throws UnsupportedEncodingException {
         return createHttpResponse(expected, new Header[]{});
     }
 
-    public static HttpResponse createHttpResponse(String expected, Header... headers) throws UnsupportedEncodingException {
-        HttpResponse postResponse = new BasicHttpResponse(HTTP, 200, null);
+    public static ClassicHttpResponse createHttpResponse(String expected, Header... headers) throws UnsupportedEncodingException {
+        ClassicHttpResponse postResponse = new BasicClassicHttpResponse(200);
         postResponse.setEntity(new StringEntity(expected));
         postResponse.setHeaders(headers);
         return postResponse;

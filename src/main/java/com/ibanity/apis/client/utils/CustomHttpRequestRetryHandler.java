@@ -27,15 +27,12 @@ package com.ibanity.apis.client.utils;
  *
  */
 
-
-import org.apache.http.HttpEntityEnclosingRequest;
-import org.apache.http.HttpRequest;
-import org.apache.http.client.HttpRequestRetryHandler;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.client.RequestWrapper;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.Args;
+import org.apache.hc.client5.http.HttpRequestRetryStrategy;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.core5.http.HttpRequest;
+import org.apache.hc.core5.http.protocol.HttpContext;
+import org.apache.hc.core5.util.Args;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,11 +47,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * The custom {@link HttpRequestRetryHandler} used by request executors.
+ * The custom {@link HttpRequestRetryStrategy} used by request executors.
  *
  * @since 4.0
  */
-public class CustomHttpRequestRetryHandler implements HttpRequestRetryHandler {
+public class CustomHttpRequestRetryHandler implements HttpRequestRetryStrategy {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomHttpRequestRetryHandler.class);
     private static final int DEFAULT_RETRY_COUNT = 3;
 

@@ -18,12 +18,8 @@ import com.ibanity.apis.client.products.xs2a.models.links.InitialAccountTransact
 import com.ibanity.apis.client.products.xs2a.models.read.AccountInformationAccessRequestReadQuery;
 import com.ibanity.apis.client.products.xs2a.services.AccountInformationAccessRequestsService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.apache.http.HttpResponse;
+import lombok.*;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 import java.net.URI;
 import java.util.Collections;
@@ -55,7 +51,7 @@ public class AccountInformationAccessRequestsServiceImpl implements AccountInfor
         AccountInformationAccessRequest ibanityModel = mapAttributes(accountInformationAccessRequestCreationQuery);
         AccountInformationAccessRequestMeta meta = mapMeta(accountInformationAccessRequestCreationQuery);
         RequestApiModel request = buildRequest(AccountInformationAccessRequest.RESOURCE_TYPE, ibanityModel, meta);
-        HttpResponse response = ibanityHttpClient.post(uri, request, accountInformationAccessRequestCreationQuery.getAdditionalHeaders(), accountInformationAccessRequestCreationQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(uri, request, accountInformationAccessRequestCreationQuery.getAdditionalHeaders(), accountInformationAccessRequestCreationQuery.getCustomerAccessToken());
         return IbanityModelMapper.mapResource(response, responseMapping());
     }
 
@@ -77,7 +73,7 @@ public class AccountInformationAccessRequestsServiceImpl implements AccountInfor
 
         URI uri = getUri(financialInstitutionId, resourceId);
 
-        HttpResponse response = ibanityHttpClient.get(uri, accountInformationAccessRequestReadQuery.getAdditionalHeaders(), accountInformationAccessRequestReadQuery.getCustomerAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, accountInformationAccessRequestReadQuery.getAdditionalHeaders(), accountInformationAccessRequestReadQuery.getCustomerAccessToken());
         return IbanityModelMapper.mapResource(response, responseMapping());
     }
 

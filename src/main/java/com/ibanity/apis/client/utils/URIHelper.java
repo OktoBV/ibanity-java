@@ -6,7 +6,7 @@ import com.ibanity.apis.client.products.isabel_connect.models.read.IsabelPagingS
 import com.ibanity.apis.client.products.ponto_connect.helpers.FilterHelper;
 import com.ibanity.apis.client.products.ponto_connect.models.Filter;
 import lombok.NonNull;
-import org.apache.http.client.utils.URIBuilder;
+import org.apache.hc.core5.net.URIBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;

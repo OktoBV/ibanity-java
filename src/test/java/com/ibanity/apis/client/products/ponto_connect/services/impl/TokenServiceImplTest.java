@@ -7,7 +7,7 @@ import com.ibanity.apis.client.products.ponto_connect.models.create.TokenCreateQ
 import com.ibanity.apis.client.products.ponto_connect.models.refresh.TokenRefreshQuery;
 import com.ibanity.apis.client.products.ponto_connect.models.revoke.TokenRevokeQuery;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.http.message.BasicHttpResponse;
+import org.apache.hc.client5.message.BasicHttpResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -2,14 +2,14 @@ package com.ibanity.apis.client.http.impl;
 
 import com.ibanity.apis.client.http.OAuthHttpClient;
 import com.ibanity.apis.client.http.handler.IbanityResponseHandler;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.message.BasicHeader;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 
 import java.io.IOException;
 import java.net.URI;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.apache.http.HttpHeaders.AUTHORIZATION;
+import static org.apache.hc.core5.http.HttpHeaders.AUTHORIZATION;
 
 public class OAuthHttpClientImpl implements OAuthHttpClient {
 
@@ -35,12 +35,12 @@ public class OAuthHttpClientImpl implements OAuthHttpClient {
     }
 
     @Override
-    public HttpResponse post(URI path, Map<String, String> arguments, String clientSecret) {
+    public ClassicHttpResponse post(URI path, Map<String, String> arguments, String clientSecret) {
         return post(path, new HashMap<>(), arguments, clientSecret);
     }
 
     @Override
-    public HttpResponse post(URI path, Map<String, String> additionalHeaders, Map<String, String> arguments, String clientSecret) {
+    public ClassicHttpResponse post(URI path, Map<String, String> additionalHeaders, Map<String, String> arguments, String clientSecret) {
         HttpPost post = new HttpPost(path);
         arguments.put("client_id", clientId);
         post.setEntity(createEntity(arguments));
@@ -55,21 +55,21 @@ public class OAuthHttpClientImpl implements OAuthHttpClient {
                 UTF_8);
     }
 
-    private HttpResponse execute(Map<String, String> additionalHeaders, String clientSecret, HttpRequestBase httpRequestBase) {
+    private ClassicHttpResponse execute(Map<String, String> additionalHeaders, String clientSecret, HttpUriRequestBase httpRequestBase) {
         try {
             addHeaders(clientSecret, additionalHeaders, httpRequestBase);
-            return ibanityResponseHandler.handleResponse(httpClient.execute(httpRequestBase));
+            return httpClient.execute(httpRequestBase, ibanityResponseHandler);
         } catch (IOException exception) {
             throw new RuntimeException("An error occurred while connecting to Ibanity", exception);
         }
     }
 
-    private void addHeaders(String clientSecret, Map<String, String> additionalHeaders, HttpRequestBase httpRequestBase) {
+    private void addHeaders(String clientSecret, Map<String, String> additionalHeaders, HttpUriRequestBase httpRequestBase) {
         addAuthorizationHeader(clientId, clientSecret, httpRequestBase);
         additionalHeaders.forEach(httpRequestBase::addHeader);
     }
 
-    private void addAuthorizationHeader(String clientId, String clientSecret, HttpRequestBase requestBase) {
+    private void addAuthorizationHeader(String clientId, String clientSecret, HttpUriRequestBase requestBase) {
         if(isNotBlank(clientId) && isNotBlank(clientSecret)) {
             String base64Encoded = Base64.getEncoder().encodeToString((clientId + ":" + clientSecret).getBytes(UTF_8));
             requestBase.addHeader(new BasicHeader(AUTHORIZATION, "Basic " + base64Encoded));

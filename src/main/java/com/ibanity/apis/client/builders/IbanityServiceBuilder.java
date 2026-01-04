@@ -5,8 +5,8 @@ import com.ibanity.apis.client.models.TlsCredentials;
 import com.ibanity.apis.client.services.IbanityService;
 import com.ibanity.apis.client.services.impl.IbanityServiceImpl;
 import com.ibanity.apis.client.utils.IbanityUtils;
-import org.apache.http.HttpRequestInterceptor;
-import org.apache.http.HttpResponseInterceptor;
+import org.apache.hc.core5.http.HttpRequestInterceptor;
+import org.apache.hc.core5.http.HttpResponseInterceptor;
 
 import java.security.PrivateKey;
 import java.security.cert.Certificate;

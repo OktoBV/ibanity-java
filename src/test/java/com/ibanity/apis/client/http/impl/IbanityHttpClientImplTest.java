@@ -1,10 +1,10 @@
 package com.ibanity.apis.client.http.impl;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.Header;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -32,7 +32,7 @@ class IbanityHttpClientImplTest {
     private HttpClient httpClient;
 
     @Captor
-    private ArgumentCaptor<HttpRequestBase> requestArgumentCaptor;
+    private ArgumentCaptor<HttpUriRequestBase> requestArgumentCaptor;
 
     @Test
     void get() throws Exception {
@@ -40,7 +40,7 @@ class IbanityHttpClientImplTest {
 
         when(httpClient.execute(requestArgumentCaptor.capture())).thenReturn(createHttpResponse(expected));
 
-        HttpResponse actual = ibanityHttpClient.get(uri());
+        ClassicHttpResponse actual = ibanityHttpClient.get(uri());
 
         assertThat(readContent(actual)).isEqualTo(expected);
         assertThat(requestArgumentCaptor.getValue().getMethod()).isEqualTo("GET");
@@ -56,7 +56,7 @@ class IbanityHttpClientImplTest {
 
         when(httpClient.execute(requestArgumentCaptor.capture())).thenReturn(createHttpResponse(expected));
 
-        HttpResponse actual = ibanityHttpClient.post(uri(), "hello");
+        ClassicHttpResponse actual = ibanityHttpClient.post(uri(), "hello");
 
         assertThat(readContent(actual)).isEqualTo(expected);
         assertThat(requestArgumentCaptor.getValue().getMethod()).isEqualTo("POST");
@@ -68,7 +68,7 @@ class IbanityHttpClientImplTest {
 
         when(httpClient.execute(requestArgumentCaptor.capture())).thenReturn(createHttpResponse(expected));
 
-        HttpResponse actual = ibanityHttpClient.post(uri(), "hello", "accessToken");
+        ClassicHttpResponse actual = ibanityHttpClient.post(uri(), "hello", "accessToken");
 
         assertThat(readContent(actual)).isEqualTo(expected);
         assertThat(requestArgumentCaptor.getValue().getMethod()).isEqualTo("POST");
@@ -82,7 +82,7 @@ class IbanityHttpClientImplTest {
 
         when(httpClient.execute(requestArgumentCaptor.capture())).thenReturn(createHttpResponse(expected));
 
-        HttpResponse actual = ibanityHttpClient.delete(uri());
+        ClassicHttpResponse actual = ibanityHttpClient.delete(uri());
 
         assertThat(readContent(actual)).isEqualTo(expected);
         assertThat(requestArgumentCaptor.getValue().getMethod()).isEqualTo("DELETE");
@@ -94,13 +94,13 @@ class IbanityHttpClientImplTest {
 
         when(httpClient.execute(requestArgumentCaptor.capture())).thenReturn(createHttpResponse(expected));
 
-        HttpResponse actual = ibanityHttpClient.patch(uri(), "hello");
+        ClassicHttpResponse actual = ibanityHttpClient.patch(uri(), "hello");
 
         assertThat(readContent(actual)).isEqualTo(expected);
         assertThat(requestArgumentCaptor.getValue().getMethod()).isEqualTo("PATCH");
     }
 
-    private String readContent(HttpResponse actual) throws IOException {
+    private String readContent(ClassicHttpResponse actual) throws IOException {
         return IOUtils.toString(actual.getEntity().getContent(), UTF_8);
     }
 }

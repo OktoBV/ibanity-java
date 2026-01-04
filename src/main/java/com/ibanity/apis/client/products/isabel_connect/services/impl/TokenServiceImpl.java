@@ -12,7 +12,6 @@ import com.ibanity.apis.client.products.isabel_connect.models.revoke.TokenRevoke
 import com.ibanity.apis.client.products.isabel_connect.services.TokenService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import com.ibanity.apis.client.utils.IbanityUtils;
-import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +19,7 @@ import java.io.IOException;
 import java.net.URI;
 
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class TokenServiceImpl implements TokenService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TokenServiceImpl.class);
@@ -51,7 +50,7 @@ public class TokenServiceImpl implements TokenService {
     private <T extends Token> T performTokenRequest(TokenQuery query, Class<T> type) {
         try {
             URI uri = buildUri(getUrl(query.path()));
-            HttpResponse response = oAuthHttpClient.post(uri, query.getAdditionalHeaders(), query.requestArguments(), query.getClientSecret());
+            ClassicHttpResponse response = oAuthHttpClient.post(uri, query.getAdditionalHeaders(), query.requestArguments(), query.getClientSecret());
             return IbanityUtils.jsonMapper().readValue(response.getEntity().getContent(), type);
         } catch (IOException e) {
             LOGGER.error("oauth token response invalid", e);

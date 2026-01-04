@@ -12,7 +12,7 @@ import com.ibanity.apis.client.products.ponto_connect.models.read.PendingTransac
 import com.ibanity.apis.client.products.ponto_connect.services.PendingTransactionService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.HttpResponse;
 
 import java.net.URI;
 import java.util.UUID;
@@ -20,7 +20,7 @@ import java.util.UUID;
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapCollection;
 import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapResource;
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class PendingTransactionServiceImpl implements PendingTransactionService {
 
     private final ApiUrlProvider apiUrlProvider;
@@ -36,7 +36,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
         URI uri = buildUri(getUrl(pendingTransactionReadQuery.getAccountId())
                 + "/"
                 + pendingTransactionReadQuery.getPendingTransactionId());
-        HttpResponse response = ibanityHttpClient.get(uri, pendingTransactionReadQuery.getAdditionalHeaders(), pendingTransactionReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, pendingTransactionReadQuery.getAdditionalHeaders(), pendingTransactionReadQuery.getAccessToken());
         return mapResource(response, PendingTransaction.class);
     }
 
@@ -49,7 +49,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
 
         URI uri = buildUri(getUrl(pendingTransactionsReadQuery.getAccountId()), pagingSpec);
 
-        HttpResponse response = ibanityHttpClient.get(uri, pendingTransactionsReadQuery.getAdditionalHeaders(), pendingTransactionsReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, pendingTransactionsReadQuery.getAdditionalHeaders(), pendingTransactionsReadQuery.getAccessToken());
         return mapCollection(response, PendingTransaction.class);
     }
 
@@ -62,7 +62,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
 
         URI uri = buildUri(getUrlForSynchronizationId(pendingTransactionsReadQuery.getSynchronizationId()), pagingSpec);
 
-        HttpResponse response = ibanityHttpClient.get(uri, pendingTransactionsReadQuery.getAdditionalHeaders(), pendingTransactionsReadQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, pendingTransactionsReadQuery.getAdditionalHeaders(), pendingTransactionsReadQuery.getAccessToken());
         return mapCollection(response, PendingTransaction.class);
     }
 

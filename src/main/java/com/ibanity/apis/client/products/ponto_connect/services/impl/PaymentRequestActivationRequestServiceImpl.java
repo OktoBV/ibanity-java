@@ -1,30 +1,23 @@
 package com.ibanity.apis.client.products.ponto_connect.services.impl;
 
-import static com.ibanity.apis.client.mappers.IbanityModelMapper.toIbanityModel;
-import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapResource;
-import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;
-import static com.ibanity.apis.client.models.IbanityProduct.PontoConnect;
-import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-
-import java.net.URI;
-import java.util.function.Function;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
-
 import com.ibanity.apis.client.http.IbanityHttpClient;
 import com.ibanity.apis.client.jsonapi.DataApiModel;
 import com.ibanity.apis.client.jsonapi.RequestApiModel;
 import com.ibanity.apis.client.products.ponto_connect.models.create.PaymentRequestActivationRequestCreateQuery;
 import com.ibanity.apis.client.products.ponto_connect.services.PaymentRequestActivationRequestService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
+import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.net.URI;
+import java.util.function.Function;
 
+import static com.ibanity.apis.client.mappers.IbanityModelMapper.mapResource;
+import static com.ibanity.apis.client.mappers.IbanityModelMapper.toIbanityModel;
+import static com.ibanity.apis.client.mappers.ModelMapperHelper.buildRequest;
+import static com.ibanity.apis.client.models.IbanityProduct.PontoConnect;
+import static com.ibanity.apis.client.utils.URIHelper.buildUri;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class PaymentRequestActivationRequestServiceImpl implements PaymentRequestActivationRequestService {
 
     private final ApiUrlProvider apiUrlProvider;
@@ -40,7 +33,7 @@ public class PaymentRequestActivationRequestServiceImpl implements PaymentReques
         URI uri = buildUri(getUrl());
 
         RequestApiModel requestApiModel = buildRequest(PaymentRequestActivationRequest.RESOURCE_TYPE, toRequest(paymentRequestActivationRequestCreateQuery));
-        HttpResponse response = ibanityHttpClient.post(uri, requestApiModel, paymentRequestActivationRequestCreateQuery.getAdditionalHeaders(), paymentRequestActivationRequestCreateQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.post(uri, requestApiModel, paymentRequestActivationRequestCreateQuery.getAdditionalHeaders(), paymentRequestActivationRequestCreateQuery.getAccessToken());
 
         return mapResource(response, customMapping());
     }

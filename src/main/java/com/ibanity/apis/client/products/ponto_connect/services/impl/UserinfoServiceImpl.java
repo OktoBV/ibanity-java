@@ -7,7 +7,6 @@ import com.ibanity.apis.client.products.ponto_connect.models.read.UserinfoReadQu
 import com.ibanity.apis.client.products.ponto_connect.services.UserinfoService;
 import com.ibanity.apis.client.services.ApiUrlProvider;
 import com.ibanity.apis.client.utils.IbanityUtils;
-import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +14,8 @@ import java.io.IOException;
 import java.net.URI;
 
 import static com.ibanity.apis.client.utils.URIHelper.buildUri;
-import static org.apache.http.util.EntityUtils.consumeQuietly;
-
+import static org.apache.hc.core5.http.io.entity.EntityUtils.consumeQuietly;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 public class UserinfoServiceImpl implements UserinfoService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserinfoServiceImpl.class);
@@ -32,7 +31,7 @@ public class UserinfoServiceImpl implements UserinfoService {
     @Override
     public Userinfo getUserinfo(UserinfoReadQuery readQuery) {
         URI uri = buildUri(getUrl());
-        HttpResponse response = ibanityHttpClient.get(uri, readQuery.getAdditionalHeaders(), readQuery.getAccessToken());
+        ClassicHttpResponse response = ibanityHttpClient.get(uri, readQuery.getAdditionalHeaders(), readQuery.getAccessToken());
         try {
             return IbanityUtils.jsonMapper().readValue(response.getEntity().getContent(), Userinfo.class);
         } catch (IOException e) {

@@ -5,11 +5,10 @@ import com.ibanity.apis.client.exceptions.IbanityServerException;
 import com.ibanity.apis.client.models.ErrorMeta;
 import com.ibanity.apis.client.models.FinancialInstitutionResponse;
 import com.ibanity.apis.client.models.IbanityError;
-import org.apache.http.HttpResponse;
-import org.apache.http.ProtocolVersion;
-import org.apache.http.client.entity.EntityBuilder;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicStatusLine;
+import org.apache.hc.client5.http.entity.EntityBuilder;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.ProtocolVersion;
+import org.apache.hc.core5.http.message.BasicHeader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -32,13 +31,13 @@ class IbanityResponseHandlerTest {
     private IbanityResponseHandler ibanityResponseHandler = new IbanityResponseHandler();
 
     @Mock
-    private HttpResponse httpResponse;
+    private ClassicHttpResponse httpResponse;
 
     @Test
     void handleResponse() throws IOException {
-        when(httpResponse.getStatusLine()).thenReturn(new BasicStatusLine(dummyProtocolVersion(), 200, ""));
+        when(httpResponse.getCode()).thenReturn(200);
 
-        HttpResponse actual = ibanityResponseHandler.handleResponse(httpResponse);
+        ClassicHttpResponse actual = ibanityResponseHandler.handleResponse(httpResponse);
 
         assertThat(actual).isEqualTo(httpResponse);
     }
@@ -49,7 +48,7 @@ class IbanityResponseHandlerTest {
         String expected = errorPayloadWithJson();
 
         when(httpResponse.getEntity()).thenReturn(EntityBuilder.create().setText(expected).build());
-        when(httpResponse.getStatusLine()).thenReturn(new BasicStatusLine(dummyProtocolVersion(), 500, ""));
+        when(httpResponse.getCode()).thenReturn(500);
         when(httpResponse.getFirstHeader(IBANITY_REQUEST_ID_HEADER)).thenReturn(new BasicHeader(IBANITY_REQUEST_ID_HEADER, REQUEST_ID));
 
         IbanityServerException actual = assertThrows(IbanityServerException.class, () -> ibanityResponseHandler.handleResponse(httpResponse));
@@ -63,7 +62,7 @@ class IbanityResponseHandlerTest {
         String expected = errorPayloadWithResponseIdJson();
 
         when(httpResponse.getEntity()).thenReturn(EntityBuilder.create().setText(expected).build());
-        when(httpResponse.getStatusLine()).thenReturn(new BasicStatusLine(dummyProtocolVersion(), 500, ""));
+        when(httpResponse.getCode()).thenReturn(500);
         when(httpResponse.getFirstHeader(IBANITY_REQUEST_ID_HEADER))
                 .thenReturn(new BasicHeader(IBANITY_REQUEST_ID_HEADER, REQUEST_ID));
 
@@ -82,7 +81,7 @@ class IbanityResponseHandlerTest {
         String expected = errorPayloadWithJson();
 
         when(httpResponse.getEntity()).thenReturn(EntityBuilder.create().setText(expected).build());
-        when(httpResponse.getStatusLine()).thenReturn(new BasicStatusLine(dummyProtocolVersion(), 404, ""));
+        when(httpResponse.getCode()).thenReturn(404);
         when(httpResponse.getFirstHeader(IBANITY_REQUEST_ID_HEADER)).thenReturn(new BasicHeader(IBANITY_REQUEST_ID_HEADER, REQUEST_ID));
 
         IbanityClientException actual = assertThrows(IbanityClientException.class, () -> ibanityResponseHandler.handleResponse(httpResponse));
@@ -96,7 +95,7 @@ class IbanityResponseHandlerTest {
         String expected = errorPayloadWithHtml();
 
         when(httpResponse.getEntity()).thenReturn(EntityBuilder.create().setText(expected).build());
-        when(httpResponse.getStatusLine()).thenReturn(new BasicStatusLine(dummyProtocolVersion(), 404, ""));
+        when(httpResponse.getCode()).thenReturn(404);
         when(httpResponse.getFirstHeader(IBANITY_REQUEST_ID_HEADER)).thenReturn(null);
 
         IbanityClientException actual = assertThrows(IbanityClientException.class, () -> ibanityResponseHandler.handleResponse(httpResponse));
