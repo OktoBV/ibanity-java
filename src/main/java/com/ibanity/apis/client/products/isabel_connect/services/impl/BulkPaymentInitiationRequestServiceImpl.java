@@ -46,7 +46,6 @@ public class BulkPaymentInitiationRequestServiceImpl implements BulkPaymentIniti
     }
 
     @Override
-    @SneakyThrows(UnsupportedEncodingException.class)
     public BulkPaymentInitiationRequest create(BulkPaymentInitiationRequestCreateQuery query) {
         URI url = buildUri(getUrl());
         HttpPost httpPost = new HttpPost(url);
