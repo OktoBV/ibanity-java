@@ -7,7 +7,8 @@ import com.ibanity.apis.client.products.ponto_connect.models.create.TokenCreateQ
 import com.ibanity.apis.client.products.ponto_connect.models.refresh.TokenRefreshQuery;
 import com.ibanity.apis.client.products.ponto_connect.models.revoke.TokenRevokeQuery;
 import com.ibanity.apis.client.services.ApiUrlProvider;
-import org.apache.hc.client5.message.BasicHttpResponse;
+import org.apache.hc.core5.http.message.BasicClassicHttpResponse;
+import org.apache.hc.core5.http.message.BasicHttpResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -88,7 +89,7 @@ public class TokenServiceImplTest {
     @Test
     public void revoke() throws Exception {
         when(oAuthHttpClient.post(any(), any(), any(), any()))
-                .thenReturn(new BasicHttpResponse(HTTP, 204, null));
+                .thenReturn(new BasicClassicHttpResponse( 204));
 
         tokenService.revoke(TokenRevokeQuery.builder()
                 .clientSecret(CLIENT_SECRET)

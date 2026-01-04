@@ -1,5 +1,6 @@
 package com.ibanity.apis.client.http.impl;
 
+import com.ibanity.apis.client.http.handler.IbanityResponseHandler;
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
@@ -20,6 +21,7 @@ import java.net.URISyntaxException;
 import static com.ibanity.apis.client.helpers.IbanityTestHelper.createHttpResponse;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,7 +40,7 @@ class IbanityHttpClientImplTest {
     void get() throws Exception {
         String expected = "value";
 
-        when(httpClient.execute(requestArgumentCaptor.capture())).thenReturn(createHttpResponse(expected));
+        when(httpClient.execute(requestArgumentCaptor.capture(), any(IbanityResponseHandler.class))).thenReturn(createHttpResponse(expected));
 
         ClassicHttpResponse actual = ibanityHttpClient.get(uri());
 
@@ -54,7 +56,7 @@ class IbanityHttpClientImplTest {
     void post() throws Exception {
         String expected = "value";
 
-        when(httpClient.execute(requestArgumentCaptor.capture())).thenReturn(createHttpResponse(expected));
+        when(httpClient.execute(requestArgumentCaptor.capture(), any(IbanityResponseHandler.class))).thenReturn(createHttpResponse(expected));
 
         ClassicHttpResponse actual = ibanityHttpClient.post(uri(), "hello");
 
@@ -66,7 +68,7 @@ class IbanityHttpClientImplTest {
     void post_whenCustomerToken_thenAddHeader() throws Exception {
         String expected = "value";
 
-        when(httpClient.execute(requestArgumentCaptor.capture())).thenReturn(createHttpResponse(expected));
+        when(httpClient.execute(requestArgumentCaptor.capture(), any(IbanityResponseHandler.class))).thenReturn(createHttpResponse(expected));
 
         ClassicHttpResponse actual = ibanityHttpClient.post(uri(), "hello", "accessToken");
 
@@ -80,7 +82,7 @@ class IbanityHttpClientImplTest {
     void delete() throws Exception {
         String expected = "value";
 
-        when(httpClient.execute(requestArgumentCaptor.capture())).thenReturn(createHttpResponse(expected));
+        when(httpClient.execute(requestArgumentCaptor.capture(), any(IbanityResponseHandler.class))).thenReturn(createHttpResponse(expected));
 
         ClassicHttpResponse actual = ibanityHttpClient.delete(uri());
 
@@ -92,7 +94,7 @@ class IbanityHttpClientImplTest {
     void patch() throws Exception {
         String expected = "value";
 
-        when(httpClient.execute(requestArgumentCaptor.capture())).thenReturn(createHttpResponse(expected));
+        when(httpClient.execute(requestArgumentCaptor.capture(), any(IbanityResponseHandler.class))).thenReturn(createHttpResponse(expected));
 
         ClassicHttpResponse actual = ibanityHttpClient.patch(uri(), "hello");
 

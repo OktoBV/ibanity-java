@@ -2,12 +2,13 @@ package com.ibanity.apis.client.http.interceptor;
 
 import com.ibanity.apis.client.http.service.IbanityHttpSignatureService;
 import org.apache.commons.io.IOUtils;
-import org.apache.hc.client5.client.entity.EntityBuilder;
-import org.apache.hc.client5.http.classic.methods.HttpEntityEnclosingRequestBase;
-import org.apache.hc.core5.http.message.HttpRequestWrapper;
-import org.apache.hc.client5.message.BasicHeader;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.client5.http.entity.EntityBuilder;
+import org.apache.hc.core5.http.EntityDetails;
+import org.apache.hc.core5.http.message.BasicHeader;
 import org.apache.hc.core5.http.protocol.HttpContext;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -16,13 +17,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,13 +38,13 @@ class IbanitySignatureInterceptorTest {
     private IbanityHttpSignatureService ibanityHttpSignatureService;
 
     @Mock
-    private HttpRequestWrapper httpRequestWrapper;
-
-    @Mock
-    private HttpEntityEnclosingRequestBase httpRequest;
+    private HttpUriRequestBase httpRequest;
 
     @Mock
     private HttpContext httpContext;
+
+    @Mock
+    private EntityDetails entity;
 
     @BeforeEach
     void setUp() {
@@ -51,23 +52,22 @@ class IbanitySignatureInterceptorTest {
     }
 
     @Test
-    void process() throws IOException, URISyntaxException {
+    void process() throws IOException {
         String httpMethod = "POST";
         InputStream body = IOUtils.toInputStream("aBody", StandardCharsets.UTF_8);
 
-        when(httpRequestWrapper.getURI()).thenReturn(new URI("/path"));
-        when(httpRequestWrapper.getAllHeaders()).thenReturn(new BasicHeader[0]);
-        when(httpRequestWrapper.getMethod()).thenReturn(httpMethod);
-        when(httpRequestWrapper.getOriginal()).thenReturn(httpRequest);
+        when(httpRequest.getRequestUri()).thenReturn("/path");
+        when(httpRequest.getHeaders()).thenReturn(new BasicHeader[0]);
+        when(httpRequest.getMethod()).thenReturn(httpMethod);
         when(httpRequest.getEntity()).thenReturn(EntityBuilder.create().setStream(body).build());
 
         Map<String, String> headers = getSignatureHeaders();
-        when(ibanityHttpSignatureService.getHttpSignatureHeaders(httpMethod, getUrl(), getRequestedHeaders(), body))
+        when(ibanityHttpSignatureService.getHttpSignatureHeaders(eq(httpMethod), eq(getUrl()), eq(getRequestedHeaders()), any(InputStream.class)))
                 .thenReturn(headers);
 
-        ibanitySignatureInterceptor.process(httpRequestWrapper, httpContext);
+        ibanitySignatureInterceptor.process(httpRequest, entity, httpContext);
 
-        verify(httpRequestWrapper).addHeader("digest", "value");
+        verify(httpRequest).addHeader("digest", "value");
     }
 
     private Map<String, String> getSignatureHeaders() {
