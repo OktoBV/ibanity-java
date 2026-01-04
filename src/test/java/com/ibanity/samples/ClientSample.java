@@ -65,8 +65,6 @@ public class ClientSample {
                 .tlsPrivateKey(privateKey)
                 .passphrase(passphrase)
                 .tlsCertificate(certificate)
-//                .withHttpRequestInterceptors((request, context) -> LOGGER.info("This is a HttpRequestInterceptor"))
-//                .withHttpResponseInterceptors((response, context) -> LOGGER.info("This is a HttpResponseInterceptor"))
                 .connectTimeout(10_000)
                 .socketTimeout(60_000)
                 .connectionRequestTimeout(10_000)
@@ -95,7 +93,7 @@ public class ClientSample {
 
         clientSample.accountInformationAccessRequestSamples(customerAccessToken, financialInstitutions);
 
-        Authorization authorization = clientSample.authorizationSamples(customerAccessToken, financialInstitutions);
+        AccountInformationAccessRequestAuthorization authorization = clientSample.authorizationSamples(customerAccessToken, financialInstitutions);
         LOGGER.info("Authorization: {}", authorization);
 
         List<Account> accounts = clientSample.accountSamples(customerAccessToken, financialInstitutions);
@@ -166,7 +164,7 @@ public class ClientSample {
         return accountInformationAccessRequest;
     }
 
-    public Authorization authorizationSamples(CustomerAccessToken customerAccessToken, List<FinancialInstitution> financialInstitutions) {
+    public AccountInformationAccessRequestAuthorization authorizationSamples(CustomerAccessToken customerAccessToken, List<FinancialInstitution> financialInstitutions) {
         LOGGER.info("Authorization samples");
 
         String consentReference = "application_customer_reference-" + UUID.randomUUID().toString();

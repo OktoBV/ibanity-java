@@ -1,15 +1,9 @@
 package com.ibanity.samples;
 
-import com.ibanity.apis.client.products.xs2a.models.AccountInformationAccessRequest;
-import com.ibanity.apis.client.products.xs2a.models.Authorization;
-import com.ibanity.apis.client.products.xs2a.models.CustomerAccessToken;
-import com.ibanity.apis.client.products.xs2a.models.FinancialInstitution;
-import com.ibanity.apis.client.products.xs2a.models.create.AccountInformationAccessRequestCreationQuery;
-import com.ibanity.apis.client.products.xs2a.models.create.AuthorizationCreationQuery;
-import com.ibanity.apis.client.products.xs2a.models.create.AuthorizationPortalCreationQuery;
-import com.ibanity.apis.client.products.xs2a.models.create.MetaRequestCreationQuery;
+import com.ibanity.apis.client.products.xs2a.models.*;
+import com.ibanity.apis.client.products.xs2a.models.create.*;
+import com.ibanity.apis.client.products.xs2a.services.AccountInformationAccessRequestAuthorizationsService;
 import com.ibanity.apis.client.products.xs2a.services.AccountInformationAccessRequestsService;
-import com.ibanity.apis.client.products.xs2a.services.AuthorizationsService;
 import com.ibanity.apis.client.services.IbanityService;
 
 import java.util.Arrays;
@@ -18,14 +12,13 @@ import java.util.Map;
 
 public class AuthorizationSample {
 
-    private final AuthorizationsService authorizationsService;
+    private final AccountInformationAccessRequestAuthorizationsService authorizationsService;
     private final AccountInformationAccessRequestsService accountInformationAccessRequestsService;
 
     public AuthorizationSample(IbanityService ibanityService) {
         accountInformationAccessRequestsService = ibanityService.xs2aService().accountInformationAccessRequestsService();
-        authorizationsService = ibanityService.xs2aService().authorizationsService();
+        authorizationsService = ibanityService.xs2aService().accountInformationAccessRequestAuthorizationsService();
     }
-
 
     public AccountInformationAccessRequest createAiar(
             FinancialInstitution financialInstitution,
@@ -55,10 +48,10 @@ public class AuthorizationSample {
         return accountInformationAccessRequestsService.create(accountInformationAccessRequestCreationQuery);
     }
 
-    public Authorization create(AccountInformationAccessRequest accountInformationAccessRequest, FinancialInstitution financialInstitution, CustomerAccessToken customerAccessToken, String code) {
+    public AccountInformationAccessRequestAuthorization create(AccountInformationAccessRequest accountInformationAccessRequest, FinancialInstitution financialInstitution, CustomerAccessToken customerAccessToken, String code) {
         Map<String, String> authorizationCode = new HashMap<>();
         authorizationCode.put("code", code);
-        AuthorizationCreationQuery authorizationCreationQuery = AuthorizationCreationQuery.builder()
+        AccountInformationAccessRequestAuthorizationCreationQuery authorizationCreationQuery = AccountInformationAccessRequestAuthorizationCreationQuery.builder()
                 .accountInformationAccessRequestId(accountInformationAccessRequest.getId())
                 .customerAccessToken(customerAccessToken.getToken())
                 .financialInstitutionId(financialInstitution.getId())
