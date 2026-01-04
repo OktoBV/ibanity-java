@@ -100,7 +100,7 @@ public class ApiUrlProviderImpl implements ApiUrlProvider {
         return StringUtils.isNotBlank(proxyEndpoint);
     }
 
-    private JsonNode mapJsonToMap(String schema) throws IOException {
+    private JsonNode mapJsonToMap(String schema) {
         return IbanityUtils.jsonMapper().readTree(schema).get("links");
     }
 }

@@ -28,7 +28,7 @@ public class IbanityTestHelper {
         return createHttpResponse(expected, new Header[]{});
     }
 
-    public static ClassicHttpResponse createHttpResponse(String expected, Header... headers) throws UnsupportedEncodingException {
+    public static ClassicHttpResponse createHttpResponse(String expected, Header... headers) {
         ClassicHttpResponse postResponse = new BasicClassicHttpResponse(200);
         postResponse.setEntity(new StringEntity(expected));
         postResponse.setHeaders(headers);

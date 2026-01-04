@@ -48,8 +48,8 @@ class IbanityHttpClientImplTest {
         assertThat(requestArgumentCaptor.getValue().getMethod()).isEqualTo("GET");
     }
 
-    private URI uri() throws URISyntaxException {
-        return new URI("www.google.be");
+    private URI uri() {
+        return URI.create("www.google.be");
     }
 
     @Test

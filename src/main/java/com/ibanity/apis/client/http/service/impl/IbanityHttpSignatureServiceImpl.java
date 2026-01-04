@@ -178,11 +178,7 @@ public class IbanityHttpSignatureServiceImpl implements IbanityHttpSignatureServ
     }
 
     private String getHost() {
-        try {
-            return new URL(ibanityEndpoint).getHost();
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Ibanity api endpoint misconfigured: " + ibanityEndpoint, e);
-        }
+        return URI.create(ibanityEndpoint).getHost();
     }
 
     public static String getDigestHeader(InputStream payload) {
@@ -190,7 +186,7 @@ public class IbanityHttpSignatureServiceImpl implements IbanityHttpSignatureServ
         try (BufferedInputStream stream = new BufferedInputStream(payload, BUFFER_SIZE)) {
             byte[] buffer = new byte[BUFFER_SIZE];
             int length;
-            while((length = stream.read(buffer)) != -1) {
+            while ((length = stream.read(buffer)) != -1) {
                 md.update(buffer, 0, length);
             }
         } catch (IOException e) {
@@ -237,7 +233,7 @@ public class IbanityHttpSignatureServiceImpl implements IbanityHttpSignatureServ
     private String getSignatureDigest(String requestTarget, String host, String payloadDigest, Long timestamp, Map<String, String> requestHeaders) {
         try {
             String signatureString = getSignatureString(requestTarget, host, payloadDigest, timestamp, requestHeaders);
-            if(LOGGER.isTraceEnabled()) {
+            if (LOGGER.isTraceEnabled()) {
                 LOGGER.trace("Signature value: {}", signatureString);
             }
 
@@ -248,7 +244,8 @@ public class IbanityHttpSignatureServiceImpl implements IbanityHttpSignatureServ
             byte[] signedData = signature.sign();
 
             return Base64.getEncoder().encodeToString(signedData);
-        } catch (InvalidKeyException | NoSuchAlgorithmException | SignatureException | InvalidAlgorithmParameterException exception) {
+        } catch (InvalidKeyException | NoSuchAlgorithmException | SignatureException |
+                 InvalidAlgorithmParameterException exception) {
             String errorMessage = "Error while trying to generate the signature of the request";
             throw new IllegalArgumentException(errorMessage, exception);
         }

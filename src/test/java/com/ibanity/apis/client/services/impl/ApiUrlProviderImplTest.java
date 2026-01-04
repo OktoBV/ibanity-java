@@ -32,7 +32,7 @@ class ApiUrlProviderImplTest {
 
 
     @BeforeEach
-    void setUp() throws UnsupportedEncodingException {
+    void setUp() {
         lenient().when(ibanityHttpClient.get(eq(create(PROXY_ENDPOINT + "/xs2a")), eq(null))).thenReturn(getHttpResponse());
         lenient().when(ibanityHttpClient.get(eq(create(API_ENDPOINT + "/xs2a")), eq(null))).thenReturn(getHttpResponse());
     }

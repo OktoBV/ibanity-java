@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -77,7 +78,7 @@ class IbanitySignatureInterceptorTest {
     }
 
     private URL getUrl() throws MalformedURLException {
-        return new URL(BASE_PATH + "/path");
+        return URI.create(BASE_PATH + "/path").toURL();
     }
 
     private Map<String, String> getRequestedHeaders() {
