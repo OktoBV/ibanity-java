@@ -96,7 +96,7 @@ public class AccountReportServiceImpl implements AccountReportService {
                             collectionApiModel
                                     .getData()
                                     .stream()
-                                    .map(dataApiModel -> mapItem(dataApiModel))
+                                    .map(this::mapItem)
                                     .collect(Collectors.toList())
                     )
                     .build();

@@ -42,10 +42,7 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The custom {@link HttpRequestRetryStrategy} used by request executors.
@@ -83,8 +80,7 @@ public class CustomHttpRequestRetryHandler implements HttpRequestRetryStrategy {
         super();
         this.retryCount = retryCount;
         this.requestSentRetryEnabled = requestSentRetryEnabled;
-        this.nonRetriableClasses = new HashSet<>();
-        this.nonRetriableClasses.addAll(clazzes);
+        this.nonRetriableClasses = new HashSet<>(clazzes);
     }
 
     /**
@@ -100,9 +96,8 @@ public class CustomHttpRequestRetryHandler implements HttpRequestRetryStrategy {
      * @param retryCount              how many times to retry; 0 means no retries
      * @param requestSentRetryEnabled true if it's OK to retry non-idempotent requests that have been sent
      */
-    @SuppressWarnings("unchecked")
     public CustomHttpRequestRetryHandler(final int retryCount, final boolean requestSentRetryEnabled) {
-        this(retryCount, requestSentRetryEnabled, Arrays.asList(
+        this(retryCount, requestSentRetryEnabled, List.of(
                 InterruptedIOException.class,
                 UnknownHostException.class,
                 ConnectException.class,
@@ -225,9 +220,7 @@ public class CustomHttpRequestRetryHandler implements HttpRequestRetryStrategy {
      * @param request the request to check if aborted
      * @return is the request aborted
      * @since 4.2
-     * @deprecated (4.3)
      */
-    @Deprecated
     protected boolean requestIsAborted(final HttpRequest request) {
         // In HTTP Client 5, RequestWrapper doesn't exist
         // Check if the request is HttpUriRequest and aborted

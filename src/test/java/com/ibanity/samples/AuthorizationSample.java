@@ -8,6 +8,7 @@ import com.ibanity.apis.client.services.IbanityService;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AuthorizationSample {
@@ -32,7 +33,7 @@ public class AuthorizationSample {
                         .consentReference(consentReference)
                         .allowFinancialInstitutionRedirectUri(true)
                         .customerIpAddress("1.1.1.1")
-                        .allowedAccountSubtypes(Arrays.asList("checking", "savings", "securities"))
+                        .allowedAccountSubtypes(List.of("checking", "savings", "securities"))
                         .skipIbanityCompletionCallback(true)
                         .state("myCustomState")
                         .metaRequestCreationQuery(MetaRequestCreationQuery.builder()

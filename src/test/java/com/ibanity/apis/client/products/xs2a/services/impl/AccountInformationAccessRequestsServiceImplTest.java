@@ -23,8 +23,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import static com.ibanity.apis.client.helpers.IbanityTestHelper.loadHttpResponse;
@@ -81,7 +81,7 @@ class AccountInformationAccessRequestsServiceImplTest {
                         .state("aCustomState")
                         .allowMulticurrencyAccounts(true)
                         .financialInstitutionCustomerReference("jdoe0001")
-                        .allowedAccountSubtypes(Arrays.asList("checking", "savings"))
+                        .allowedAccountSubtypes(List.of("checking", "savings"))
                         .skipIbanityCompletionCallback(true)
                         .allowFinancialInstitutionRedirectUri(true)
                         .metaRequestCreationQuery(MetaRequestCreationQuery.builder()
@@ -142,7 +142,7 @@ class AccountInformationAccessRequestsServiceImplTest {
         return AccountInformationAccessRequest.builder()
                 .id(ACCOUNT_INFORMATION_ACCESS_REQUEST_ID)
                 .status("received")
-                .requestedAccountReferences(Arrays.asList("BE9386908098818901"))
+                .requestedAccountReferences(List.of("BE9386908098818901"))
                 .skipIbanityCompletionCallback(true)
                 .allowFinancialInstitutionRedirectUri(true)
                 .accountInformationAccessLinks(AccountInformationAccessLinks.builder()

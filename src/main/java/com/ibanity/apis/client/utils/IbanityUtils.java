@@ -1,26 +1,20 @@
 package com.ibanity.apis.client.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.hc.client5.http.classic.HttpClient;
-import org.apache.hc.client5.http.config.ConnectionConfig;
-import org.apache.hc.client5.http.config.RequestConfig;
-import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
-import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
-import org.apache.hc.client5.http.io.HttpClientConnectionManager;
-import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
-import org.apache.hc.client5.http.ssl.DefaultClientTlsStrategy;
-import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
-import org.apache.hc.core5.util.TimeValue;
-import org.apache.hc.core5.util.Timeout;
-import tools.jackson.databind.DeserializationFeature;
 import com.ibanity.apis.client.builders.IbanityConfiguration;
 import com.ibanity.apis.client.http.interceptor.IbanitySignatureInterceptor;
 import com.ibanity.apis.client.http.interceptor.IdempotencyInterceptor;
 import com.ibanity.apis.client.http.service.impl.IbanityHttpSignatureServiceImpl;
 import com.ibanity.apis.client.models.SignatureCredentials;
 import com.ibanity.apis.client.models.TlsCredentials;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.io.HttpClientConnectionManager;
+import org.apache.hc.client5.http.ssl.DefaultClientTlsStrategy;
+import org.apache.hc.core5.util.Timeout;
+import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.json.JsonMapper;
 
 import javax.net.ssl.*;

@@ -45,7 +45,7 @@ public final class IbanityConfiguration {
 
 
     private static Configuration loadProperties() throws ConfigurationException {
-        List<FileLocationStrategy> subs = Arrays.asList(
+        List<FileLocationStrategy> subs = List.of(
                 new ProvidedURLLocationStrategy(),
                 new FileSystemLocationStrategy(),
                 new ClasspathLocationStrategy());
