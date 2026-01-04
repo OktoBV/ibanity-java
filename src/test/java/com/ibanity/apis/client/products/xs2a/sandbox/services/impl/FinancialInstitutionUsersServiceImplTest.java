@@ -82,7 +82,7 @@ class FinancialInstitutionUsersServiceImplTest {
                 .build();
 
         FinancialInstitutionUser actual = financialInstitutionUsersService.find(query);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     @Test
@@ -96,7 +96,7 @@ class FinancialInstitutionUsersServiceImplTest {
         FinancialInstitutionUser actual = financialInstitutionUsersService.delete(query);
 
         FinancialInstitutionUser expected = FinancialInstitutionUser.builder().id(USER_ID).build();
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
@@ -110,7 +110,7 @@ class FinancialInstitutionUsersServiceImplTest {
                 .login("aLogin")
                 .build();
         FinancialInstitutionUser actual = financialInstitutionUsersService.create(query);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     @Test
@@ -125,7 +125,7 @@ class FinancialInstitutionUsersServiceImplTest {
                 .financialInstitutionUserId(USER_ID)
                 .build();
         FinancialInstitutionUser actual = financialInstitutionUsersService.update(query);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     private RequestApiModel createRequest() {

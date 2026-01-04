@@ -119,7 +119,7 @@ public class PendingTransactionsServiceImplTest {
 
         IbanityCollection<PendingTransaction> actual = pendingTransactionsService.list(pendingTransactionReadQuery);
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
@@ -144,7 +144,7 @@ public class PendingTransactionsServiceImplTest {
 
         IbanityCollection<PendingTransaction> actual = pendingTransactionsService.listUpdatedForSynchronization(pendingTransactionReadQuery);
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 
     private PendingTransaction createExpected() {

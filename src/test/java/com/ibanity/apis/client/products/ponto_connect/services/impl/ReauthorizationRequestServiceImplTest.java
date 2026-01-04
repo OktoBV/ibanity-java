@@ -60,7 +60,7 @@ class ReauthorizationRequestServiceImplTest {
 
         ReauthorizationRequest actual = reauthorizationRequestService.create(reauthorizationRequestCreateQuery);
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected("https://authorize.myponto.com/organizations/6680437c-8ed8-425b-84b7-2c31e5ca625d/sandbox/integrations/236d8f5c-9e19-45c7-8138-1a50910020ae/accounts/44f261ec-2cc9-47f8-8cad-bcd6994629ed/reauthorization-requests/7f4a4447-eadf-4529-9145-0b3060c260c8"));
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected("https://authorize.myponto.com/organizations/6680437c-8ed8-425b-84b7-2c31e5ca625d/sandbox/integrations/236d8f5c-9e19-45c7-8138-1a50910020ae/accounts/44f261ec-2cc9-47f8-8cad-bcd6994629ed/reauthorization-requests/7f4a4447-eadf-4529-9145-0b3060c260c8"));
     }
 
     private ReauthorizationRequest createExpected(String redirect) {

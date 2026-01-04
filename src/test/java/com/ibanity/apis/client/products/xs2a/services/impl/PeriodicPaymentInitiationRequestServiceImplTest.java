@@ -77,7 +77,7 @@ class PeriodicPaymentInitiationRequestServiceImplTest {
                 .thenReturn(loadHttpResponse("json/createPeriodicPaymentInitiationRequest.json"));
 
         PeriodicPaymentInitiationRequest actual = periodicPaymentInitiationRequestService.create(requestCreationQuery);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpectedForCreate());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedForCreate());
     }
 
     @Test

@@ -68,7 +68,7 @@ public class TokenServiceImplTest {
                 .redirectUri(REDIRECT_URI)
                 .build());
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpectedInitialToken());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedInitialToken());
     }
 
     @Test
@@ -81,7 +81,7 @@ public class TokenServiceImplTest {
                 .refreshToken(TOKEN)
                 .build());
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpectedAccessToken());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedAccessToken());
     }
 
     @Test

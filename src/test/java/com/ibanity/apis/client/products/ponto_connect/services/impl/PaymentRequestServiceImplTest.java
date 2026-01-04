@@ -63,7 +63,7 @@ class PaymentRequestServiceImplTest {
 
         PaymentRequest actual = paymentRequestService.find(paymentRequestReadQuery);
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected(null));
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected(null));
     }
 
     @Test
@@ -77,7 +77,7 @@ class PaymentRequestServiceImplTest {
 
         PaymentRequest actual = paymentRequestService.create(paymentRequestCreateQuery);
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected("https://sandbox-pay.myponto.com/organizations/5fa92700-7416-4fd4-a8f4-fbdb2a533d11/payment-requests/6c0350b5-a724-42e5-b4ce-ca3a6994df3d"));
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected("https://sandbox-pay.myponto.com/organizations/5fa92700-7416-4fd4-a8f4-fbdb2a533d11/payment-requests/6c0350b5-a724-42e5-b4ce-ca3a6994df3d"));
     }
 
     @Test
@@ -92,7 +92,7 @@ class PaymentRequestServiceImplTest {
 
         PaymentRequest actual = paymentRequestService.delete(paymentRequestDeleteQuery);
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected(null));
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected(null));
     }
 
     private PaymentRequest createExpected(String redirect) {

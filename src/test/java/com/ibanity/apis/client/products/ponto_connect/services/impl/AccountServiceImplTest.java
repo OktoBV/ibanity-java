@@ -64,7 +64,7 @@ public class AccountServiceImplTest {
                 .accountId(ACCOUNT_ID)
                 .build());
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     @Test
@@ -77,7 +77,7 @@ public class AccountServiceImplTest {
                 .accountId(ACCOUNT_ID)
                 .build());
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(Account.builder()
+        assertThat(actual).usingRecursiveComparison().isEqualTo(Account.builder()
                 .id(ACCOUNT_ID)
                 .build());
     }

@@ -70,7 +70,7 @@ public class TokenServiceImplTest {
                 .authorizationCode(AUTHORIZATION_CODE)
                 .build());
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExcepted());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExcepted());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class TokenServiceImplTest {
                 .refreshToken(TOKEN)
                 .build());
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExcepted());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExcepted());
     }
 
     @Test

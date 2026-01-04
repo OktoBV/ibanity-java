@@ -92,7 +92,7 @@ class BulkPaymentInitiationRequestServiceImplTest {
                 .thenReturn(loadHttpResponse("json/createBulkPaymentInitiationRequest.json"));
 
         BulkPaymentInitiationRequest actual = bulkPaymentInitiationRequestService.create(requestCreationQuery);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpectedForCreate());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedForCreate());
     }
 
     @Test

@@ -70,7 +70,7 @@ class FinancialInstitutionTransactionsServiceImplTest {
                 .thenReturn(loadHttpResponse("json/sandbox/find_transaction.json"));
 
         FinancialInstitutionTransaction actual = financialInstitutionTransactionsService.find(query);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpectedForFind());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedForFind());
     }
 
     @Test
@@ -85,7 +85,7 @@ class FinancialInstitutionTransactionsServiceImplTest {
                 .thenReturn(loadHttpResponse("json/sandbox/list_transactions.json"));
 
         IbanityCollection<FinancialInstitutionTransaction> actual = financialInstitutionTransactionsService.list(query);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(
+        assertThat(actual).usingRecursiveComparison().isEqualTo(
                 IbanityCollection.builder()
                         .pageLimit(10)
                         .firstLink(FIRST_LINK)
@@ -107,7 +107,7 @@ class FinancialInstitutionTransactionsServiceImplTest {
                 .build();
 
         FinancialInstitutionTransaction actual = financialInstitutionTransactionsService.delete(query);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(FinancialInstitutionTransaction.builder()
+        assertThat(actual).usingRecursiveComparison().isEqualTo(FinancialInstitutionTransaction.builder()
                 .id(TRANSACTION_ID)
                 .build());
     }
@@ -143,7 +143,7 @@ class FinancialInstitutionTransactionsServiceImplTest {
                 .thenReturn(loadHttpResponse("json/sandbox/find_transaction.json"));
 
         FinancialInstitutionTransaction actual = financialInstitutionTransactionsService.create(query);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpectedForFind());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedForFind());
     }
 
     private RequestApiModel createRequest(FinancialInstitutionTransactionCreationQuery query) {

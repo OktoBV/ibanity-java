@@ -67,7 +67,7 @@ public class TransactionServiceImplTest {
                 .transactionId(TRANSACTION_ID)
                 .build());
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpected());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpected());
     }
 
     @Test

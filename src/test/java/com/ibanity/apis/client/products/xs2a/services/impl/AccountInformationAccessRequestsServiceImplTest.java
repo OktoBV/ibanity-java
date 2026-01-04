@@ -97,7 +97,7 @@ class AccountInformationAccessRequestsServiceImplTest {
 
         AccountInformationAccessRequest actual = accountInformationAccessRequestsService.create(creationQuery);
 
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpectedForCreate());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedForCreate());
         AccountInformationAccessRequestsServiceImpl.AccountInformationAccessRequest attributes =
                 (AccountInformationAccessRequestsServiceImpl.AccountInformationAccessRequest) requestApiModelArgumentCaptor.getValue().getData().getAttributes();
         assertThat(attributes.getState()).isEqualTo("aCustomState");

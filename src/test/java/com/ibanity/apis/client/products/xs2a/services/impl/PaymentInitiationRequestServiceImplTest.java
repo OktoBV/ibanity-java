@@ -74,7 +74,7 @@ class PaymentInitiationRequestServiceImplTest {
                 .thenReturn(loadHttpResponse("json/createPaymentInitiationRequest.json"));
 
         PaymentInitiationRequest actual = paymentInitiationRequestService.create(requestCreationQuery);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(createExpectedForCreate());
+        assertThat(actual).usingRecursiveComparison().isEqualTo(createExpectedForCreate());
     }
 
     @Test
