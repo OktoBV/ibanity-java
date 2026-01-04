@@ -63,7 +63,7 @@ public class BalanceServiceImpl implements BalanceService {
                             collectionApiModel
                                     .getData()
                                     .stream()
-                                    .map(dataApiModel -> mapItem(dataApiModel))
+                                    .map(this::mapItem)
                                     .collect(Collectors.toList())
                     )
                     .build();

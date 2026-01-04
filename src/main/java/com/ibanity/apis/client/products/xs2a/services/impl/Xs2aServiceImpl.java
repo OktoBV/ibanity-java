@@ -25,7 +25,6 @@ public class Xs2aServiceImpl implements Xs2aService {
     private final AccountInformationAccessRequestsService accountInformationAccessRequestsService;
     private final CustomerService customerService;
     private final HoldingsServiceImpl holdingsService;
-    private final AuthorizationsServiceImpl authorizationsService;
     private final AccountInformationAccessRequestAuthorizationsServiceImpl accountInformationAccessRequestAuthorizationsService;
     private final FinancialInstitutionCountriesService financialInstitutionCountriesService;
 
@@ -49,7 +48,6 @@ public class Xs2aServiceImpl implements Xs2aService {
         financialInstitutionCountriesService = new FinancialInstitutionCountriesServiceImpl(apiUrlProvider, ibanityHttpClient);
         sandboxService = new SandboxServiceImpl(apiUrlProvider, ibanityHttpClient);
         customerService = new CustomerServiceImpl(apiUrlProvider, ibanityHttpClient);
-        authorizationsService = new AuthorizationsServiceImpl(apiUrlProvider, ibanityHttpClient);
         holdingsService = new HoldingsServiceImpl(apiUrlProvider, ibanityHttpClient);
     }
 
@@ -136,15 +134,6 @@ public class Xs2aServiceImpl implements Xs2aService {
     @Override
     public CustomerService customerService() {
         return customerService;
-    }
-
-    /**
-     * @deprecated  Replaced by {@link #accountInformationAccessRequestAuthorizationsService()}
-     */
-    @Deprecated
-    @Override
-    public AuthorizationsService authorizationsService() {
-        return authorizationsService;
     }
 
     @Override

@@ -140,13 +140,13 @@ public class AccountReportServiceImplTest {
 
         return AccountReport.builder()
                 .id(ACCOUNT_REPORT_ID)
-                .accountReferences(Arrays.asList(refs))
+                .accountReferences(List.of(refs))
                 .fileFormat("CODA")
                 .fileName("CODA_20181009_BE96153112434405")
                 .fileSize(BigInteger.valueOf(29680L))
                 .financialInstitutionName("GringotBank")
                 .receivedAt(LocalDateTime.parse("2018-10-09T03:55:00.710"))
-                .accountReferencesAndCurrencies(Arrays.asList(accountReferencesAndCurrencies))
+                .accountReferencesAndCurrencies(List.of(accountReferencesAndCurrencies))
                 .build();
     }
 
@@ -159,13 +159,13 @@ public class AccountReportServiceImplTest {
 
         return AccountReport.builder()
                 .id(ACCOUNT_REPORT_ID)
-                .accountReferences(Arrays.asList(refs))
+                .accountReferences(List.of(refs))
                 .fileFormat("CODA")
                 .fileName("CODA_20181009_BE96153112434405")
                 .fileSize(BigInteger.valueOf(29680L))
                 .financialInstitutionName("GringotBank")
                 .receivedAt(LocalDateTime.parse("2018-10-09T03:55:00.710"))
-                .accountReferencesAndCurrencies(Arrays.asList(accountReferencesAndCurrencies))
+                .accountReferencesAndCurrencies(List.of(accountReferencesAndCurrencies))
                 .fileBankFormatType("DIVXML")
                 .build();
     }

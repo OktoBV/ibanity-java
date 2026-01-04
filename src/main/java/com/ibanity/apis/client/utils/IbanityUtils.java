@@ -1,20 +1,20 @@
 package com.ibanity.apis.client.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.hc.client5.http.classic.HttpClient;
-import org.apache.hc.client5.http.config.RequestConfig;
-import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
-import org.apache.hc.client5.http.io.HttpClientConnectionManager;
-import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
-import org.apache.hc.core5.util.Timeout;
-import tools.jackson.databind.DeserializationFeature;
 import com.ibanity.apis.client.builders.IbanityConfiguration;
 import com.ibanity.apis.client.http.interceptor.IbanitySignatureInterceptor;
 import com.ibanity.apis.client.http.interceptor.IdempotencyInterceptor;
 import com.ibanity.apis.client.http.service.impl.IbanityHttpSignatureServiceImpl;
 import com.ibanity.apis.client.models.SignatureCredentials;
 import com.ibanity.apis.client.models.TlsCredentials;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.io.HttpClientConnectionManager;
+import org.apache.hc.client5.http.ssl.DefaultClientTlsStrategy;
+import org.apache.hc.core5.util.Timeout;
+import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.json.JsonMapper;
 
 import javax.net.ssl.*;
@@ -45,7 +45,7 @@ public final class IbanityUtils {
     }
 
     /**
-     * @deprecated  Replaced by {@link #httpClient(IbanityConfiguration)}
+     * @deprecated Replaced by {@link #httpClient(IbanityConfiguration)}
      */
     @Deprecated
     public static HttpClient httpClient(Certificate caCertificate,
@@ -88,9 +88,14 @@ public final class IbanityUtils {
                                             IbanityConfiguration configuration) {
         // Configure SSL connection using modern builder pattern
         HttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
-                .setSSLSocketFactory(SSLConnectionSocketFactoryBuilder.create()
-                        .setSslContext(sslContext)
-                        .build())
+                .setTlsSocketStrategy(new DefaultClientTlsStrategy(sslContext))
+                .setDefaultConnectionConfig(
+                        ConnectionConfig.custom()
+                                .setConnectTimeout(Timeout.ofMilliseconds(configuration.getConnectTimeout()))
+                                .setSocketTimeout(Timeout.ofMilliseconds(configuration.getSocketTimeout()))
+                                .build()
+
+                )
                 .build();
 
         // Configure HTTP client
@@ -105,15 +110,6 @@ public final class IbanityUtils {
             IbanityHttpSignatureServiceImpl httpSignatureService = getIbanityHttpSignatureService(signatureCredentials, apiEndpoint, configuration.getProxyEndpoint());
             httpClientBuilder.addRequestInterceptorLast(new IbanitySignatureInterceptor(httpSignatureService, apiEndpoint));
         }
-
-        // Configure timeouts using modern Timeout API
-        httpClientBuilder.setDefaultRequestConfig(
-                RequestConfig.custom()
-                        .setConnectTimeout(Timeout.ofMilliseconds(configuration.getConnectTimeout()))
-                        .setResponseTimeout(Timeout.ofMilliseconds(configuration.getSocketTimeout()))
-                        .setConnectionRequestTimeout(Timeout.ofMilliseconds(configuration.getConnectionRequestTimeout()))
-                        .build()
-        );
     }
 
 

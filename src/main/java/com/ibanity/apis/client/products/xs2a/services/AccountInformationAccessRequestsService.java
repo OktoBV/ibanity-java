@@ -9,15 +9,6 @@ public interface AccountInformationAccessRequestsService {
     AccountInformationAccessRequest create(
             AccountInformationAccessRequestCreationQuery accountInformationAccessRequestCreationQuery);
 
-    /**
-     * This method uses an ambiguous parameter.
-     *
-     * @deprecated use {@link #find(AccountInformationAccessRequestReadQuery)} instead.
-     */
-    @Deprecated
-    AccountInformationAccessRequest find(
-            AccountInformationAccessRequestCreationQuery accountInformationAccessRequestCreationQuery);
-
     AccountInformationAccessRequest find(
             AccountInformationAccessRequestReadQuery accountInformationAccessRequestReadQuery);
 

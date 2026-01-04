@@ -60,10 +60,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Artifact Dependencies Version-->
-        <commons-configuration2.version>2.13.0</commons-configuration2.version>
         <commons-lang.version>3.20.0</commons-lang.version>
         <commons-io.version>2.21.0</commons-io.version>
-        <commons-math3.version>3.6.1</commons-math3.version>
         <commons-codec.version>1.15</commons-codec.version>
         <slf4j.version>2.0.17</slf4j.version>
         <httpclient.version>5.6</httpclient.version>
@@ -90,6 +88,8 @@
         <junit.version>6.0.1</junit.version>
         <mockito.version>5.21.0</mockito.version>
         <assertj.version>3.27.6</assertj.version>
+        <commons-configuration2.version>2.13.0</commons-configuration2.version>
+        <commons-math3.version>3.6.1</commons-math3.version>
 
     </properties>
 
@@ -124,12 +124,6 @@
             <version>${slf4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
@@ -147,6 +141,12 @@
         </dependency>
 
         <!-- Test -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-configuration2</artifactId>
@@ -171,12 +171,7 @@
             <version>${iban4j.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>

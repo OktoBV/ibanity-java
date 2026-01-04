@@ -15,8 +15,8 @@ import static com.ibanity.apis.client.utils.URIHelper.buildUri;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 public class IntegrationServiceImpl implements IntegrationService {
 
-    private ApiUrlProvider apiUrlProvider;
-    private IbanityHttpClient ibanityHttpClient;
+    private final ApiUrlProvider apiUrlProvider;
+    private final IbanityHttpClient ibanityHttpClient;
 
     public IntegrationServiceImpl(ApiUrlProvider apiUrlProvider, IbanityHttpClient ibanityHttpClient) {
         this.apiUrlProvider = apiUrlProvider;

@@ -134,7 +134,7 @@ class FinancialInstitutionsServiceImplTest {
                 .bic("NBBEBEBB203")
                 .country("BE")
                 .status("stable")
-                .authorizationModels(Arrays.asList("single", "financialInstitutionOffered"))
+                .authorizationModels(List.of("single", "financialInstitutionOffered"))
                 .periodicPaymentsEnabled(true)
                 .periodicPaymentsProductTypes(Collections.singletonList("sepaCreditTransfer"))
                 .bulkPaymentsEnabled(true)

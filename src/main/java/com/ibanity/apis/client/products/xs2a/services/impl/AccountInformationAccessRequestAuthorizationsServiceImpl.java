@@ -61,7 +61,7 @@ public class AccountInformationAccessRequestAuthorizationsServiceImpl implements
         String url = apiUrlProvider.find(IbanityProduct.Xs2a, "customer", "financialInstitution", "accountInformationAccessRequest", "authorizations")
                 .replace(FinancialInstitution.API_URL_TAG_ID, financialInstitutionId.toString())
                 .replace(AccountInformationAccessRequest.API_URL_TAG_ID, accountInformationAccessRequestId.toString())
-                .replace(com.ibanity.apis.client.products.xs2a.models.Authorization.API_URL_TAG_ID, "");
+                .replace(com.ibanity.apis.client.products.xs2a.models.AccountInformationAccessRequestAuthorization.API_URL_TAG_ID, "");
 
         return buildUri(StringUtils.removeEnd(url, "/"));
     }

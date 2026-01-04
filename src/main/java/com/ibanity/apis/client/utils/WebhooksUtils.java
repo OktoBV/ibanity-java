@@ -52,74 +52,74 @@ public class WebhooksUtils {
     }
 
     private static IbanityWebhookEvent parseXs2aEvent(String payload, String type) {
-        switch (type) {
-            case AccountDetailsUpdated.TYPE:
-                return mapWebhookResource(payload, AccountDetailsUpdated.mappingFunction());
-            case AccountTransactionsCreated.TYPE:
-                return mapWebhookResource(payload, AccountTransactionsCreated.mappingFunction());
-            case AccountTransactionsUpdated.TYPE:
-                return mapWebhookResource(payload, AccountTransactionsUpdated.mappingFunction());
-            case AccountTransactionsDeleted.TYPE:
-                return mapWebhookResource(payload, AccountTransactionsDeleted.mappingFunction());
-            case AccountPendingTransactionsCreated.TYPE:
-                return mapWebhookResource(payload, AccountPendingTransactionsCreated.mappingFunction());
-            case AccountPendingTransactionsUpdated.TYPE:
-                return mapWebhookResource(payload, AccountPendingTransactionsUpdated.mappingFunction());
-            case SynchronizationFailed.TYPE:
-                return mapWebhookResource(payload, SynchronizationFailed.mappingFunction());
-            case SynchronizationSucceededWithoutChange.TYPE:
-                return mapWebhookResource(payload, SynchronizationSucceededWithoutChange.mappingFunction());
-            case BulkPaymentInitiationRequestAuthorizationCompleted.TYPE:
-                return mapWebhookResource(payload, BulkPaymentInitiationRequestAuthorizationCompleted.mappingFunction());
-            case BulkPaymentInitiationRequestStatusUpdated.TYPE:
-                return mapWebhookResource(payload, BulkPaymentInitiationRequestStatusUpdated.mappingFunction());
-            case PaymentInitiationRequestAuthorizationCompleted.TYPE:
-                return mapWebhookResource(payload, PaymentInitiationRequestAuthorizationCompleted.mappingFunction());
-            case PaymentInitiationRequestStatusUpdated.TYPE:
-                return mapWebhookResource(payload, PaymentInitiationRequestStatusUpdated.mappingFunction());
-            case PeriodicPaymentInitiationRequestAuthorizationCompleted.TYPE:
-                return mapWebhookResource(payload, PeriodicPaymentInitiationRequestAuthorizationCompleted.mappingFunction());
-            case PeriodicPaymentInitiationRequestStatusUpdated.TYPE:
-                return mapWebhookResource(payload, PeriodicPaymentInitiationRequestStatusUpdated.mappingFunction());
-        }
+        return switch (type) {
+            case AccountDetailsUpdated.TYPE -> mapWebhookResource(payload, AccountDetailsUpdated.mappingFunction());
+            case AccountTransactionsCreated.TYPE ->
+                    mapWebhookResource(payload, AccountTransactionsCreated.mappingFunction());
+            case AccountTransactionsUpdated.TYPE ->
+                    mapWebhookResource(payload, AccountTransactionsUpdated.mappingFunction());
+            case AccountTransactionsDeleted.TYPE ->
+                    mapWebhookResource(payload, AccountTransactionsDeleted.mappingFunction());
+            case AccountPendingTransactionsCreated.TYPE ->
+                    mapWebhookResource(payload, AccountPendingTransactionsCreated.mappingFunction());
+            case AccountPendingTransactionsUpdated.TYPE ->
+                    mapWebhookResource(payload, AccountPendingTransactionsUpdated.mappingFunction());
+            case SynchronizationFailed.TYPE -> mapWebhookResource(payload, SynchronizationFailed.mappingFunction());
+            case SynchronizationSucceededWithoutChange.TYPE ->
+                    mapWebhookResource(payload, SynchronizationSucceededWithoutChange.mappingFunction());
+            case BulkPaymentInitiationRequestAuthorizationCompleted.TYPE ->
+                    mapWebhookResource(payload, BulkPaymentInitiationRequestAuthorizationCompleted.mappingFunction());
+            case BulkPaymentInitiationRequestStatusUpdated.TYPE ->
+                    mapWebhookResource(payload, BulkPaymentInitiationRequestStatusUpdated.mappingFunction());
+            case PaymentInitiationRequestAuthorizationCompleted.TYPE ->
+                    mapWebhookResource(payload, PaymentInitiationRequestAuthorizationCompleted.mappingFunction());
+            case PaymentInitiationRequestStatusUpdated.TYPE ->
+                    mapWebhookResource(payload, PaymentInitiationRequestStatusUpdated.mappingFunction());
+            case PeriodicPaymentInitiationRequestAuthorizationCompleted.TYPE ->
+                    mapWebhookResource(payload, PeriodicPaymentInitiationRequestAuthorizationCompleted.mappingFunction());
+            case PeriodicPaymentInitiationRequestStatusUpdated.TYPE ->
+                    mapWebhookResource(payload, PeriodicPaymentInitiationRequestStatusUpdated.mappingFunction());
+            default ->
+                    throw new IbanityRuntimeException(format("Event Type not handled by the java library \"%s\".", type));
+        };
 
-        throw new IbanityRuntimeException(format("Event Type not handled by the java library \"%s\".", type));
     }
 
     private static IbanityWebhookEvent parsePontoConnectEvent(String payload, String type) {
-        switch (type) {
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.AccountDetailsUpdated.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.AccountDetailsUpdated.mappingFunction());
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.AccountTransactionsCreated.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.AccountTransactionsCreated.mappingFunction());
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.AccountTransactionsUpdated.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.AccountTransactionsUpdated.mappingFunction());
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.AccountPendingTransactionsCreated.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.AccountPendingTransactionsCreated.mappingFunction());
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.AccountPendingTransactionsUpdated.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.AccountPendingTransactionsUpdated.mappingFunction());
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.SynchronizationFailed.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.SynchronizationFailed.mappingFunction());
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.SynchronizationSucceededWithoutChange.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.SynchronizationSucceededWithoutChange.mappingFunction());
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationAccountAdded.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationAccountAdded.mappingFunction());
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationAccountRevoked.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationAccountRevoked.mappingFunction());
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationCreated.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationCreated.mappingFunction());
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationRevoked.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationRevoked.mappingFunction());
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.OrganizationBlocked.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.OrganizationBlocked.mappingFunction());
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.OrganizationUnblocked.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.OrganizationUnblocked.mappingFunction());
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.AccountReauthorized.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.AccountReauthorized.mappingFunction());
-            case com.ibanity.apis.client.webhooks.models.ponto_connect.PaymentRequestClosed.TYPE:
-                return mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.PaymentRequestClosed.mappingFunction());
-        }
+        return switch (type) {
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.AccountDetailsUpdated.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.AccountDetailsUpdated.mappingFunction());
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.AccountTransactionsCreated.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.AccountTransactionsCreated.mappingFunction());
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.AccountTransactionsUpdated.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.AccountTransactionsUpdated.mappingFunction());
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.AccountPendingTransactionsCreated.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.AccountPendingTransactionsCreated.mappingFunction());
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.AccountPendingTransactionsUpdated.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.AccountPendingTransactionsUpdated.mappingFunction());
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.SynchronizationFailed.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.SynchronizationFailed.mappingFunction());
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.SynchronizationSucceededWithoutChange.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.SynchronizationSucceededWithoutChange.mappingFunction());
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationAccountAdded.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationAccountAdded.mappingFunction());
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationAccountRevoked.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationAccountRevoked.mappingFunction());
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationCreated.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationCreated.mappingFunction());
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationRevoked.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.IntegrationRevoked.mappingFunction());
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.OrganizationBlocked.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.OrganizationBlocked.mappingFunction());
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.OrganizationUnblocked.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.OrganizationUnblocked.mappingFunction());
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.AccountReauthorized.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.AccountReauthorized.mappingFunction());
+            case com.ibanity.apis.client.webhooks.models.ponto_connect.PaymentRequestClosed.TYPE ->
+                    mapWebhookResource(payload, com.ibanity.apis.client.webhooks.models.ponto_connect.PaymentRequestClosed.mappingFunction());
+            default ->
+                    throw new IbanityRuntimeException(format("Event Type not handled by the java library \"%s\".", type));
+        };
 
-        throw new IbanityRuntimeException(format("Event Type not handled by the java library \"%s\".", type));
     }
 }
